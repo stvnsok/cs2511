@@ -6,7 +6,7 @@ import java.util.List;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Character extends MOB {
+public class Character extends Mob {
     
     private List<Items> inventory;
 
@@ -16,8 +16,11 @@ public class Character extends MOB {
         this.inventory = inventory;
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 91b62ed (Changes UML Week 6)
     public List<Items> getInventory() {
         return inventory;
     }

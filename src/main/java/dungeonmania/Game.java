@@ -44,9 +44,12 @@ public class Game {
     public String getGoals() {
         return goals;
     }
+<<<<<<< HEAD
     
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
+=======
+>>>>>>> 91b62ed (Changes UML Week 6)
 
 }

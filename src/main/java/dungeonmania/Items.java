@@ -6,14 +6,12 @@ public class Items {
 
     private String itemId;
     private String itemType; //enum(?)
-    private int durability;
-    private Character character;
+    private int durabilty;
 
-    public Items(String itemId, String itemType, int durability, Character character) {
+    public Items(String itemId, String itemType, int durabilty) {
         this.itemId = itemId;
         this.itemType = itemType;
-        this.durability = durability;
-        this.character = character;
+        this.durabilty = durabilty;
     }
 
     public String getItemId() {
@@ -32,20 +30,14 @@ public class Items {
         this.itemType = itemType;
     }
 
-    public int getDurability() {
-        return durability;
+    public int getDurabilty() {
+        return durabilty;
     }
 
-    public void setDurability(int durability) {
-        this.durability = durability;
+    public void setDurabilty(int durabilty) {
+        this.durabilty = durabilty;
     }
 
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void use() {
-        this.durability = this.durability - 1;
-    }
+    //public void use(Character) {}
     
 }

@@ -1,6 +1,9 @@
 package dungeonmania;
 
+<<<<<<< HEAD
 import dungeonmania.Door;
+=======
+>>>>>>> 91b62ed (Changes UML Week 6)
 public class Key extends Items {
     
     private int keyId;
