@@ -2,30 +2,30 @@ package dungeonmania;
 
 import dungeonmania.util.Position;
 
-public class MOB extends Entity {
-    private int Health;
-    private int Attack;
-    
-    public MOB(String id, String type, Position position, boolean isInteractable, int health, int attack) {
+public class Mob extends Entity {
+    private int health;
+    private int attack;
+
+    public Mob(String id, String type, Position position, boolean isInteractable, int health, int attack) {
         super(id, type, position, isInteractable);
-        Health = health;
-        Attack = attack;
+        this.health = health;
+        this.attack = attack;
     }
 
     public int getHealth() {
-        return Health;
+        return health;
     }
 
     public int getAttack() {
-        return Attack;
+        return attack;
     }
 
     public void setHealth(int health) {
-        Health = health;
+        this.health = health;
     }
 
     public void setAttack(int attack) {
-        Attack = attack;
+        this.attack = attack;
     }
     
     //public void takeDamage(int damage) {}

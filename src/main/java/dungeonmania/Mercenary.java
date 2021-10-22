@@ -2,7 +2,7 @@ package dungeonmania;
 
 import dungeonmania.util.Position;
 
-public class Mercenary extends MOB {
+public class Mercenary extends Mob {
     
     private int bribeAmount;
     private boolean isAlly;

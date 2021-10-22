@@ -1,6 +1,6 @@
 package dungeonmania;
 
-public class Key extends DeterioratableItems {
+public class Key extends Items {
     
     private int keyId;
 
