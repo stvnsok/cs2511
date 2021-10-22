@@ -2,15 +2,19 @@ package StaticEntityTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+
+import dungeonmania.*;
+import dungeonmania.Character;
 import dungeonmania.Boulder;
-import dungeonmania.DungeonManiaController;
 import dungeonmania.response.*;
 import dungeonmania.response.models.DungeonResponse;
-import main.java.dungeonmania;
+import dungeonmania.util.Position;
+
+
 
 
 public class BoulderTest {
@@ -19,12 +23,13 @@ public class BoulderTest {
     @Test
     public void createBoulderTest() {
         DungeonManiaController game = new DungeonManiaController();
-        game.newGame("dungeonName", "Standard");
+        game.newGame("maze.json", "Standard");
 
-        Boulder boulder = new Boulder("boulder1", "boulder", position, true);
+        Position p = new Position(3, 3);
+        Boulder boulder = new Boulder("boulder1", "boulder", p, true);
+
         
-        assertListAreEqualIgnoringOrder(Arrays.asList("boulder1"), DungeonResponse.getEntities("boulder1"));
-
+        assertEquals(p, boulder.getPosition());
 
     }
 
@@ -34,15 +39,23 @@ public class BoulderTest {
 
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("dungeonName", "Standard");
-        Character character = new Character("character1", "character", position(3,2,1) ,false, 100, 10, null);
-        Boulder boulder = new Boulder("boulder1", "boulder", position(3,3,1), true);
+
+        Position cPosition = new Position (3,2);
+
+        
+        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        
+        Position bPosition = new Position(3,3);
+        Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.moveDown();
         //game.interact("boulder1");
         //player position
-        assertEquals(position(3,3,1), character.getPosition());
+        Position newcPosition = new Position(3,2);
+        Position newbPosition = new Position(3,4);
+        assertEquals(newcPosition, character.getPosition());
         // boulder position
-        assertEquals(position(3,4,1), boulder.getPosition());
+        assertEquals(newbPosition, boulder.getPosition());
 
     }
 
