@@ -9,10 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.*;
 import dungeonmania.Character;
-import dungeonmania.Boulder;
 import dungeonmania.response.*;
 import dungeonmania.response.models.DungeonResponse;
-
+import dungeonmania.FloorSwitch;
 import dungeonmania.util.Position;
 
 
@@ -39,7 +38,7 @@ public class BoulderTest {
     public void moveDownBoulderTest() {
 
         DungeonManiaController game = new DungeonManiaController();
-        game.newGame("dungeonName", "Standard");
+        game.newGame("maze.json", "Standard");
 
         Position cPosition = new Position (3,2);
 
@@ -59,6 +58,31 @@ public class BoulderTest {
         assertEquals(newbPosition, boulder.getPosition());
 
     }
+
+    @Test
+    public void moveBoulderOnSwitchTest() {
+        DungeonManiaController game = new DungeonManiaController();
+        game.newGame("maze.json", "Standard");
+
+        Position cPosition = new Position (3,2);
+
+        
+        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        
+        Position bPosition = new Position(3,3);
+        Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
+
+        character.moveDown();
+
+        Position fPosition = new Position (3,4);
+        FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "floorswitch", fPosition, false);
+
+        assertEquals(boulder.getPosition(),fSwitch.getPosition());
+        assertEquals(true, fSwitch.getisTriggered());
+
+    }
+
+
 
 
 }

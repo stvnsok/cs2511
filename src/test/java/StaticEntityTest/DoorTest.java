@@ -45,4 +45,24 @@ public class DoorTest {
 
         assertEquals(true, door.isOpen());
     }
+
+
+    public void wrongKeyTest(){
+        DungeonManiaController game = new DungeonManiaController();
+        game.newGame("maze.json", "Standard");
+        Position doorPosition = new Position(4,4); 
+        Door door = new Door("door1", "Door", doorPosition, true, false);
+
+
+        door.setDoorId(2);
+        
+        Key key = new Key("key1", "Key", 1, 1);
+        Position cPosition = new Position (4,3);
+        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        character.moveDown();
+
+        assertEquals(false, door.isOpen());
+    }
+
+    
 }
