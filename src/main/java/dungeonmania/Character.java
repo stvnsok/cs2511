@@ -9,11 +9,15 @@ import dungeonmania.util.Position;
 public class Character extends Mob {
     
     private List<Items> inventory;
+    private int maxHealth;
+    private CharacterState state;
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
             List<Items> inventory) {
         super(id, type, position, isInteractable, health, attack);
         this.inventory = inventory;
+        this.maxHealth = health;
+        this.state = new NormalState();
     }
 
 <<<<<<< HEAD
@@ -33,6 +37,7 @@ public class Character extends Mob {
         this.inventory.add(inventoryItem);
     }
 
+<<<<<<< HEAD
 
     
     public void updatePosition(Position newPosition) {
@@ -42,8 +47,31 @@ public class Character extends Mob {
     public void PlayerMovement(Direction direction) {
         setPosition(getPosition().translateBy(direction));
     }
+=======
+    public void setState(CharacterState state) {
+        this.state = state;
+    }
 
-    //public void useItem(String item) {}
+    public CharacterState getState() {
+        return this.state;
+    }
+
+    public String getStateName() {
+        return state.getStateName();
+    }
+
+    public int getMaxHealth() {
+        return this.maxHealth;
+    }
+
+    public void buildItem(String item) {
+        
+    }
+
+    //public void PlayerMovement(Direction direction) {}
+>>>>>>> de6108a (Item tests implemented, minor changes made to CharacterState(and associated subclasses) to facilitate tests and enabled use and build to allow tests to be written. Assumptions with task updated)
+
+    public void useItem(String item) {}
 
     //public void checkRing() {}
     
