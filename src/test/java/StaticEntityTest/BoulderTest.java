@@ -40,10 +40,10 @@ public class BoulderTest {
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("maze.json", "Standard");
 
-        Position cPosition = new Position (3,2);
+        Position start = new Position (3,2);
 
         
-        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        Character character = new Character("player", "character",start ,false, 100, 10, null);
         
         Position bPosition = new Position(3,3);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
@@ -64,10 +64,10 @@ public class BoulderTest {
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("maze.json", "Standard");
 
-        Position cPosition = new Position (3,2);
+        Position start = new Position (3,2);
 
         
-        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        Character character = new Character("player", "character",start ,false, 100, 10, null);
         
         Position bPosition = new Position(3,3);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);

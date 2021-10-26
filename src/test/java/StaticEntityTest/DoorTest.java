@@ -19,6 +19,7 @@ import dungeonmania.Character;
 public class DoorTest {
     @Test
 
+    
     public void createDoorTest() {
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("maze.json", "Standard");
@@ -28,7 +29,7 @@ public class DoorTest {
 
         assertEquals(doorPosition, door.getPosition());
     }
-
+    // testing opening the door, if there is a key with id that matches the door, then the door should open
     public void openDoorTest() {
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("maze.json", "Standard");
@@ -39,14 +40,14 @@ public class DoorTest {
         door.setDoorId(1);
         
         Key key = new Key("key1", "Key", 1, 1);
-        Position cPosition = new Position (4,3);
-        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        Position start = new Position (4,3);
+        Character character = new Character("player", "character",start ,false, 100, 10, null);
         character.moveDown();
 
         assertEquals(true, door.isOpen());
     }
 
-
+    // tesing the wrong key. If there is a wrong key, the door should not open
     public void wrongKeyTest(){
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("maze.json", "Standard");
@@ -57,8 +58,8 @@ public class DoorTest {
         door.setDoorId(2);
         
         Key key = new Key("key1", "Key", 1, 1);
-        Position cPosition = new Position (4,3);
-        Character character = new Character("character1", "character",cPosition ,false, 100, 10, null);
+        Position start = new Position (4,3);
+        Character character = new Character("player", "character",start ,false, 100, 10, null);
         character.moveDown();
 
         assertEquals(false, door.isOpen());
