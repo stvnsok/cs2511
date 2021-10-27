@@ -4,3 +4,4 @@ Item Assumptions:
 3. Swords and Bows can be used in combination ie. if both are present in the inventory, character attacks twice with higher attack.
 4. Duplicate weapons cannot be stacked. For example, if character has multiple swords, dmg bonus applies only once, and uses
    durability of one sword.
+5. Using an item decreases its durability by 1.
