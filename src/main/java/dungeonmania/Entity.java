@@ -1,12 +1,13 @@
 package dungeonmania;
 
 import dungeonmania.util.Position;
+import dungeonmania.Character;
 
 public class Entity {
     
     private String id;
     private String type;
-    private Position position;
+    protected Position position;
     private boolean isInteractable;
     
     public Entity(String id, String type, Position position, boolean isInteractable) {
@@ -47,5 +48,13 @@ public class Entity {
     public void setInteractable(boolean isInteractable) {
         this.isInteractable = isInteractable;
     }
+
+    //this is how the character interacts with static entities
+    
+    public Boolean interact(Character character) {
+        return false;
+    }
+
+
 
 }

@@ -1,11 +1,12 @@
 package dungeonmania;
 
-public class Key extends DeterioratableItems {
+import dungeonmania.Door;
+public class Key extends Items {
     
     private int keyId;
 
-    public Key(String itemId, String itemType, int durability, int keyId) {
-        super(itemId, itemType, durability);
+    public Key(String itemId, String itemType, int durability, int keyId, Character character) {
+        super(itemId, itemType, durability, character);
         this.keyId = keyId;
     }
 
@@ -17,5 +18,11 @@ public class Key extends DeterioratableItems {
         this.keyId = keyId;
     }
 
-    //public void useKey(int doorId);
+    // might be implemented differently depending on items class
+    public void useKey(Door door) {
+        if (door.getDoorId() == keyId) {
+            door.setOpen(true);
+            
+        }
+    }
 }

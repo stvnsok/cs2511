@@ -10,10 +10,8 @@ public class FloorSwitch extends Entity {
     public FloorSwitch(String id, String type, Position position, boolean isInteractable) {
         super(id, type, position, isInteractable);
     }
-
-
     
-	public boolean getisTriggered() {
+    public boolean getisTriggered() {
 		return isTriggered;
 	}
 

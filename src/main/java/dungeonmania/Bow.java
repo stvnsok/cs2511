@@ -1,9 +1,9 @@
 package dungeonmania;
 
-public class Bow extends DeterioratableItems implements Build{
+public class Bow extends Items implements Build{
 
-    public Bow(String itemId, String itemType, int durability) {
-        super(itemId, itemType, durability);
+    public Bow(String itemId, String itemType, int durability, Character character) {
+        super(itemId, itemType, durability, character);
     }
     
 }

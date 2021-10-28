@@ -1,8 +1,8 @@
 package dungeonmania;
 
-public class Bomb extends DeterioratableItems {
+public class Bomb extends Items {
 
-    public Bomb(String itemId, String itemType, int durability) {
+    public Bomb(String itemId, String itemType, int durability, Character character) {
         super(itemId, itemType, durability);
     }
     

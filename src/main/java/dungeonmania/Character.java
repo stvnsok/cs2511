@@ -7,6 +7,7 @@ import dungeonmania.util.Position;
 public class Character extends MOB {
     
     private List<InventoryItems> inventory;
+    private Position newPosition;
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
             List<InventoryItems> inventory) {
@@ -32,4 +33,8 @@ public class Character extends MOB {
 
     //public void checkRing() {}
 
+
+    public void teleportCharacter(Position newPosition){
+        setPosition(newPosition);
+    }
 }
