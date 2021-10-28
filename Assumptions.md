@@ -10,7 +10,12 @@ Item Assumptions:
 4. Duplicate weapons cannot be stacked. For example, if character has multiple swords, dmg bonus applies only once, and uses
    durability of one sword.
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> de6108a (Item tests implemented, minor changes made to CharacterState(and associated subclasses) to facilitate tests and enabled use and build to allow tests to be written. Assumptions with task updated)
 =======
 5. Using an item decreases its durability by 1.
 >>>>>>> a11f225 (Added extra assumption about item usage)
+=======
+5. Using an item decreases its durability by 1.
+6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
+>>>>>>> 5b1300d (Potions implemented and passes tests.)

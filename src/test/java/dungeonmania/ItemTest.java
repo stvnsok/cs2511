@@ -54,16 +54,16 @@ public class ItemTest {
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
         Items i1 = new InvincibilityPotion("i1", "invincibility_potion", 1, c1);
         c1.addInventory(i1);
-        c1.useItem("invincibility_potion");
+        c1.useItem("i1");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals("Invincible", c1.getStateName());
         c1.addInventory(new InvisibilityPotion("i2", "invisibility_potion", 1, c1));
-        c1.useItem("invisibility_potion");
+        c1.useItem("i2");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals("Invisible", c1.getStateName());
         c1.setHealth(20);
         c1.addInventory(new HealthPotion("i3", "health_potion", 1, c1));
-        c1.useItem("health_potion");
+        c1.useItem("i3");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals(c1.getMaxHealth(), c1.getHealth());
     }
