@@ -1,0 +1,2 @@
+- The player moves before enemies at each tick.
+- The player and enemy takes damage at the same time in battles. ???

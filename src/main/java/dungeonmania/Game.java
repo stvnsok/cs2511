@@ -45,4 +45,7 @@ public class Game {
         return goals;
     }
 
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
 }

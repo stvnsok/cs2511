@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DungeonManiaController {
+    private Game currentGame;
+
     public DungeonManiaController() {
     }
 
@@ -65,5 +67,9 @@ public class DungeonManiaController {
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         return null;
+    }
+
+    public void addEntity(Entity entity) {
+        currentGame.addEntity(entity);
     }
 }

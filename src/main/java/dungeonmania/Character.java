@@ -2,6 +2,7 @@ package dungeonmania;
 
 import java.util.List;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Character extends Mob {
@@ -31,5 +32,9 @@ public class Character extends Mob {
     //public void useItem(String item) {}
 
     //public void checkRing() {}
+
+    // public void move(Direction direction) {
+    //     getPosition().translateBy(direction);
+    // }
 
 }
