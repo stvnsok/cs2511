@@ -6,4 +6,10 @@ public class InvisibilityPotion extends Items {
         super(itemId, itemType, durability, character);
     }
     
+    @Override
+    public void use() {
+        Character character = getCharacter();
+        character.setState(new InvisibleState());
+        super.use();
+    }
 }
