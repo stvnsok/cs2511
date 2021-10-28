@@ -24,8 +24,9 @@ public class Character extends Mob {
         super(id, type, position, isInteractable, health, attack);
         this.inventory = inventory;
         this.maxHealth = health;
+        this.mapEntities = mapEntities;
 
-        this.state = new NormalState();
+        this.state = new NormalState(this);
     }
 
 <<<<<<< HEAD

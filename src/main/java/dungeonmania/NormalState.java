@@ -1,8 +1,10 @@
 package dungeonmania;
 
 public class NormalState implements CharacterState{
-    public NormalState() {
+    private Character character;
 
+    public NormalState(Character character) {
+        this.character = character;
     }
     public String getStateName() {
         return "Normal";
