@@ -88,27 +88,23 @@ public class ItemTest {
         Items e = c1.getInventory().get(0);
         assertEquals("bow", e.getItemType());
     }
-    // Testing placing a bomb. Should turn bomb into entity same potion as player, but higher layer
-    // This Test cannot be conducted until Game has been implemented. Need to find a way for this to access
-    // list Entities from game.
-   /* @Test
+    @Test
     public void useBomb() {
         // Creating a new game just to have access to entity list
-        Game g1 = new Game("Test", "Peaceful", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "");
-        Character c1 = new Character("player", "Character", new Position(10,11), false, 100, 10, new ArrayList<>(), g1.getEntities());
-        g1.addEntity(c1);
-        c1.addInventory(new Items("a", "bomb", 1));
-        c1.useItem("bomb");
+        List<Entity> entities = new ArrayList<>();
+        Character c1 = new Character("player", "Character", new Position(10,11), false, 100, 10, new ArrayList<>(), entities);
+        entities.add(c1);
+        c1.addInventory(new Bomb("a", "bomb", 1, c1));
+        c1.useItem("a");
         assertEquals(0, c1.getInventory().size());
-        List<Entity> entities = g1.getEntities;
         assertEquals(2, entities.size());
         Entity testBomb = entities.get(1);
         assertEquals("bomb", testBomb.getType());
         Position bPosition = testBomb.getPosition();
-        assert(10, bPosition.getX());
-        assert(11, bPosition.getY());
-        assert(1, bPosition.getLayer());
-    }*/
+        assertEquals(10, bPosition.getX());
+        assertEquals(11, bPosition.getY());
+        assertEquals(0, bPosition.getLayer());
+    }
 
 
 }

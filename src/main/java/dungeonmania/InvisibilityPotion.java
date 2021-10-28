@@ -9,7 +9,7 @@ public class InvisibilityPotion extends Items {
     @Override
     public void use() {
         Character character = getCharacter();
-        character.setState(new InvisibleState());
+        character.setState(new InvisibleState(character));
         super.use();
     }
 }

@@ -9,7 +9,7 @@ public class InvincibilityPotion extends Items {
     @Override
     public void use() {
         Character character = getCharacter();
-        character.setState(new InvincibleState());
+        character.setState(new InvincibleState(character));
         super.use();
     }
 
