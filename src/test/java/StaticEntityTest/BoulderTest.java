@@ -35,12 +35,13 @@ public class BoulderTest {
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
+        boulder.moveBoulder(Direction.DOWN);
         //game.interact("boulder1");
         //player position
-        Position newcPosition = new Position(3,2);
+        Position newcPosition = new Position(3,3);
         Position newbPosition = new Position(3,4);
-        assertEquals(newcPosition.getX(), character.getPosition().getX());
-        assertEquals(newcPosition.getY(), character.getPosition().getY());
+        assertEquals(newcPosition, character.getPosition());
+
 
         // boulder position
         assertEquals(newbPosition, boulder.getPosition());
@@ -60,13 +61,13 @@ public class BoulderTest {
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
+        boulder.moveBoulder(Direction.DOWN);
 
         Position fPosition = new Position (3,4);
-        FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "floorswitch", fPosition, false);
+        FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "switch", fPosition, false);
 
-        assertEquals(bPosition.getX(),fPosition.getX());
-        assertEquals(bPosition.getY(),fPosition.getY());
-        assertEquals(bPosition.getLayer(),fPosition.getLayer());
+        assertEquals(bPosition, fPosition);
+
 
         assertEquals(true, fSwitch.getisTriggered());
 
@@ -99,13 +100,10 @@ public class BoulderTest {
 
 
         character.PlayerMovement(Direction.LEFT);
-        assertEquals(b1Position.getX(), b1.getPosition().getX());
-        assertEquals(b1Position.getY(), b1.getPosition().getY());
-        assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
+        assertEquals(b1Position, b1.getPosition());
         character.PlayerMovement(Direction.RIGHT);;
-        assertEquals(b2Position.getX(), b2.getPosition().getX());
-        assertEquals(b2Position.getY(), b2.getPosition().getY());
-        assertEquals(b2Position.getLayer(), b2.getPosition().getLayer());
+        assertEquals(b2Position, b2.getPosition());
+  ;
 
     }
 
@@ -125,14 +123,12 @@ public class BoulderTest {
 
         character.PlayerMovement(Direction.LEFT);
 
-        assertEquals(b1Position.getX(), b1.getPosition().getX());
-        assertEquals(b1Position.getY(), b1.getPosition().getY());
-        assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
+        assertEquals(b1Position, b1.getPosition());
+
     
 
-        assertEquals(d1Position.getX(), d1.getPosition().getX());
-        assertEquals(d1Position.getY(), d1.getPosition().getY());
-        assertEquals(d1Position.getLayer(), d1.getPosition().getLayer());
+        assertEquals(d1Position, d1.getPosition());
+
     }
 
 

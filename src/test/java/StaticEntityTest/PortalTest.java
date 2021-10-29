@@ -41,9 +41,7 @@ public class PortalTest {
 
       startPortal.teleport(c1, startPortal.getportalId());
       
-      assertEquals(c1.getPosition().getX(), endPortal.getPosition().getX());
-      assertEquals(c1.getPosition().getY(), endPortal.getPosition().getY());
-      assertEquals(c1.getPosition().getLayer(), endPortal.getPosition().getLayer());
+      assertEquals(endPortal.getPosition(), c1.getPosition());
    } 
 
 }
