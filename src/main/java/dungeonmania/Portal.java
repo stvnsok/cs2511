@@ -111,7 +111,7 @@ public class Portal extends Entity {
         
         for (Entity p: listPortals){
                 if (getColour().equals(colour)) {
-                    character.teleportCharacter(p.getPosition()); 
+                    character.updatePosition(p.getPosition()); 
                 }
         }
         

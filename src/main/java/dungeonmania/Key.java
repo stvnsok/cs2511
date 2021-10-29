@@ -24,6 +24,7 @@ public class Key extends Items {
     // might be implemented differently depending on items class
     public void useKey(Door door) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         if (door.getDoorId() == keyId) {
@@ -31,5 +32,8 @@ public class Key extends Items {
             
         }
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
+=======
+
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
     }
 }

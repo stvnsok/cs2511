@@ -9,7 +9,11 @@ import java.util.stream.Collectors;
 import dungeonmania.util.Direction;
 =======
 import dungeonmania.exceptions.InvalidActionException;
+<<<<<<< HEAD
 >>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
+=======
+import dungeonmania.util.Direction;
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 import dungeonmania.util.Position;
 
 public class Character extends Mob {
@@ -137,14 +141,29 @@ public class Character extends Mob {
         useItem.use(this);
     }
 
+<<<<<<< HEAD
     //public void checkRing() {}
 <<<<<<< HEAD
     
 =======
 
+=======
+    public void PlayerMovement(Direction direction) {
+        setPosition(getPosition().translateBy(direction));
+    }
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
-    public void teleportCharacter(Position newPosition){
+    public void updatePosition(Position newPosition) {
         setPosition(newPosition);
     }
+<<<<<<< HEAD
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
+=======
+
+
+    //public void useItem(String item) {}
+
+    //public void checkRing() {}
+    
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 }

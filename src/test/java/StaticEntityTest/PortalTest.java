@@ -23,12 +23,20 @@ public class PortalTest {
       List<Entity> entities = new ArrayList<>();
 
       Position p1 = new Position(10,10,0);
+<<<<<<< HEAD
       Portal startPortal = new Portal("portal1", "portal", p1, false,"BLUE");
+=======
+      Portal startPortal = new Portal("portal1", "portal", p1, false);
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
       entities.add(startPortal);
       startPortal.setportalId(100);
       
       Position p2 = new Position(5,5, 0);
+<<<<<<< HEAD
       Portal endPortal = new Portal("portal2", "portal", p2, false, "BLUE");
+=======
+      Portal endPortal = new Portal("portal2", "portal", p2, false);
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
       entities.add(endPortal);
       
       
@@ -39,9 +47,17 @@ public class PortalTest {
 
       c1.PlayerMovement(Direction.DOWN);
 
+<<<<<<< HEAD
       startPortal.teleport(c1, startPortal.getColour());
       
       assertEquals(endPortal.getPosition(), c1.getPosition());
+=======
+      startPortal.teleport(c1, startPortal.getportalId());
+      
+      assertEquals(c1.getPosition().getX(), endPortal.getPosition().getX());
+      assertEquals(c1.getPosition().getY(), endPortal.getPosition().getY());
+      assertEquals(c1.getPosition().getLayer(), endPortal.getPosition().getLayer());
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
    } 
 
 }

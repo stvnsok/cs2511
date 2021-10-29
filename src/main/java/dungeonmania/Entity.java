@@ -18,7 +18,7 @@ public class Entity {
     
     private String id;
     private String type;
-    protected Position position;
+    private Position position;
     private boolean isInteractable;
 <<<<<<< HEAD
 

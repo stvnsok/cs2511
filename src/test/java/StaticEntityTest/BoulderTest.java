@@ -35,7 +35,10 @@ public class BoulderTest {
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
+<<<<<<< HEAD
         boulder.moveBoulder(Direction.DOWN);
+=======
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
         //game.interact("boulder1");
         //player position
         Position newcPosition = new Position(3,3);
@@ -61,7 +64,10 @@ public class BoulderTest {
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
+<<<<<<< HEAD
         boulder.moveBoulder(Direction.DOWN);
+=======
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
         Position fPosition = new Position (3,4);
         FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "switch", fPosition, false);
@@ -123,11 +129,18 @@ public class BoulderTest {
 
         character.PlayerMovement(Direction.LEFT);
 
+<<<<<<< HEAD
         assertEquals(b1Position, b1.getPosition());
 
     
 
         assertEquals(d1Position, d1.getPosition());
+=======
+        assertEquals(b1Position.getX(), b1.getPosition().getX());
+        assertEquals(b1Position.getY(), b1.getPosition().getY());
+        assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
+    
+>>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
     }
 
