@@ -129,13 +129,9 @@ public class BoulderTest {
         character.moveLeft();
         assertEquals(d1.getPosition(), d1Position);
 
-        assertEquals(11, d1Position.getX());
-        assertEquals(9, d1Position.getY());
-        assertEquals(1, d1Position.getLayer());
-
 
         assertEquals(d1Position.getX(), d1.getPosition().getX());
-        assertEquals(d1Position.getY(), d1.getPosition().getY()));
+        assertEquals(d1Position.getY(), d1.getPosition().getY());
         assertEquals(d1Position.getLayer(), d1.getPosition().getLayer());
     }
 
