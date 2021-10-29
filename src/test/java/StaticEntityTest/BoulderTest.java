@@ -41,7 +41,9 @@ public class BoulderTest {
         //player position
         Position newcPosition = new Position(3,2);
         Position newbPosition = new Position(3,4);
-        assertEquals(newcPosition, character.getPosition());
+        assertEquals(newcPosition.getX(), character.getPosition().getX());
+        assertEquals(newcPosition.getY(), character.getPosition().getY());
+
         // boulder position
         assertEquals(newbPosition, boulder.getPosition());
 
@@ -57,7 +59,7 @@ public class BoulderTest {
         
         Character character = new Character("player", "character",start ,false, 100, 10, null);
         
-        Position bPosition = new Position(3,3);
+        Position bPosition = new Position(3,3, 0);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.moveDown();
@@ -65,7 +67,10 @@ public class BoulderTest {
         Position fPosition = new Position (3,4);
         FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "floorswitch", fPosition, false);
 
-        assertEquals(boulder.getPosition(),fSwitch.getPosition());
+        assertEquals(bPosition.getX(),fPosition.getX());
+        assertEquals(bPosition.getY(),fPosition.getY());
+        assertEquals(bPosition.getLayer(),fPosition.getLayer());
+
         assertEquals(true, fSwitch.getisTriggered());
 
     }   
@@ -82,8 +87,8 @@ public class BoulderTest {
 
         Character character = new Character("player", "character", start, false, 100, 10, null);
 
-        Position b1Position = new Position(11,10);
-        Position b2Position = new Position(9,10);
+        Position b1Position = new Position(11,10,0);
+        Position b2Position = new Position(9,10,0);
 
 
         Boulder b1 = new Boulder("boulder1", "boulder", b1Position, true);
@@ -97,10 +102,13 @@ public class BoulderTest {
 
 
         character.moveLeft();
-        assertEquals(b1.getPosition(), b1Position);
+        assertEquals(b1Position.getX(), b1.getPosition().getX());
+        assertEquals(b1Position.getY(), b1.getPosition().getY());
+        assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
         character.moveRight();
-        assertEquals(b2.getPosition(), b2Position);
-
+        assertEquals(b2Position.getX(), b2.getPosition().getX());
+        assertEquals(b2Position.getY(), b2.getPosition().getY());
+        assertEquals(b2Position.getLayer(), b2.getPosition().getLayer());
 
     }
 
@@ -120,6 +128,15 @@ public class BoulderTest {
 
         character.moveLeft();
         assertEquals(d1.getPosition(), d1Position);
+
+        assertEquals(11, d1Position.getX());
+        assertEquals(9, d1Position.getY());
+        assertEquals(1, d1Position.getLayer());
+
+
+        assertEquals(d1Position.getX(), d1.getPosition().getX());
+        assertEquals(d1Position.getY(), d1.getPosition().getY()));
+        assertEquals(d1Position.getLayer(), d1.getPosition().getLayer());
     }
 
 
