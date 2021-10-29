@@ -1,7 +1,25 @@
 package dungeonmania;
 
-public class InvisibleState {
+public class InvisibleState implements CharacterState{
+    private int duration = 15;
+    private Character character;
     
+    
+    public InvisibleState(Character character) {
+        this.character = character;
+    }
+
+    public String getStateName() {
+        return "Invisible";
+    }
+    @Override
+    public int getStateDuration() {
+        return this.duration;
+    }
+    @Override
+    public void tickStateDuration() {
+        this.duration -= 1;
+    }
     //public void battle(Mob mob) {}
 
 }
