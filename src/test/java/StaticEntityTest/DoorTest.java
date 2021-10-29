@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.*;
 import dungeonmania.Door;
 import dungeonmania.Key;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 import dungeonmania.Character;
 
@@ -51,7 +52,7 @@ public class DoorTest {
         
         Key key = new Key("key1", "Key", 1, 1, c1);
         items.add(key);
-        c1.moveDown();
+        c1.PlayerMovement(Direction.DOWN);
 
         c1.useitem(key);
 
@@ -73,7 +74,7 @@ public class DoorTest {
         
         Key key = new Key("key1", "Key", 1, 1, c1);
         items.add(key);
-        c1.moveDown();
+        c1.PlayerMovement(Direction.DOWN);
 
         c1.useitem(key);
 

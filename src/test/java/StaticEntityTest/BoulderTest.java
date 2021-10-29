@@ -11,7 +11,7 @@ import dungeonmania.*;
 import dungeonmania.Character;
 import dungeonmania.response.*;
 import dungeonmania.response.models.DungeonResponse;
-
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 
@@ -90,7 +90,7 @@ public class BoulderTest {
         Position b1Position = new Position(11,10,0);
         Position b2Position = new Position(9,10,0);
 
-
+        
         Boulder b1 = new Boulder("boulder1", "boulder", b1Position, true);
         Boulder b2 = new Boulder("boulder1", "boulder", b2Position, true);
 
@@ -101,11 +101,11 @@ public class BoulderTest {
         Wall w2 = new Wall("wall2", "wall", w2Position, false);
 
 
-        character.moveLeft();
+        character.PlayerMovement(Direction.LEFT);
         assertEquals(b1Position.getX(), b1.getPosition().getX());
         assertEquals(b1Position.getY(), b1.getPosition().getY());
         assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
-        character.moveRight();
+        character.PlayerMovement(Direction.RIGHT);;
         assertEquals(b2Position.getX(), b2.getPosition().getX());
         assertEquals(b2Position.getY(), b2.getPosition().getY());
         assertEquals(b2Position.getLayer(), b2.getPosition().getLayer());
@@ -126,7 +126,7 @@ public class BoulderTest {
        
 
 
-        character.moveLeft();
+        character.PlayerMovement(Direction.LEFT);
         assertEquals(d1.getPosition(), d1Position);
 
 
