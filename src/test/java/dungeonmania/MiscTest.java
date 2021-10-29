@@ -1,6 +1,8 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,5 +11,10 @@ public class MiscTest {
     public void testDungeons() {
         assertTrue(DungeonManiaController.dungeons().size() > 0);
         assertTrue(DungeonManiaController.dungeons().contains("maze"));
+    }
+    @Test
+    public void testabc() {
+        assertDoesNotThrow(() -> DungeonManiaController.abc("advanced", "Peaceful"));
+        assertEquals(DungeonManiaController.dungeons(), "abc");
     }
 }
