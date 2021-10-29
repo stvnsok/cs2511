@@ -28,15 +28,23 @@ public class Door extends Entity {
         return doorId;
     }
 
-    public boolean open(Key key) {
+    public boolean checkOpen(Key key) {
+        // get key from character inventory 
+        
         
         if (key.getKeyId() == doorId) {
-            setOpen(true);
-           
+            setOpen(true);            
+        }
+        return isOpen;
+
+        
+    }
+
+
+    public void openDoor() {
+        if (isOpen == true) {
             
         }
-
-        return isOpen;
     }
 
 }

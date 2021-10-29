@@ -1,11 +1,13 @@
 package dungeonmania;
 
+import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Position;
-import java.lang.Character;
+import dungeonmania.Character;
 
 public class Portal extends Entity {
 
-    private Position newPosition;
+    Portal p;
+    private Position portalPosition;
     private int portalId;
 
 
@@ -21,22 +23,43 @@ public class Portal extends Entity {
         return portalId;
     }
 
-    public void teleportCharacter(Position newPosition){
-        setPosition(newPosition);
+    public void setPortal(Portal p) {
+        this.p = p;
     }
 
-    /*
-    public void findPortal(int portalId) {
-        for (Entity e: g.)
+    public Portal getPortal() {
+        return p;
     }
 
-    public void teleportFrom(){
+    public void setnewPosition(Position position) {
+        portalPosition = position; 
+
+    }
+    
+    public void findPortal(Character character, int id) {
         
+        for (Entity e: getEntities()){
+            if (e.getClass().getName().equals("dungeonmania.Portal")){
+                
+                if (p.getportalId() == id && p.getId() != e.getId()) {
+                    character.updatePosition(p.getPosition()); 
+                }
+            }
+        }
+        
+
+
     }
 
-    public void teleportTo(){
+
+    public void teleport(Character character,int portalId){
+
+        if (character.getPosition().equals(portalPosition)) {
+            findPortal(character, portalId);
+            
+        }
 
     }
 
-    */
+    
 }

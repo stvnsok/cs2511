@@ -1,14 +1,18 @@
 package dungeonmania;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import dungeonmania.util.Position;
-import dungeonmania.Character;
 
 public class Entity {
     
     private String id;
     private String type;
-    protected Position position;
+    private Position position;
     private boolean isInteractable;
+
+    private List<Entity> entities = new ArrayList<>();
     
     public Entity(String id, String type, Position position, boolean isInteractable) {
         this.id = id;
@@ -49,12 +53,9 @@ public class Entity {
         this.isInteractable = isInteractable;
     }
 
-    //this is how the character interacts with static entities
-    
-    public Boolean interact(Character character) {
-        return false;
+    public List<Entity> getEntities() {
+        return entities;
     }
-
-
+    
 
 }

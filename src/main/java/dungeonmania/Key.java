@@ -20,9 +20,6 @@ public class Key extends Items {
 
     // might be implemented differently depending on items class
     public void useKey(Door door) {
-        if (door.getDoorId() == keyId) {
-            door.setOpen(true);
-            
-        }
+
     }
 }

@@ -8,4 +8,6 @@ public class Wall extends Entity {
         super(id, type, position, isInteractable);
     }
     
+
+    
 }

@@ -25,8 +25,7 @@ public class DoorTest {
 
     
     public void createDoorTest() {
-        DungeonManiaController game = new DungeonManiaController();
-        game.newGame("maze.json", "Standard");
+
         Position doorPosition = new Position(4,4,0); 
         Door door = new Door("door1", "Door", doorPosition, false, false);
 
@@ -38,8 +37,7 @@ public class DoorTest {
     }
     // testing opening the door, if there is a key with id that matches the door, then the door should open
     public void openDoorTest() {
-        DungeonManiaController game = new DungeonManiaController();
-        game.newGame("maze.json", "Standard");
+
         Position doorPosition = new Position(4,4); 
         Door door = new Door("door1", "Door", doorPosition, false, false);
 
@@ -61,8 +59,7 @@ public class DoorTest {
 
     // tesing the wrong key. If there is a wrong key, the door should not open
     public void wrongKeyTest(){
-        DungeonManiaController game = new DungeonManiaController();
-        game.newGame("maze.json", "Standard");
+
         Position doorPosition = new Position(4,4); 
         Door door = new Door("door1", "Door", doorPosition, false, false);
 

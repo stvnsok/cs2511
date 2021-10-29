@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import dungeonmania.util.Position;
+import dungeonmania.Zombie;
 
 public class ZombieToastSpawner extends Entity {
 
@@ -8,4 +9,10 @@ public class ZombieToastSpawner extends Entity {
         super(id, type, position, isInteractable);
     }
     
+
+    public void spawnZombie() {
+        
+    }
+
+
 }

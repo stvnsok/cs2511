@@ -25,8 +25,6 @@ public class BoulderTest {
     @Test 
     public void moveDownBoulderTest() {
 
-        DungeonManiaController game = new DungeonManiaController();
-        game.newGame("maze.json", "Standard");
 
         Position start = new Position (3,2);
 
@@ -36,7 +34,7 @@ public class BoulderTest {
         Position bPosition = new Position(3,3);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
-        character.moveDown();
+        character.PlayerMovement(Direction.DOWN);
         //game.interact("boulder1");
         //player position
         Position newcPosition = new Position(3,2);
@@ -51,8 +49,7 @@ public class BoulderTest {
 
     @Test
     public void moveBoulderOnSwitchTest() {
-        DungeonManiaController game = new DungeonManiaController();
-        game.newGame("maze.json", "Standard");
+
 
         Position start = new Position (3,2);
 
@@ -62,7 +59,7 @@ public class BoulderTest {
         Position bPosition = new Position(3,3, 0);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
-        character.moveDown();
+        character.PlayerMovement(Direction.DOWN);
 
         Position fPosition = new Position (3,4);
         FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "floorswitch", fPosition, false);
@@ -127,8 +124,11 @@ public class BoulderTest {
 
 
         character.PlayerMovement(Direction.LEFT);
-        assertEquals(d1.getPosition(), d1Position);
 
+        assertEquals(b1Position.getX(), b1.getPosition().getX());
+        assertEquals(b1Position.getY(), b1.getPosition().getY());
+        assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
+    
 
         assertEquals(d1Position.getX(), d1.getPosition().getX());
         assertEquals(d1Position.getY(), d1.getPosition().getY());

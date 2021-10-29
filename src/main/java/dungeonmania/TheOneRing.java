@@ -1,9 +1,9 @@
 package dungeonmania;
 
-public class TheOneRing extends InventoryItems {
+public class TheOneRing extends Items {
 
-    public TheOneRing(String itemId, String itemType) {
-        super(itemId, itemType);
+    public TheOneRing(String itemId, String itemType, int durability, Character character) {
+        super(itemId, itemType, durability, character);
     }
     
 }
