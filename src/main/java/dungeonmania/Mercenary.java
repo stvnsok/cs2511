@@ -2,7 +2,7 @@ package dungeonmania;
 
 import dungeonmania.util.Position;
 
-public class Mercenary extends Mob {
+public class Mercenary extends Mob implements CharacterObserver {
     
     private int bribeAmount;
     private boolean isAlly;
@@ -31,5 +31,18 @@ public class Mercenary extends Mob {
     }
 
     //public void bribe() {}
+
+
+    @Override
+    public void update(Character player) {
+        if (getPosition().equals(player.getPosition())) {
+            // battle!
+            int playerHealth = player.getHealth();
+            int playerAttack = player.getAttack();
+
+            player.takeDamage(getHealth() * getAttack() / 10);
+            this.takeDamage(playerHealth * playerAttack / 5);
+        }
+    }
 
 }

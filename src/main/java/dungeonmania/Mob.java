@@ -28,7 +28,10 @@ public class Mob extends Entity {
         this.attack = attack;
     }
     
-    //public void takeDamage(int damage) {}
+    public void takeDamage(int damage) {
+        health = health - damage;
+        // check if health <= 0 and remove entity?
+    }
 
     //public void checkArmor() {}
 }

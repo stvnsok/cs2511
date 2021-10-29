@@ -9,6 +9,8 @@ public class Character extends Mob {
     
     private List<Items> inventory;
 
+    private List<CharacterObserver> observers; // somehow get list of observers
+
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
             List<Items> inventory) {
         super(id, type, position, isInteractable, health, attack);
@@ -33,8 +35,16 @@ public class Character extends Mob {
 
     //public void checkRing() {}
 
-    // public void move(Direction direction) {
-    //     getPosition().translateBy(direction);
-    // }
+    public void move(Direction direction) {
+        setPosition(getPosition().translateBy(direction));
+
+        notifyObservers();
+    }
+
+    public void notifyObservers() {
+        for (CharacterObserver observer : observers) {
+            observer.update(this);
+        }
+    }
 
 }

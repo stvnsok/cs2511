@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CharacterObserverTest {
     @Test
     public void characterOnEnemy() {
+        // check character state??
+
         DungeonManiaController game = new DungeonManiaController();
         game.newGame("empty.json", "Standard");
         
