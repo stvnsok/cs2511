@@ -48,4 +48,8 @@ public class Game {
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
+
+    public boolean hasEntity(Entity entity) {
+        return entities.contains(entity);
+    }
 }

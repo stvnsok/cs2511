@@ -69,7 +69,9 @@ public class DungeonManiaController {
         return null;
     }
 
-    public void addEntity(Entity entity) {
-        currentGame.addEntity(entity);
+    // for testing purposes??
+    public Game getCurrentGame() {
+        return currentGame;
     }
 }
+
