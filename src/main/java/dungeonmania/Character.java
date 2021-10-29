@@ -9,14 +9,14 @@ import dungeonmania.util.Direction;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Position;
 
-public class Character extends Mob {
+public class Character extends Mob implements CharacterSubject {
     
     private List<Items> inventory;
     private List<Entity> mapEntities;
     private int maxHealth;
     private CharacterState state;
 
-    private List<CharacterObserver> observers; // somehow get list of observers
+    private List<CharacterObserver> observers = new ArrayList<>();
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
             List<Items> inventory, List<Entity> mapEntities) {
@@ -126,10 +126,36 @@ public class Character extends Mob {
         notifyObservers();
     }
 
-    public void notifyObservers() {
-        for (CharacterObserver observer : observers) {
-            observer.update(this);
-        }
+    public void battle(Mob enemy) {
+        state.battle(enemy);
     }
 
+    @Override
+    public void attach(CharacterObserver observer) {
+        observers.add(observer);
+        
+        // attach observers when generating/loading map?
+    }
+
+    @Override
+    public void detach(CharacterObserver observer) {
+        observers.remove(observer);
+
+        // detach observers when they are destroyed/die/become allied?
+    }
+
+    @Override
+    public void notifyObservers() {
+        // iterate over copy of observers to prevent ConcurrentModificationException
+        for (CharacterObserver observer : new ArrayList<>(observers)) {
+            observer.update(this);
+        }
+
+        observers.forEach(o -> o.update(this));
+    }
+    
+    // for testing purposes
+    public boolean hasObserver(CharacterObserver observer) {
+        return observers.contains(observer);
+    }
 }

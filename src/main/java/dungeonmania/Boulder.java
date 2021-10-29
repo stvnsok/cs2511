@@ -1,12 +1,13 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class Boulder extends Entity {
-    List<BoulderObserver> floorSwitches; // somehow get list of all floor switches
+public class Boulder extends Entity implements BoulderSubject {
+    List<BoulderObserver> observers = new ArrayList<>();
 
     public Boulder(String id, String type, Position position, boolean isInteractable) {
         super(id, type, position, isInteractable);
@@ -14,19 +15,41 @@ public class Boulder extends Entity {
     
     // public void moveBoulder(Position position) {}
 
-    public void moveBoulder(Direction direction) {
+    public void move(Direction direction) {
         Position oldPosition = getPosition();
         Position newPosition = oldPosition.translateBy(direction);
 
         setPosition(newPosition);
 
-        notifySwitches(oldPosition, newPosition);
+        notifyObservers(oldPosition, newPosition);
     }
 
+    @Override
+    public void attach(BoulderObserver observer) {
+        observers.add(observer);
 
-    public void notifySwitches(Position oldPosition, Position newPosition) {
-        for (BoulderObserver floorSwitch : floorSwitches) {
-            floorSwitch.update(oldPosition, newPosition);
+        // attach observers when generating/loading map?
+    }
+
+    @Override
+    public void detach(BoulderObserver observer) {
+        observers.remove(observer);
+        
+        // detach when bombs destroy observers?
+    }
+
+    @Override
+    public void notifyObservers(Position oldPosition, Position newPosition) {
+        // iterate over copy of observers to prevent ConcurrentModificationException
+        for (BoulderObserver observer : new ArrayList<>(observers)) {
+            observer.update(oldPosition, newPosition);
         }
+
+        // observers.forEach(o -> o.update(oldPosition, newPosition));
+    }
+
+    // for testing purposes
+    public boolean hasObserver(BoulderObserver observer) {
+        return observers.contains(observer);
     }
 }

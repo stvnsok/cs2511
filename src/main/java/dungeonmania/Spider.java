@@ -9,14 +9,10 @@ public class Spider extends Mob implements CharacterObserver {
     }
 
     @Override
-    public void update(Character player) {
-        if (getPosition().equals(player.getPosition())) {
+    public void update(Character character) {
+        if (getPosition().equals(character.getPosition())) {
             // battle!
-            int playerHealth = player.getHealth();
-            int playerAttack = player.getAttack();
-
-            player.takeDamage(getHealth() * getAttack() / 10);
-            this.takeDamage(playerHealth * playerAttack / 5);
+            character.battle(this);
         }
     }
 }

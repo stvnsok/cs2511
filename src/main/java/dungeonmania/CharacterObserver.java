@@ -5,6 +5,6 @@ public interface CharacterObserver {
     
     //public void update(Subject) {}
 
-    public void update(Character player);
+    public void update(Character character);
 
 }
