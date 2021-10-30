@@ -9,9 +9,14 @@ import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,20 +26,18 @@ import java.util.Map;
 import javax.naming.ldap.LdapName;
 import javax.naming.spi.DirStateFactory.Result;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
+import org.json.*;
 
 import org.json.JSONObject;
 
 public class DungeonManiaController {
     private DungeonResponse d;
+
     public DungeonManiaController() {
     }
 
     public String dungeonId() {
-        return "dungeon" + dungeonCount;
+        return "dungeon" + System.currentTimeMillis();
     }
 
     public String getSkin() {
@@ -63,53 +66,189 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-        List<String> modes = Arrays.asList("Peaceful", "Standard", "Hard");
+        List<String> modes = Arrays.asList("peaceful", "standard", "hard");
         // Check validity of arguments
         if (!DungeonManiaController.dungeons().contains(dungeonName) || !modes.contains(gameMode)) {
             throw new IllegalArgumentException();
         }
 
         int entitiesCount = 0;
-        try {
-            Object obj = JsonParser.parseReader(new FileReader("src/main/resources/dungeons/" + dungeonName + ".json"));
-            JsonObject dungeon = (JsonObject) obj;
-            JsonArray entities = dungeon.getAsJsonArray("entities");
-            for (int i = 0; i < entities.size(); i += 1) {
-                entitiesCount += 1;
-                JsonObject entity = entities.get(i).getAsJsonObject();
-                int x = entity.get("x").getAsInt();
-                int y = entity.get("y").getAsInt();
-                Position p = new Position(x, y);
-                String type = entity.get("type").getAsString();
-                String id = type + System.currentTimeMillis();
 
-                EntityResponse e = new EntityResponse()
+        char charBuf[] = new char[10000];
+        File f = new File("src/main/resources/dungeons/" + dungeonName + ".json");
+        try {
+            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            int len = input.read(charBuf);
+            String text =new String(charBuf,0,len);
+            JSONObject dungeon = new JSONObject(text);
+            input.close();
+            JSONArray JSONEntities = dungeon.getJSONArray("entities");
+            List<EntityResponse> entities = new ArrayList<>();
+            for (int i = 0; i < JSONEntities.length(); i += 1) {
+                entitiesCount += 1;
+                JSONObject JSONEntity = JSONEntities.getJSONObject(i);
+                int x = JSONEntity.getInt("x");
+                int y = JSONEntity.getInt("y");
+                Position p = new Position(x, y);
+                String type = JSONEntity.getString("type");
+                String id = type + entitiesCount;
+                Boolean isinteractable = true;
+                if (type == "Mercenary" || type == "ZombieToastSpawner") {
+                    isinteractable = false;
+                }
+                EntityResponse entity = new EntityResponse(id, type, p, isinteractable);
+                entities.add(entity);
             }
+            List<ItemResponse> inventory = new ArrayList<>();
+            List<String> buildables = new ArrayList<>();
+            JSONObject goals = dungeon.getJSONObject("goal-condition");
+            d = new DungeonResponse(dungeonId(), dungeonName, List<EntityResponse> entities, List<ItemResponse> inventory, List<String> buildables, String goals);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        d = new DungeonResponse(dungeonId(), dungeonName, List<EntityResponse> entities, List<ItemResponse> inventory, List<String> buildables, String goals);
         return d;
     }
-    public static String abc(String dungeonName, String gameMode) {
-        try {
-            Object obj = JsonParser.parseReader(new FileReader("src/main/resources/dungeons/" + dungeonName + ".json"));
-            JsonObject dungeon = (JsonObject) obj;
-            return dungeon.getAsJsonArray("entities").get(0).getAsJsonObject().get("x").toString();
 
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return "abc";
-    }
-    
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
         String path = "src/main/java/dungeons/save";
-        
+        File f = new File(path, name);
+        try {
+            Boolean createDungeon = f.createNewFile();
+            if (!createDungeon) {
+                throw new IllegalArgumentException("File already exist.");
+            }
+            JSONObject JSONDungeon = new JSONObject();
+
+            // Transform dungeonId
+            JSONDungeon.put("dungeonId", d.getDungeonId());
+
+            // Transform dungeonName
+            JSONDungeon.put("dungeonName", d.getDungeonName());
+
+            // Transform entities
+            JSONArray JSONEntities = new JSONArray();
+            for (EntityResponse e : d.getEntities()) {
+                JSONObject entity = new JSONObject();
+                entity.put("id", e.getId());
+                Position p = e.getPosition();
+                entity.put("x", p.getX());
+                entity.put("y", p.getY());
+                entity.put("type", e.getType());
+                entity.put("isinteractable", e.isInteractable());
+                JSONEntities.put(entity);
+            }
+            JSONDungeon.put("entities", JSONEntities);
+
+            // Transform inventory
+            JSONArray JSONInventory = new JSONArray();
+            for (ItemResponse i : d.getInventory()) {
+                JSONObject item = new JSONObject();
+                item.put("id", i.getId());
+                item.put("type", i.getType());
+                JSONEntities.put(item);
+            }
+            JSONDungeon.put("inventory", JSONInventory);
+
+            // Transform buildables
+            JSONArray JSONBuildables = new JSONArray();
+            for (String b : d.getBuildables()) {
+                JSONBuildables.put(b);
+            }
+            JSONDungeon.put("buildables", JSONBuildables);
+
+            // Transform goals
+            JSONDungeon.put("goals", d.getGoals());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
+
+    public static Object abc() {
+        char charBuf[] = new char[10000];
+        File f = new File("src/main/resources/dungeons/advanced.json");
+        try {
+            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            int len = input.read(charBuf);
+            String text =new String(charBuf,0,len);
+            JSONObject dungeon = new JSONObject(text);
+            input.close();
+            return dungeon.getJSONArray("entities").get(2);
+        } catch (UnsupportedEncodingException e) {
+            e.getStackTrace();
+        } catch (IOException e1) {
+            e1.getStackTrace();
+        }
         return null;
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        char charBuf[] = new char[10000];
+        File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
+
+        if (!f.exists()) {
+            throw new IllegalArgumentException();
+        }
+
+        try {
+            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            int len = input.read(charBuf);
+            String text =new String(charBuf,0,len);
+            JSONObject dungeon = new JSONObject(text);
+            input.close();
+            
+            // Load dungeonId
+            String dungeonId = dungeon.getString("dungeonId");
+
+            // Load dungeonName
+            String dungeonName = dungeon.getString("dungeonName");
+
+            // Load entities
+            JSONArray JSONEntites = dungeon.getJSONArray("entities");
+            List<EntityResponse> entities = new ArrayList<>();
+            for (int i = 0; i < JSONEntites.length(); i += 1) {
+                JSONObject JSONEntity = JSONEntites.getJSONObject(i);
+                String id = JSONEntity.getString("id");
+                int x = JSONEntity.getInt("x");
+                int y = JSONEntity.getInt("y");
+                Position p = new Position(x, y);
+                String type = JSONEntity.getString("type");
+                Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
+                EntityResponse entity = new EntityResponse(id, type, p, isinteractable);
+                entities.add(entity);
+            }
+
+            // Load inventory
+            JSONArray JSONInventory = dungeon.getJSONArray("inventory");
+            List<ItemResponse> inventory = new ArrayList<>();
+            for (int i = 0; i < JSONInventory.length(); i += 1) {
+                JSONObject JSONItem = JSONInventory.getJSONObject(i);
+                String id = JSONItem.getString("id");
+                String type = JSONItem.getString("type");
+                ItemResponse item = new ItemResponse(id, type);
+                inventory.add(item);
+            }
+            
+            // Load buildables
+            JSONArray JSONBuildables = dungeon.getJSONArray("buildables");
+            List<String> buildables = new ArrayList<>();
+            for (int i = 0; i < JSONBuildables.length(); i += 1) {
+                String buildableENtity = JSONBuildables.getString(i);
+                buildables.add(buildableENtity);
+            }
+
+            // Load goals
+            String goals = dungeon.getString("goals");
+
+            DungeonResponse loadedDungeon = new DungeonResponse(dungeonId, dungeonName, entities, inventory, buildables, goals);
+            return loadedDungeon;
+
+        } catch (UnsupportedEncodingException e) {
+            e.getStackTrace();
+        } catch (IOException e1) {
+            e1.getStackTrace();
+        }
         return null;
     }
 
@@ -117,7 +256,8 @@ public class DungeonManiaController {
         return new ArrayList<>();
     }
 
-    public DungeonResponse tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
+    public DungeonResponse tick(String itemUsed, Direction movementDirection)
+            throws IllegalArgumentException, InvalidActionException {
         return null;
     }
 
