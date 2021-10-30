@@ -12,9 +12,4 @@ public class MiscTest {
         assertTrue(DungeonManiaController.dungeons().size() > 0);
         assertTrue(DungeonManiaController.dungeons().contains("maze"));
     }
-    @Test
-    public void testabc() {
-        assertDoesNotThrow(() -> DungeonManiaController.abc("advanced", "Peaceful"));
-        assertEquals(DungeonManiaController.dungeons(), "abc");
-    }
 }
