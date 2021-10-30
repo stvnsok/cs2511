@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -110,8 +111,10 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        String path = "src/main/java/dungeons/save";
-        File f = new File(path, name);
+        File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
+        if (f.exists()) {
+            throw new IllegalArgumentException();
+        }
         try {
             Boolean createDungeon = f.createNewFile();
             if (!createDungeon) {
@@ -145,7 +148,7 @@ public class DungeonManiaController {
                 JSONObject item = new JSONObject();
                 item.put("id", i.getId());
                 item.put("type", i.getType());
-                JSONEntities.put(item);
+                JSONInventory.put(item);
             }
             JSONDungeon.put("inventory", JSONInventory);
 
@@ -159,28 +162,14 @@ public class DungeonManiaController {
             // Transform goals
             JSONDungeon.put("goals", d.getGoals());
 
+            FileWriter fw = new FileWriter(f);
+            fw.write(JSONDungeon.toString());
+            fw.close();
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
         return d;
-    }
-
-    public static Object abc() {
-        char charBuf[] = new char[10000];
-        File f = new File("src/main/resources/dungeons/advanced.json");
-        try {
-            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
-            int len = input.read(charBuf);
-            String text =new String(charBuf,0,len);
-            JSONObject dungeon = new JSONObject(text);
-            input.close();
-            return dungeon.getJSONArray("entities").get(2);
-        } catch (UnsupportedEncodingException e) {
-            e.getStackTrace();
-        } catch (IOException e1) {
-            e1.getStackTrace();
-        }
-        return null;
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
@@ -242,6 +231,8 @@ public class DungeonManiaController {
             String goals = dungeon.getString("goals");
 
             DungeonResponse loadedDungeon = new DungeonResponse(dungeonId, dungeonName, entities, inventory, buildables, goals);
+
+            d = loadedDungeon;
             return loadedDungeon;
 
         } catch (UnsupportedEncodingException e) {

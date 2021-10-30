@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,9 @@ public class loadGameTest {
 
     @Test
     public void successfulTest() {
-
+        File f = new File("src/main/java/dungeonmania/save/test1.json");
+        assertTrue(f.exists());
+        
         String dungeonId = "test1";
             
         String dungeonName = "advanced";
