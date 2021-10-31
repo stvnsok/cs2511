@@ -1,4 +1,7 @@
 package dungeonmania;
+import java.util.List;
+
+import dungeonmania.util.Position;
 
 public class Bomb extends Items {
 
@@ -6,4 +9,6 @@ public class Bomb extends Items {
         super(itemId, itemType, durability, character);
     }
     
+
+
 }

@@ -2,18 +2,23 @@ package dungeonmania;
 
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Position;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import dungeonmania.Character;
 
 public class Portal extends Entity {
 
-    Portal p;
+    
     private Position portalPosition;
     private int portalId;
-
-
-    public Portal(String id, String type, Position position, boolean isInteractable) {
+    private String colour;
+    List<Entity> listPortals = new ArrayList<>();
+    public Portal(String id, String type, Position position, boolean isInteractable, String colour) {
         super(id, type, position, isInteractable);
-    }
+        this.colour = colour;
+    }   
 
     public void setportalId(int portalId) {
         this.portalId = portalId;
@@ -23,28 +28,29 @@ public class Portal extends Entity {
         return portalId;
     }
 
-    public void setPortal(Portal p) {
-        this.p = p;
-    }
-
-    public Portal getPortal() {
-        return p;
+    public String getColour() {
+        return colour;
     }
 
     public void setnewPosition(Position position) {
         portalPosition = position; 
 
     }
+
+    public void ListPortal(List<Entity> Portals) {
+        for (Entity e: getEntities()) {
+            if (e.getType().equals("portal")) {
+                listPortals.add(e);
+            }
+        }
+    }
     
-    public void findPortal(Character character, int id) {
+    public void findPortal(Character character, String colour) {
         
-        for (Entity e: getEntities()){
-            if (e.getType().equals("portal")){
-                
-                if (p.getportalId() == id && p.getId() != e.getId()) {
+        for (Entity p: listPortals){
+                if (getColour().equals(colour)) {
                     character.updatePosition(p.getPosition()); 
                 }
-            }
         }
         
 
@@ -52,10 +58,10 @@ public class Portal extends Entity {
     }
 
 
-    public void teleport(Character character,int portalId){
+    public void teleport(Character character,String colour){
 
         if (character.getPosition().equals(portalPosition)) {
-            findPortal(character, portalId);
+            findPortal(character, colour);
             
         }
 
