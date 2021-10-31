@@ -24,7 +24,7 @@ public class ZombieToastSpawnerTest {
         Position p1 = new Position(7,3,0);
         ZombieToastSpawner z1 = new ZombieToastSpawner("zombietoastspawner1", "zombie_toast_spawner", p1, false);
         
-        Game game = controller.getCurrentGame();
+        
 
         //move around tick
 
@@ -34,7 +34,7 @@ public class ZombieToastSpawnerTest {
                 entities.add(z1.spawnZombie());
             }
             else {
-                DungeonResponse d = controller.tick("", Direction.DOWN);
+                game.tick("", Direction.DOWN);
             }
 
         });

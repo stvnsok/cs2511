@@ -44,5 +44,9 @@ public class Game {
     public String getGoals() {
         return goals;
     }
+    
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
 
 }

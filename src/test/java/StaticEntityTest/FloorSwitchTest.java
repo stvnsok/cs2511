@@ -45,7 +45,7 @@ public class FloorSwitchTest {
         
         List<Entity> check = new ArrayList<>();
         check.add(c1);
-        floorSwitch1.bombExplode(entities);
+        floorSwitch1.bombExplode();
         assertEquals(c1, entities);
         
         

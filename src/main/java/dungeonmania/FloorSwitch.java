@@ -33,19 +33,19 @@ public class FloorSwitch extends Entity {
     //check if stwitch is active, if it is active check if it is adjacent
     // anthing adjacent to the bomb
     // get list of entities and get the posiiton and do is adjacent, if it is true remove them from the list
-    public void bombExplode(List<Entity> entities) {
+    public void bombExplode() {
         //if the switch is active
         if (isTriggered == true) {
             //if the bomb is cardinally adjacent to the switch
             // loop through all entities
-            entities = getEntities();
-            for (Entity b: entities){
+            
+            for (Entity b: getEntities()){
                 // if the entity is a bomb
                 if (b.getType().equals("bomb")){
                     //check if that bomb is adjacent to the floor switch
                     if(getPosition().isAdjacent(getPosition(), b.getPosition())){
-                        for (Entity e2: entities) {
-                            deleteEntities(entities, b.getPosition(), e2);
+                        for (Entity e2: getEntities()) {
+                            deleteEntities(getEntities(), b.getPosition(), e2);
                         }
                     }
                     /*
