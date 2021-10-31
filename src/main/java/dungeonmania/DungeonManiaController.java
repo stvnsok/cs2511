@@ -103,7 +103,7 @@ public class DungeonManiaController {
             List<ItemResponse> inventory = new ArrayList<>();
             List<String> buildables = new ArrayList<>();
             JSONObject goals = dungeon.getJSONObject("goal-condition");
-            d = new DungeonResponse(dungeonId(), dungeonName, List<EntityResponse> entities, List<ItemResponse> inventory, List<String> buildables, String goals);
+            d = new DungeonResponse(dungeonId(), dungeonName, entities, inventory, buildables, goals);
         } catch (Exception e) {
             e.printStackTrace();
         }
