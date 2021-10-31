@@ -66,8 +66,13 @@ public class BoulderTest {
         Position fPosition = new Position (3,4);
         FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "switch", fPosition, false);
 
+<<<<<<< HEAD
         assertEquals(bPosition, fPosition);
 
+=======
+        assertEquals(boulder.getPosition(), fPosition);
+        fSwitch.checkFloorSwitch(boulder);
+>>>>>>> 17999c3 (all tests for boulder passes now)
 
         assertEquals(true, fSwitch.getisTriggered());
 
@@ -103,7 +108,11 @@ public class BoulderTest {
         assertEquals(b1Position, b1.getPosition());
         character.PlayerMovement(Direction.RIGHT);;
         assertEquals(b2Position, b2.getPosition());
+<<<<<<< HEAD
   ;
+=======
+  
+>>>>>>> 17999c3 (all tests for boulder passes now)
 
     }
 
