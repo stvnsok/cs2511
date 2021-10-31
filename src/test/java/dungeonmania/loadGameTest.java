@@ -8,6 +8,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.DungeonResponse;
@@ -58,7 +60,7 @@ public class loadGameTest {
         List<String> buildables = new ArrayList<>();
         buildables.add("sheild");
 
-        String goals = "treasure and enemies";
+        String goals = "(:enemies AND :treasure)";
 
         DungeonManiaController d = new DungeonManiaController();
         DungeonResponse loadedDungeon = d.loadGame("test1");

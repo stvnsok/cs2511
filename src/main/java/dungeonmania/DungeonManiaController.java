@@ -1,5 +1,18 @@
 package dungeonmania;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -7,29 +20,6 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.ldap.LdapName;
-import javax.naming.spi.DirStateFactory.Result;
-
-import org.json.*;
-
-import org.json.JSONObject;
 
 public class DungeonManiaController {
     private Game currentGame;
@@ -256,9 +246,6 @@ public class DungeonManiaController {
                 buildables.add(buildableENtity);
             }
 
-            // Load goals
-            String goals = game.getString("goals");
-
             currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
 
             return getDungeonResponse();
@@ -278,7 +265,7 @@ public class DungeonManiaController {
             f.delete();
         }
         try {
-            Boolean createDungeon = f.createNewFile();
+            f.createNewFile();
             Position p = new Position(1, 2);
             Entity e1 = new Entity("e1", "wall", p, false);
             Entity e2 = new Entity("e2", "player", p, false);
