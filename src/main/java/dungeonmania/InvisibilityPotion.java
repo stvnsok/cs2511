@@ -2,14 +2,13 @@ package dungeonmania;
 
 public class InvisibilityPotion extends Items {
 
-    public InvisibilityPotion(String itemId, String itemType, int durability, Character character) {
-        super(itemId, itemType, durability, character);
+    public InvisibilityPotion(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
     }
     
     @Override
-    public void use() {
-        Character character = getCharacter();
+    public void use(Character character) {
         character.setState(new InvisibleState(character));
-        super.use();
+        super.use(character);
     }
 }
