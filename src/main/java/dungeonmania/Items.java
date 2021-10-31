@@ -1,5 +1,7 @@
 package dungeonmania;
 
+import java.util.List;
+
 public class Items {
     
     //variable names changed to be clearer
@@ -7,13 +9,11 @@ public class Items {
     private String itemId;
     private String itemType; //enum(?)
     private int durability;
-    private Character character;
 
-    public Items(String itemId, String itemType, int durability, Character character) {
+    public Items(String itemId, String itemType, int durability) {
         this.itemId = itemId;
         this.itemType = itemType;
         this.durability = durability;
-        this.character = character;
     }
 
     public String getItemId() {
@@ -40,12 +40,12 @@ public class Items {
         this.durability = durability;
     }
 
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void use() {
+    public void use(Character character) {
         this.durability = this.durability - 1;
+        if (this.durability == 0) {
+            List<Items> inventory = character.getInventory();
+            inventory.remove(this); 
+        }
     }
     
 }
