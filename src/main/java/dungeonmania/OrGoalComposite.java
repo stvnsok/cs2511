@@ -10,7 +10,13 @@ public class OrGoalComposite implements Goals {
     }
 
     public String getGoal() {
-        return "OR " + goal1.getGoal() + " " + goal2.getGoal();
+        boolean g1 = goal1.fulfilledGoals();
+        boolean g2 = goal2.fulfilledGoals();
+        if (!g1 && !g2) {
+            return "(" + goal1.getGoal() + " OR " + goal2.getGoal() + ")";
+        }
+        return "";
+    
     }
 
     public boolean fulfilledGoals() {
