@@ -39,7 +39,7 @@ public class PortalTest {
 
       c1.PlayerMovement(Direction.DOWN);
 
-      startPortal.teleport(c1, startPortal.getportalId());
+      startPortal.teleport(c1, startPortal.getColour());
       
       assertEquals(endPortal.getPosition(), c1.getPosition());
    } 
