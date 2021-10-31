@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.DungeonResponse;
@@ -23,9 +25,13 @@ public class newGameTest {
     public void testNewGame() {
         DungeonManiaController d = new DungeonManiaController();
         DungeonResponse newDungeon = d.newGame("advanced", "peaceful");
-        EntityResponse lowerRightCorner = new EntityResponse("wall120", "wall", new Position(15, 17), false);
-        assertTrue(newDungeon.getEntities().contains(lowerRightCorner));
+        List<EntityResponse> entities = newDungeon.getEntities();
+        EntityResponse lowerRightCorner = entities.get(entities.size() - 1);
+        assertEquals(lowerRightCorner.getType(), "wall");
+        assertEquals(lowerRightCorner.getPosition().getX(), 15);
+        assertEquals(lowerRightCorner.getPosition().getY(), 17);
         assertTrue(newDungeon.getInventory().isEmpty());
+        assertTrue(newDungeon.getBuildables().isEmpty());
     }
     
     @Test
