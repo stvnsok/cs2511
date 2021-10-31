@@ -342,12 +342,11 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        /* 
+        
         if (!game.getBuildables.contains(buildable)) {
             throw new IllegalArgumentException("Not a valid build item");
         }
         game.build(buildable);
-        */
-        return null;
+        return getDungeonResponse();
     }
 }
