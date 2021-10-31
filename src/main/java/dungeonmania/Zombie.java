@@ -35,6 +35,7 @@ public class Zombie extends Mob implements Enemies {
     }
 
     public void checkObstacles(List<Entity> entities, Position position) {
+        boolean setPos = true;
         for (Entity entity : entities) {
 
             Position entPos = entity.getPosition();
@@ -44,11 +45,14 @@ public class Zombie extends Mob implements Enemies {
                 || entity.getType().equals("Door")) {
             
                 if (position.equals(entPos)) {
+                    setPos = false;
                     move(entities);
                 }
 
             }
         }
-        this.setPosition(position);
+        if (setPos) {
+            this.setPosition(position);
+        } 
     }
 }
