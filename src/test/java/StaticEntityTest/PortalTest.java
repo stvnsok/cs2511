@@ -48,11 +48,15 @@ public class PortalTest {
       c1.PlayerMovement(Direction.DOWN);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       startPortal.teleport(c1, startPortal.getColour());
       
       assertEquals(endPortal.getPosition(), c1.getPosition());
 =======
       startPortal.teleport(c1, startPortal.getportalId());
+=======
+      startPortal.teleport(c1, startPortal.getColour());
+>>>>>>> b6e506b (fix portal test)
       
       assertEquals(c1.getPosition().getX(), endPortal.getPosition().getX());
       assertEquals(c1.getPosition().getY(), endPortal.getPosition().getY());
