@@ -16,6 +16,7 @@ public class Bow extends Items implements Build{
     private List<Map<String, Integer>> recipe = new ArrayList<>();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private List<String> recipe;
 >>>>>>> 91b62ed (Changes UML Week 6)
 
@@ -24,6 +25,10 @@ public class Bow extends Items implements Build{
 =======
     public Bow(String itemId, String itemType, int durability, Character character) {
         super(itemId, itemType, durability, character);
+=======
+    public Bow(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
+>>>>>>> f010aa2 (Items and associated subclasses no longer stores character)
         Map <String, Integer> recipe = new HashMap<>();
         recipe.put("wood", 1);
         recipe.put("arrow", 3);

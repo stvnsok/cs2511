@@ -17,15 +17,19 @@ public class Bomb extends Items {
 <<<<<<< HEAD
 public class Bomb extends Items {
 
+<<<<<<< HEAD
 =======
 >>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
     public Bomb(String itemId, String itemType, int durability, Character character) {
         super(itemId, itemType, durability, character);
+=======
+    public Bomb(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
+>>>>>>> f010aa2 (Items and associated subclasses no longer stores character)
     }
 
     @Override
-    public void use() {
-        Character character = getCharacter();
+    public void use(Character character) {
         List<Entity> entities = character.getEntities();
         Position charPos = character.getPosition();
         // Get all entities on same position as character.
@@ -33,7 +37,7 @@ public class Bomb extends Items {
         entities.add(new Entity(String.valueOf(entities.size()), "bomb", bombPos, false));
         
 
-        super.use();
+        super.use(character);
     }
     
 

@@ -18,8 +18,8 @@ public class Shield extends Items implements Build {
     // Making it list of map here since there could be multiple recipes.
     private List<Map<String, Integer>> recipe = new ArrayList<>();
 
-    public Shield(String itemId, String itemType, int durabilty, Character character) {
-        super(itemId, itemType, durabilty, character);
+    public Shield(String itemId, String itemType, int durabilty) {
+        super(itemId, itemType, durabilty);
         Map<String, Integer> recipe1 = new HashMap<>();
         Map<String, Integer> recipe2 = new HashMap<>();
         recipe1.put("wood", 2);

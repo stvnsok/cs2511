@@ -8,8 +8,8 @@ public class Key extends Items {
     
     private int keyId;
 
-    public Key(String itemId, String itemType, int durability, int keyId, Character character) {
-        super(itemId, itemType, durability, character);
+    public Key(String itemId, String itemType, int durability, int keyId) {
+        super(itemId, itemType, durability);
         this.keyId = keyId;
     }
 

@@ -2,15 +2,14 @@ package dungeonmania;
 
 public class InvincibilityPotion extends Items {
 
-    public InvincibilityPotion(String itemId, String itemType, int durability, Character character) {
-        super(itemId, itemType, durability, character);
+    public InvincibilityPotion(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
     }
 
     @Override
-    public void use() {
-        Character character = getCharacter();
+    public void use(Character character) {
         character.setState(new InvincibleState(character));
-        super.use();
+        super.use(character);
     }
 
     
