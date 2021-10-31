@@ -8,15 +8,17 @@ public class Game {
     private String gameMode;
     private List<Entity> entities;
     private List<Items> inventory;
+    private Character character;
     private List<String> buildables;
     private String goals;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
-            List<String> buildables, String goals) {
+            List<String> buildables, String goals, Character character) {
         this.dungeonName = dungeonName;
         this.gameMode = gameMode;
         this.entities = entities;
         this.inventory = inventory;
+        this.character = character;
         this.buildables = buildables;
         this.goals = goals;
     }
@@ -43,6 +45,11 @@ public class Game {
 
     public String getGoals() {
         return goals;
+    }
+
+    public void build(String buildable) {
+        character.buildItem(buildable);
+        
     }
 
 }
