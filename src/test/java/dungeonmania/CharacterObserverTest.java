@@ -42,7 +42,7 @@ public class CharacterObserverTest {
     public void invincibleCharacterOnEnemy() {
         // invincible state character
         Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Items invincibilityPotion = new InvincibilityPotion("invincibilityPotion", "invincibility_potion", 1, character);
+        Items invincibilityPotion = new InvincibilityPotion("invincibilityPotion", "invincibility_potion", 1);
         character.addInventory(invincibilityPotion);
         character.useItem("invincibilityPotion");
         assertEquals("Invincible", character.getStateName());
@@ -72,7 +72,7 @@ public class CharacterObserverTest {
     public void invisibleCharacterOnEnemy() {
         // invisible state character        
         Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Items invisibilityPotion = new InvisibilityPotion("invisibilityPotion", "invisibility_potion", 1, character);
+        Items invisibilityPotion = new InvisibilityPotion("invisibilityPotion", "invisibility_potion", 1);
         character.addInventory(invisibilityPotion);
         character.useItem("invisibilityPotion");
         assertEquals("Invisible", character.getStateName());

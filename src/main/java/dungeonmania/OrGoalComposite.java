@@ -1,19 +1,36 @@
 package dungeonmania;
 
-public class OrGoalComposite implements Goals {
-    private Goals goal1;
-    private Goals goal2;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public OrGoalComposite(Goals goal1, Goals goal2) {
-        this.goal1 = goal1;
-        this.goal2 = goal2;
+public class OrGoalComposite implements Goals {
+    private List<Goals> children;
+
+    public OrGoalComposite(List<Goals> children) {
+        this.children = children;
     }
 
     public String getGoal() {
-        return "OR " + goal1.getGoal() + " " + goal2.getGoal();
+        List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
+        int size = unfilfilled.size();
+        String returnString = "";
+        if (size == children.size()) {
+            returnString = "( " + unfilfilled.get(0).getGoal();
+            for (int i = 1; i < size; i++) {
+                returnString += " OR " + unfilfilled.get(i).getGoal();
+            }
+            returnString += " )";
+        }
+        return returnString;
+    
     }
 
     public boolean fulfilledGoals() {
-        return goal1.fulfilledGoals() || goal2.fulfilledGoals();
+        for (Goals goal : children) {
+            if (goal.fulfilledGoals()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
