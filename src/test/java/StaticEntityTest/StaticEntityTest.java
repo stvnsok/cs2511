@@ -34,7 +34,7 @@ public class StaticEntityTest {
         
 
         Position p4 = new Position(6,3,0);
-        Portal portal = new Portal("portal1", "portal", p4, false);
+        Portal portal = new Portal("portal1", "portal", p4, false, "BLUE");
         assertEquals(p4, portal.getPosition());
  
 

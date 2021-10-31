@@ -23,12 +23,12 @@ public class PortalTest {
       List<Entity> entities = new ArrayList<>();
 
       Position p1 = new Position(10,10,0);
-      Portal startPortal = new Portal("portal1", "portal", p1, false);
+      Portal startPortal = new Portal("portal1", "portal", p1, false,"BLUE");
       entities.add(startPortal);
       startPortal.setportalId(100);
       
       Position p2 = new Position(5,5, 0);
-      Portal endPortal = new Portal("portal2", "portal", p2, false);
+      Portal endPortal = new Portal("portal2", "portal", p2, false, "BLUE");
       entities.add(endPortal);
       
       
