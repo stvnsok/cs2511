@@ -45,13 +45,10 @@ public class Zombie extends Mob implements Enemies {
             
                 if (position.equals(entPos)) {
                     move(entities);
-                } else {
-                    this.setPosition(position);
                 }
 
-            } else {
-                this.setPosition(position);
             }
         }
+        this.setPosition(position);
     }
 }
