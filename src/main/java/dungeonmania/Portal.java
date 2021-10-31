@@ -39,7 +39,7 @@ public class Portal extends Entity {
     public void findPortal(Character character, int id) {
         
         for (Entity e: getEntities()){
-            if (e.getClass().getName().equals("dungeonmania.Portal")){
+            if (e.getType().equals("portal")){
                 
                 if (p.getportalId() == id && p.getId() != e.getId()) {
                     character.updatePosition(p.getPosition()); 
