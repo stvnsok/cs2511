@@ -9,7 +9,7 @@ public class GoalLeaf implements Goals {
     }
 
     public String getGoal() {
-        return goalType;
+        return ":" + goalType;
     }
 
     public void setFulfilled(boolean goalFulfilled) {

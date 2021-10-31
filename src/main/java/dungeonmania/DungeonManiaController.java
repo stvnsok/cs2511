@@ -120,10 +120,10 @@ public class DungeonManiaController {
             List<String> buildables = new ArrayList<>();
 
             // Create Goals
-            String goals = game.getJSONObject("goal-condition").toString();
+            //String goals = game.getJSONObject("goal-condition").toString();
 
             // Create DungeonResponse and Game
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goals);
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
             return getDungeonResponse();
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,6 +219,7 @@ public class DungeonManiaController {
 
             // Load gameMode
             String gameMode = game.getString("gameMode");
+            Character player;
             
             // Load entities
             JSONArray JSONEntites = game.getJSONArray("entities");
@@ -258,7 +259,7 @@ public class DungeonManiaController {
             // Load goals
             String goals = game.getString("goals");
 
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goals);
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
 
             return getDungeonResponse();
 
@@ -343,10 +344,10 @@ public class DungeonManiaController {
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
         
-        if (!game.getBuildables.contains(buildable)) {
+        if (!currentGame.getBuildables().contains(buildable)) {
             throw new IllegalArgumentException("Not a valid build item");
         }
-        game.build(buildable);
+        currentGame.build(buildable);
         return getDungeonResponse();
     }
 }
