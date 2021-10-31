@@ -2,6 +2,8 @@ package dungeonmania;
 
 import java.util.List;
 
+import org.json.JSONObject;
+
 public class Game {
     
     private String dungeonName;
@@ -10,17 +12,19 @@ public class Game {
     private List<Items> inventory;
     private Character character;
     private List<String> buildables;
-    private String goals;
+    private Goals goals;
+    private JSONObject jGoals;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
-            List<String> buildables, String goals, Character character) {
+            List<String> buildables, JSONObject jGoals, Character character) {
         this.dungeonName = dungeonName;
         this.gameMode = gameMode;
         this.entities = entities;
         this.inventory = inventory;
         this.character = character;
         this.buildables = buildables;
-        this.goals = goals;
+        this.jGoals = jGoals;
+        this.goals = GoalFactory.createGoals(jGoals);
     }
 
     public String getDungeonName() {
@@ -44,7 +48,11 @@ public class Game {
     }
 
     public String getGoals() {
-        return goals;
+        return goals.getGoal();
+    }
+
+    public JSONObject getJGoals() {
+        return jGoals;
     }
 <<<<<<< HEAD
     
