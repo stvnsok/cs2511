@@ -15,21 +15,21 @@ import dungeonmania.util.Position;
 
 public class newGameTest {
     @Test
-    public void testIllegalArgument() {
+    public void exceptionTest() {
         DungeonManiaController d = new DungeonManiaController();
         assertThrows(IllegalArgumentException.class, () -> d.newGame("invalid dungeon name", "peaceful"));
         assertThrows(IllegalArgumentException.class, () -> d.newGame("advanced", "invalid game mode"));
     }
 
     @Test
-    public void testNewGame() {
+    public void successfulTest() {
         DungeonManiaController d = new DungeonManiaController();
         DungeonResponse newDungeon = d.newGame("advanced", "peaceful");
         List<EntityResponse> entities = newDungeon.getEntities();
         EntityResponse lowerRightCorner = entities.get(entities.size() - 1);
         assertEquals(lowerRightCorner.getType(), "wall");
-        assertEquals(lowerRightCorner.getPosition().getX(), 15);
-        assertEquals(lowerRightCorner.getPosition().getY(), 17);
+        assertEquals(lowerRightCorner.getPosition().getX(), 17);
+        assertEquals(lowerRightCorner.getPosition().getY(), 15);
         assertTrue(newDungeon.getInventory().isEmpty());
         assertTrue(newDungeon.getBuildables().isEmpty());
     }

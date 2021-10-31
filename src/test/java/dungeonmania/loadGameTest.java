@@ -63,7 +63,6 @@ public class loadGameTest {
         DungeonManiaController d = new DungeonManiaController();
         DungeonResponse loadedDungeon = d.loadGame("test1");
 
-        assertTrue(loadedDungeon.getDungeonId().equals(dungeonId));
         assertTrue(loadedDungeon.getDungeonName().equals(dungeonName));
         assertListOfEntitiesEqual(loadedDungeon.getEntities(), entities);
         assertListOfInventoryEqual(loadedDungeon.getInventory(), inventory);

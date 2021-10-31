@@ -1,6 +1,7 @@
 {
     "dungeonId": "test1",
     "dungeonName": "advanced", 
+    "gameMode": "standard",
     "entities": [
         {
             "id": "wall1",
@@ -48,19 +49,23 @@
     "inventory": [
         {
             "id": "wood1", 
-            "type": "wood"
+            "type": "wood", 
+            "durability": 10
         }, 
         {
             "id": "treasure2", 
-            "type": "treasure"
+            "type": "treasure",
+            "durability": 2
         }, 
         {
             "id": "key3", 
-            "type": "key"
+            "type": "key",
+            "durability": 10
         }, 
         {
             "id": "wood4", 
-            "type": "wood"
+            "type": "wood",
+            "durability": 0
         }
     ], 
     "buildables": [

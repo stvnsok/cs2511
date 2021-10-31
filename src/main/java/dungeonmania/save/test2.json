@@ -1,6 +1,7 @@
 {
     "dungeonId": "test2",
     "dungeonName": "maze", 
+    "gameMode": "peaceful",
     "entities": [
         {
             "id": "wall1",
@@ -38,29 +39,42 @@
             "isinteractable": false
         }, 
         {
-            "id": "player1",
+            "id": "player6",
             "x": 1,
             "y": 1,
             "type": "player",
             "isinteractable": false
+        }, 
+        {
+            "id": "portal7",
+            "x": 3,
+            "y": 10,
+            "type": "portal",
+            "isinteractable": false,
+            "colour": "black"
         }
     ], 
     "inventory": [
         {
             "id": "wood1", 
-            "type": "wood"
+            "type": "wood",
+            "durability": 0
+            
         }, 
         {
             "id": "treasure2", 
-            "type": "treasure"
+            "type": "treasure",
+            "durability": 2
         }, 
         {
             "id": "key3", 
-            "type": "key"
+            "type": "key",
+            "durability": 5
         }, 
         {
             "id": "wood4", 
-            "type": "wood"
+            "type": "wood",
+            "durability": 500
         }
     ], 
     "buildables": [
