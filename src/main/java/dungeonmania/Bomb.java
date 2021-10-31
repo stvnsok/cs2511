@@ -6,13 +6,12 @@ import dungeonmania.util.Position;
 
 public class Bomb extends Items {
 
-    public Bomb(String itemId, String itemType, int durability, Character character) {
-        super(itemId, itemType, durability, character);
+    public Bomb(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
     }
 
     @Override
-    public void use() {
-        Character character = getCharacter();
+    public void use(Character character) {
         List<Entity> entities = character.getEntities();
         Position charPos = character.getPosition();
         // Get all entities on same position as character.
@@ -20,7 +19,7 @@ public class Bomb extends Items {
         entities.add(new Entity(String.valueOf(entities.size()), "bomb", bombPos, false));
         
 
-        super.use();
+        super.use(character);
     }
     
 }

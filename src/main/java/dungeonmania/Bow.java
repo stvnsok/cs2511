@@ -9,8 +9,8 @@ public class Bow extends Items implements Build{
     // Making it list of map here since there could be multiple recipes.
     private List<Map<String, Integer>> recipe = new ArrayList<>();
 
-    public Bow(String itemId, String itemType, int durability, Character character) {
-        super(itemId, itemType, durability, character);
+    public Bow(String itemId, String itemType, int durability) {
+        super(itemId, itemType, durability);
         Map <String, Integer> recipe = new HashMap<>();
         recipe.put("wood", 1);
         recipe.put("arrow", 3);
