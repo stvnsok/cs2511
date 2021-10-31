@@ -32,7 +32,7 @@ import org.json.*;
 import org.json.JSONObject;
 
 public class DungeonManiaController {
-    private DungeonResponse d;
+    private Game g;
 
     public DungeonManiaController() {
     }
