@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 public class DungeonManiaController {
     private Game currentGame;
+    private List<String> savedGames = new ArrayList<>();
 
     public DungeonManiaController() {
     }
@@ -138,6 +139,9 @@ public class DungeonManiaController {
         try {
             f.createNewFile();
             JSONObject JSONDungeon = new JSONObject();
+
+            // Save dungeonId
+            savedGames.add(dungeonId());
 
             // Transform dungeonName
             JSONDungeon.put("dungeonName", currentGame.getDungeonName());
@@ -325,7 +329,7 @@ public class DungeonManiaController {
     }
 
     public List<String> allGames() {
-        return new ArrayList<>();
+        return savedGames;
     }
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection)
