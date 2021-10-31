@@ -140,8 +140,8 @@ public class DungeonManiaController {
             f.createNewFile();
             JSONObject JSONDungeon = new JSONObject();
 
-            // Save dungeonId
-            savedGames.add(dungeonId());
+            // Save name
+            savedGames.add(name);
 
             // Transform dungeonName
             JSONDungeon.put("dungeonName", currentGame.getDungeonName());
