@@ -18,4 +18,13 @@ Item Assumptions:
 =======
 5. Using an item decreases its durability by 1.
 6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
+<<<<<<< HEAD
 >>>>>>> 5b1300d (Potions implemented and passes tests.)
+=======
+
+7. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
+8. The id of entities is defined as entities type concatenated with current entities number.
+9. Function saveGame would throw IllegalArgumentException if name already exist.
+1. saveGame will save the game in JSON format under directory "src/main/java/dungeonmania/save".
+
+>>>>>>> 2fad209 (complete newGame, saveGame and loadGame without test)

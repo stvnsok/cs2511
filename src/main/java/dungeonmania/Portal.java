@@ -9,6 +9,7 @@ import java.util.List;
 import dungeonmania.Character;
 
 public class Portal extends Entity {
+<<<<<<< HEAD
 
     
     private Position portalPosition;
@@ -68,4 +69,14 @@ public class Portal extends Entity {
     }
 
     
+=======
+    private String colour;
+    public Portal(String id, String type, Position position, boolean isInteractable, String colour) {
+        super(id, type, position, isInteractable);
+        this.colour = colour;
+    }
+    public String getColour() {
+        return colour;
+    }
+>>>>>>> 2fad209 (complete newGame, saveGame and loadGame without test)
 }

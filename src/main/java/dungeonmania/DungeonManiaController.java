@@ -32,13 +32,13 @@ import org.json.*;
 import org.json.JSONObject;
 
 public class DungeonManiaController {
-    private Game g;
+    private Game currentGame;
 
     public DungeonManiaController() {
     }
 
     public String dungeonId() {
-        return "dungeon" + System.currentTimeMillis();
+        return currentGame.getGameMode() + System.currentTimeMillis();
     }
 
     public String getSkin() {
@@ -68,6 +68,7 @@ public class DungeonManiaController {
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
         List<String> modes = Arrays.asList("peaceful", "standard", "hard");
+        
         // Check validity of arguments
         if (!DungeonManiaController.dungeons().contains(dungeonName) || !modes.contains(gameMode)) {
             throw new IllegalArgumentException();
@@ -75,16 +76,19 @@ public class DungeonManiaController {
 
         int entitiesCount = 0;
 
+        // Read the json file
         char charBuf[] = new char[10000];
         File f = new File("src/main/resources/dungeons/" + dungeonName + ".json");
         try {
             InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
             String text =new String(charBuf,0,len);
-            JSONObject dungeon = new JSONObject(text);
+            JSONObject game = new JSONObject(text);
             input.close();
-            JSONArray JSONEntities = dungeon.getJSONArray("entities");
-            List<EntityResponse> entities = new ArrayList<>();
+
+            // Create entity
+            JSONArray JSONEntities = game.getJSONArray("entities");
+            List<Entity> entities = new ArrayList<>();
             for (int i = 0; i < JSONEntities.length(); i += 1) {
                 entitiesCount += 1;
                 JSONObject JSONEntity = JSONEntities.getJSONObject(i);
@@ -97,40 +101,53 @@ public class DungeonManiaController {
                 if (type == "Mercenary" || type == "ZombieToastSpawner") {
                     isinteractable = true;
                 }
-                EntityResponse entity = new EntityResponse(id, type, p, isinteractable);
+
+                Entity entity;
+                if (type == "portal") {
+                    String colour = JSONEntity.getString("colour");
+                    entity = new Portal(id, type, p, isinteractable, colour);
+                } else {
+                    entity = new Entity(id, type, p, isinteractable);
+                }
                 entities.add(entity);
             }
-            List<ItemResponse> inventory = new ArrayList<>();
+
+            // Create inventory
+            List<Items> inventory = new ArrayList<>();
+
+            // Create Buildables
             List<String> buildables = new ArrayList<>();
-            JSONObject goals = dungeon.getJSONObject("goal-condition");
-            d = new DungeonResponse(dungeonId(), dungeonName, entities, inventory, buildables, goals);
+
+            // Create Goals
+            String goals = game.getJSONObject("goal-condition").toString();
+
+            // Create DungeonResponse and Game
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goals);
+            return getDungeonResponse();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return d;
+        return null;
     }
 
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
         File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
         if (f.exists()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("File already exist.");
         }
         try {
-            Boolean createDungeon = f.createNewFile();
-            if (!createDungeon) {
-                throw new IllegalArgumentException("File already exist.");
-            }
+            f.createNewFile();
             JSONObject JSONDungeon = new JSONObject();
 
-            // Transform dungeonId
-            JSONDungeon.put("dungeonId", d.getDungeonId());
-
             // Transform dungeonName
-            JSONDungeon.put("dungeonName", d.getDungeonName());
+            JSONDungeon.put("dungeonName", currentGame.getDungeonName());
+
+            // Transform gameMode
+            JSONDungeon.put("gameMode", currentGame.getGameMode());
 
             // Transform entities
             JSONArray JSONEntities = new JSONArray();
-            for (EntityResponse e : d.getEntities()) {
+            for (Entity e : currentGame.getEntities()) {
                 JSONObject entity = new JSONObject();
                 entity.put("id", e.getId());
                 Position p = e.getPosition();
@@ -138,29 +155,34 @@ public class DungeonManiaController {
                 entity.put("y", p.getY());
                 entity.put("type", e.getType());
                 entity.put("isinteractable", e.isInteractable());
+                if (e instanceof Portal) {
+                    Portal portal = (Portal) e;
+                    entity.put("colour", portal.getColour());
+                }
                 JSONEntities.put(entity);
             }
             JSONDungeon.put("entities", JSONEntities);
 
             // Transform inventory
             JSONArray JSONInventory = new JSONArray();
-            for (ItemResponse i : d.getInventory()) {
+            for (Items i : currentGame.getInventory()) {
                 JSONObject item = new JSONObject();
-                item.put("id", i.getId());
-                item.put("type", i.getType());
+                item.put("id", i.getItemId());
+                item.put("type", i.getItemType());
+                item.put("durability", i.getDurability());
                 JSONInventory.put(item);
             }
             JSONDungeon.put("inventory", JSONInventory);
 
             // Transform buildables
             JSONArray JSONBuildables = new JSONArray();
-            for (String b : d.getBuildables()) {
+            for (String b : currentGame.getBuildables()) {
                 JSONBuildables.put(b);
             }
             JSONDungeon.put("buildables", JSONBuildables);
 
             // Transform goals
-            JSONDungeon.put("goals", d.getGoals());
+            JSONDungeon.put("goals", currentGame.getGoals());
 
             FileWriter fw = new FileWriter(f);
             fw.write(JSONDungeon.toString());
@@ -169,10 +191,11 @@ public class DungeonManiaController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return d;
+        return getDungeonResponse();
     }
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        // Read a JSON file
         char charBuf[] = new char[10000];
         File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
 
@@ -184,18 +207,18 @@ public class DungeonManiaController {
             InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
             String text =new String(charBuf,0,len);
-            JSONObject dungeon = new JSONObject(text);
+            JSONObject game = new JSONObject(text);
             input.close();
             
-            // Load dungeonId
-            String dungeonId = dungeon.getString("dungeonId");
-
             // Load dungeonName
-            String dungeonName = dungeon.getString("dungeonName");
+            String dungeonName = game.getString("dungeonName");
 
+            // Load gameMode
+            String gameMode = game.getString("gameMode");
+            
             // Load entities
-            JSONArray JSONEntites = dungeon.getJSONArray("entities");
-            List<EntityResponse> entities = new ArrayList<>();
+            JSONArray JSONEntites = game.getJSONArray("entities");
+            List<Entity> entities = new ArrayList<>();
             for (int i = 0; i < JSONEntites.length(); i += 1) {
                 JSONObject JSONEntity = JSONEntites.getJSONObject(i);
                 String id = JSONEntity.getString("id");
@@ -204,23 +227,24 @@ public class DungeonManiaController {
                 Position p = new Position(x, y);
                 String type = JSONEntity.getString("type");
                 Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
-                EntityResponse entity = new EntityResponse(id, type, p, isinteractable);
+                Entity entity = new Entity(id, type, p, isinteractable);
                 entities.add(entity);
             }
 
             // Load inventory
-            JSONArray JSONInventory = dungeon.getJSONArray("inventory");
-            List<ItemResponse> inventory = new ArrayList<>();
+            JSONArray JSONInventory = game.getJSONArray("inventory");
+            List<Items> inventory = new ArrayList<>();
             for (int i = 0; i < JSONInventory.length(); i += 1) {
                 JSONObject JSONItem = JSONInventory.getJSONObject(i);
                 String id = JSONItem.getString("id");
                 String type = JSONItem.getString("type");
-                ItemResponse item = new ItemResponse(id, type);
+                int durability = JSONItem.getInt("durability");
+                Items item = new Items(id, type, durability);
                 inventory.add(item);
             }
             
             // Load buildables
-            JSONArray JSONBuildables = dungeon.getJSONArray("buildables");
+            JSONArray JSONBuildables = game.getJSONArray("buildables");
             List<String> buildables = new ArrayList<>();
             for (int i = 0; i < JSONBuildables.length(); i += 1) {
                 String buildableENtity = JSONBuildables.getString(i);
@@ -228,12 +252,11 @@ public class DungeonManiaController {
             }
 
             // Load goals
-            String goals = dungeon.getString("goals");
+            String goals = game.getString("goals");
 
-            DungeonResponse loadedDungeon = new DungeonResponse(dungeonId, dungeonName, entities, inventory, buildables, goals);
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goals);
 
-            d = loadedDungeon;
-            return loadedDungeon;
+            return getDungeonResponse();
 
         } catch (UnsupportedEncodingException e) {
             e.getStackTrace();
@@ -241,6 +264,64 @@ public class DungeonManiaController {
             e1.getStackTrace();
         }
         return null;
+    }
+
+    // Test function
+    public Object abc() {
+        File f = new File("src/main/java/dungeonmania/save/writeClass.json");
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            Boolean createDungeon = f.createNewFile();
+            Position p = new Position(1, 2);
+            Entity e1 = new Entity("e1", "wall", p, false);
+            Entity e2 = new Entity("e2", "player", p, false);
+            List<Entity> entities = new ArrayList<>();
+            entities.add(e1);
+            entities.add(e2);
+            JSONObject obj = new JSONObject();
+            int data[] = new int[2];
+            data[0] = 1;
+            data[1] = 10;
+            obj.put("entities", data);
+             FileWriter fw = new FileWriter(f);
+             fw.write(obj.toString());
+             fw.close();
+            
+            char charBuf[] = new char[10000];
+            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            int len = input.read(charBuf);
+            String text =new String(charBuf,0,len);
+            input.close();
+            JSONObject game = new JSONObject(text);
+
+            Object read = game.get("entities");
+            return read;
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return "wrong";
+    }
+
+    // Get DungeonResponse from currentGame
+    public DungeonResponse getDungeonResponse() {
+        String dungeonName = currentGame.getDungeonName();
+
+        List<EntityResponse> entitiesR = new ArrayList<>();
+        for (Entity e : currentGame.getEntities()) {
+            EntityResponse entityR = new EntityResponse(e.getId(), e.getType(), e.getPosition(), e.isInteractable());
+            entitiesR.add(entityR);
+        }
+
+        List<ItemResponse> inventoryR = new ArrayList<>();
+        for (Items i : currentGame.getInventory()) {
+            ItemResponse itemR = new ItemResponse(i.getItemId(), i.getItemType());
+            inventoryR.add(itemR);
+        }
+
+        DungeonResponse currentDungeon = new DungeonResponse(dungeonId(), dungeonName, entitiesR, inventoryR, currentGame.getBuildables(), currentGame.getGoals());
+        return currentDungeon;
     }
 
     public List<String> allGames() {
