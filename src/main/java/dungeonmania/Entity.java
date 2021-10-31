@@ -88,23 +88,23 @@ public class Entity implements CharacterObserver {
                 break;
 
             case "health_potion":
-                character.addInventory(new HealthPotion(id, type, 1, character));
+                character.addInventory(new HealthPotion(id, type, 1));
                 break;    
             
             case "invincibility_potion":
-                character.addInventory(new InvincibilityPotion(id, type, 1, character));
+                character.addInventory(new InvincibilityPotion(id, type, 1));
                 break;
 
             case "invisibility_potion":
-                character.addInventory(new InvisibilityPotion(id, type, 1, character));
+                character.addInventory(new InvisibilityPotion(id, type, 1));
                 break;
                 
             case "bomb":
-                character.addInventory(new Bomb(id, type, 1, character));
+                character.addInventory(new Bomb(id, type, 1));
                 break;
                 
             case "sword":
-                character.addInventory(new Sword(id, type, 7, character));
+                character.addInventory(new Sword(id, type, 7));
                 break;
             
             case "armour":
@@ -113,7 +113,7 @@ public class Entity implements CharacterObserver {
             
             default:
                 // treasure, wood, and arrow
-                character.addInventory(new Items(id, type, 1, character));
+                character.addInventory(new Items(id, type, 1));
         }
     }
 
