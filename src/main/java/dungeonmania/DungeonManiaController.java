@@ -67,7 +67,7 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
-        List<String> modes = Arrays.asList("peaceful", "standard", "hard");
+        List<String> modes = Arrays.asList("Peaceful", "Standard", "Hard");
         
         // Check validity of arguments
         if (!DungeonManiaController.dungeons().contains(dungeonName) || !modes.contains(gameMode)) {
