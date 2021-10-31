@@ -13,7 +13,7 @@ public class Exit extends Entity implements CharacterObserver {
     public void update(Character character) {
         // check if exit is last goal to be completed 
 
-        if (getPosition().equals(character.getPosition())) {
+        if (character.isOn(this)) {
             // game is won
         }
     }

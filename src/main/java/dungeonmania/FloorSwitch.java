@@ -2,7 +2,7 @@ package dungeonmania;
 
 import dungeonmania.util.Position;
 
-public class FloorSwitch extends Entity implements BoulderObserver{
+public class FloorSwitch extends Entity implements BoulderObserver {
     private boolean isTriggered = false;
 
     public FloorSwitch(String id, String type, Position position, boolean isInteractable) {

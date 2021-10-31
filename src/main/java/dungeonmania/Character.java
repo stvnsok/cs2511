@@ -16,6 +16,8 @@ public class Character extends Mob implements CharacterSubject {
     private int maxHealth;
     private CharacterState state;
 
+    private Key currentKey; // as character can only hold one key at a time??
+
     private List<CharacterObserver> observers = new ArrayList<>();
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,

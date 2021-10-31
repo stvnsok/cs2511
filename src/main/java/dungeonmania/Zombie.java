@@ -57,7 +57,7 @@ public class Zombie extends Mob implements Enemies {
 
     @Override
     public void update(Character character) {
-        if (getPosition().equals(character.getPosition())) {
+        if (character.isOn(this)) {
             // battle!
             character.battle(this);
         }
