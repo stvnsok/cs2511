@@ -91,6 +91,7 @@ public class Spider extends Mob implements Enemies {
 
             if (entity.getType().equals("Boulder") && position.equals(entPos)) {
                 changeDirection();
+                move(entities);
             }
         }
         this.setPosition(position);
