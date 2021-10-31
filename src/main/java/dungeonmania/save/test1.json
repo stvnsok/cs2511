@@ -69,7 +69,7 @@
         }
     ], 
     "buildables": [
-            "sheild"
+            "shield"
     ], 
     "goal-condition": {
         "goal": "AND",

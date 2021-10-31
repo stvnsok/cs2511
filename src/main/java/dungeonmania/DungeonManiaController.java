@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
+// import org.json.JSONException;
 import org.json.JSONObject;
 
 import dungeonmania.exceptions.InvalidActionException;
@@ -68,12 +69,12 @@ public class DungeonManiaController {
         int entitiesCount = 0;
 
         // Read the json file
-        char charBuf[] = new char[10000];
+        char charBuf[] = new char[100000];
         File f = new File("src/main/resources/dungeons/" + dungeonName + ".json");
         try {
-            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            InputStreamReader input = new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
-            String text =new String(charBuf,0,len);
+            String text = new String(charBuf,0,len);
             JSONObject game = new JSONObject(text);
             input.close();
 
@@ -111,6 +112,15 @@ public class DungeonManiaController {
 
             // Create Goals
             //String goals = game.getJSONObject("goal-condition").toString();
+
+            // JSONObject goalCondition;
+            // try {
+            //     // file may not contain goal condition? like portals.json
+            //     goalCondition = game.getJSONObject("goal-condition");
+            // } catch (JSONException e) {
+            //     goalCondition = new JSONObject();
+            // }
+            // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goalCondition);
 
             // Create DungeonResponse and Game
             currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
@@ -176,7 +186,7 @@ public class DungeonManiaController {
             JSONDungeon.put("buildables", JSONBuildables);
 
             // Transform goals
-            JSONDungeon.put("goals", currentGame.getGoals());
+            JSONDungeon.put("goal-condition", currentGame.getJGoals());
 
             FileWriter fw = new FileWriter(f);
             fw.write(JSONDungeon.toString());
@@ -190,7 +200,7 @@ public class DungeonManiaController {
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         // Read a JSON file
-        char charBuf[] = new char[10000];
+        char charBuf[] = new char[100000];
         File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
 
         if (!f.exists()) {
@@ -248,6 +258,7 @@ public class DungeonManiaController {
 
             currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
 
+
             return getDungeonResponse();
 
         } catch (UnsupportedEncodingException e) {
@@ -281,7 +292,7 @@ public class DungeonManiaController {
              fw.write(obj.toString());
              fw.close();
             
-            char charBuf[] = new char[10000];
+            char charBuf[] = new char[100000];
             InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
             String text =new String(charBuf,0,len);

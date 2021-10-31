@@ -58,7 +58,7 @@ public class loadGameTest {
         inventory.add(item4);
 
         List<String> buildables = new ArrayList<>();
-        buildables.add("sheild");
+        buildables.add("shield");
 
         String goals = "(:enemies AND :treasure)";
 

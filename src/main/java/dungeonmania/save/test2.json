@@ -78,7 +78,9 @@
         }
     ], 
     "buildables": [
-            "sheild"
+            "shield"
     ], 
-    "goals": "exit"
+    "goal-condition": {
+        "goal": "exit"
+      }
 }
