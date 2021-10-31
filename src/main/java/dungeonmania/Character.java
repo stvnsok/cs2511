@@ -62,11 +62,11 @@ public class Character extends Mob implements CharacterSubject {
         Build buildable = null;
         switch (item) {
             case "bow":
-                buildable = new Bow(String.valueOf(inventory.size()), item, 3 , this);
+                buildable = new Bow(String.valueOf(inventory.size()), item, 3);
                 break;
         
             case "shield":
-                buildable = new Shield(String.valueOf(inventory.size()), item, 3 , this);
+                buildable = new Shield(String.valueOf(inventory.size()), item, 3);
                 break;
             default:
                 throw new IllegalArgumentException("Not a valid build item");
@@ -114,10 +114,7 @@ public class Character extends Mob implements CharacterSubject {
                         .filter(query -> item == query.getItemId()).findAny()
                         .orElseThrow(() -> new InvalidActionException("Item does not exist"));
         
-        useItem.use();
-        if (useItem.getDurability() == 0) {
-            inventory.remove(useItem);
-        }
+        useItem.use(this);
     }
 
     //public void checkRing() {}

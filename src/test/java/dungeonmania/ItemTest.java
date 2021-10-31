@@ -18,7 +18,7 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
-        Items i1 = new Sword("s1", "sword", 4, c1);
+        Items i1 = new Sword("s1", "sword", 4);
         c1.addInventory(i1);
         assertEquals(new ArrayList<Items>(Arrays.asList(i1)), c1.getInventory());
     }
@@ -28,7 +28,7 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
-        Items i1 = new Sword("s1", "sword", 4, c1);
+        Items i1 = new Sword("s1", "sword", 4);
         c1.addInventory(i1);
         c1.useItem("s1");
         assertEquals(3, i1.getDurability());
@@ -39,7 +39,7 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
-        Items i1 = new Items("i1", "sword", 1, c1);
+        Items i1 = new Items("i1", "sword", 1);
         c1.addInventory(i1);
         assertEquals(new ArrayList<Items>(Arrays.asList(i1)), c1.getInventory());
         c1.useItem("i1");
@@ -52,17 +52,17 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
-        Items i1 = new InvincibilityPotion("i1", "invincibility_potion", 1, c1);
+        Items i1 = new InvincibilityPotion("i1", "invincibility_potion", 1);
         c1.addInventory(i1);
         c1.useItem("i1");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals("Invincible", c1.getStateName());
-        c1.addInventory(new InvisibilityPotion("i2", "invisibility_potion", 1, c1));
+        c1.addInventory(new InvisibilityPotion("i2", "invisibility_potion", 1));
         c1.useItem("i2");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals("Invisible", c1.getStateName());
         c1.setHealth(20);
-        c1.addInventory(new HealthPotion("i3", "health_potion", 1, c1));
+        c1.addInventory(new HealthPotion("i3", "health_potion", 1));
         c1.useItem("i3");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals(c1.getMaxHealth(), c1.getHealth());
@@ -73,10 +73,10 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
-        Items a = new Items("a", "wood", 1, c1);
-        Items b = new Items("b", "arrow", 1, c1);
-        Items c = new Items("c", "arrow", 1, c1);
-        Items d = new Items("d", "arrow", 1, c1);
+        Items a = new Items("a", "wood", 1);
+        Items b = new Items("b", "arrow", 1);
+        Items c = new Items("c", "arrow", 1);
+        Items d = new Items("d", "arrow", 1);
         c1.addInventory(a);
         c1.addInventory(b);
         c1.addInventory(c);
@@ -94,7 +94,7 @@ public class ItemTest {
         List<Entity> entities = new ArrayList<>();
         Character c1 = new Character("player", "Character", new Position(10,11), false, 100, 10, new ArrayList<>(), entities);
         entities.add(c1);
-        c1.addInventory(new Bomb("a", "bomb", 1, c1));
+        c1.addInventory(new Bomb("a", "bomb", 1));
         c1.useItem("a");
         assertEquals(0, c1.getInventory().size());
         assertEquals(2, entities.size());
