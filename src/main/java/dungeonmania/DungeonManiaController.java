@@ -93,9 +93,9 @@ public class DungeonManiaController {
                 Position p = new Position(x, y);
                 String type = JSONEntity.getString("type");
                 String id = type + entitiesCount;
-                Boolean isinteractable = true;
+                Boolean isinteractable = false;
                 if (type == "Mercenary" || type == "ZombieToastSpawner") {
-                    isinteractable = false;
+                    isinteractable = true;
                 }
                 EntityResponse entity = new EntityResponse(id, type, p, isinteractable);
                 entities.add(entity);
