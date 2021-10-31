@@ -10,7 +10,26 @@ public class AndGoalComposite implements Goals{
     }
 
     public String getGoal() {
-        return "AND " + goal1.getGoal() + " " + goal2.getGoal();
+        boolean g1 = goal1.fulfilledGoals();
+        boolean g2 = goal2.fulfilledGoals();
+        if (g1 && g2) {
+            return "";
+        }
+        if (g1 && !g2) {
+            return goal2.getGoal();
+        }
+        if (!g1 && g2) {
+            return goal1.getGoal();
+        }
+        return "(" + goal1.getGoal() + " AND " + goal2.getGoal() + ")";
+    }
+
+    public Goals getGoal1() {
+        return goal1;
+    }
+
+    public Goals getGoal2() {
+        return goal2;
     }
 
     public boolean fulfilledGoals() {
