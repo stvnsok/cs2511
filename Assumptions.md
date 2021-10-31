@@ -10,4 +10,5 @@ Item Assumptions:
 7. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
 8. The id of entities is defined as entities type concatenated with current entities number.
 9. Function saveGame would throw IllegalArgumentException if name already exist.
+1. saveGame will save the game in JSON format under directory "src/main/java/dungeonmania/save".
 

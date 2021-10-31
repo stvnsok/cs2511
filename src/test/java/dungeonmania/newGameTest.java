@@ -36,6 +36,7 @@ public class newGameTest {
     
     @Test
     public void abcTest() {
-        assertEquals(1, DungeonManiaController.abc());
+        DungeonManiaController d = new DungeonManiaController();
+        assertEquals(1, d.abc());
     }
 }
