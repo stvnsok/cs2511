@@ -41,7 +41,6 @@ public class saveGameTest {
         //assertNotEquals(unexpected, actual);
         DungeonResponse loadSavedDungeon = d.loadGame("test3");
 
-        assertTrue(actualDungeon.getDungeonId().equals(loadSavedDungeon.getDungeonId()));
         assertTrue(actualDungeon.getDungeonName().equals(loadSavedDungeon.getDungeonName()));
         assertListOfEntitiesEqual(actualDungeon.getEntities(), loadSavedDungeon.getEntities());
         assertListOfInventoryEqual(actualDungeon.getInventory(), loadSavedDungeon.getInventory());
