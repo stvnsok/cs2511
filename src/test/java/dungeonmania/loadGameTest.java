@@ -60,7 +60,7 @@ public class loadGameTest {
         List<String> buildables = new ArrayList<>();
         buildables.add("shield");
 
-        String goals = "(:enemies AND :treasure)";
+        String goals = "( :enemies AND :treasure )";
 
         DungeonManiaController d = new DungeonManiaController();
         DungeonResponse loadedDungeon = d.loadGame("test1");

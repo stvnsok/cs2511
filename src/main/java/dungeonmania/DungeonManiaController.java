@@ -258,6 +258,7 @@ public class DungeonManiaController {
 
             currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
 
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
 
             return getDungeonResponse();
 
