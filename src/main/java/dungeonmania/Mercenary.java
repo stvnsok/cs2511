@@ -64,7 +64,7 @@ public class Mercenary extends Mob implements Enemies {
 
         bfs(start, end);
 
-        Position nextPosition = getNextPosition(paths, start, end);
+        Position nextPosition = getNextPosition(start, end);
 
         this.setPosition(nextPosition);
 
@@ -94,14 +94,14 @@ public class Mercenary extends Mob implements Enemies {
         }
     }
 
-    public Position getNextPosition(List<Node> paths, Node start, Node end) {
-        for (Node node : paths) {
-            Position nodePos = node.getPosition();
-            if(nodePos.equals(start.getPosition())) {
-                return nodePos;
-            }
+    public Position getNextPosition(Node start, Node end) {
+        Node curNode = end;
+        Node prevNode = curNode.getPrevNode();
+        while(!prevNode.getPosition().equals(start.getPosition())) {
+            curNode = prevNode;
+            prevNode = curNode.getPrevNode();
         }
-        return null;
+        return curNode.getPosition();
     }
 
     public List<Node> createMap(List<Entity> entities) {
