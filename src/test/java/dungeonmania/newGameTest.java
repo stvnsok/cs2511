@@ -34,9 +34,4 @@ public class newGameTest {
         assertTrue(newDungeon.getBuildables().isEmpty());
     }
     
-    @Test
-    public void abcTest() {
-        DungeonManiaController d = new DungeonManiaController();
-        assertEquals(1, d.abc());
-    }
 }

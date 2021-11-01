@@ -270,44 +270,6 @@ public class DungeonManiaController {
         return null;
     }
 
-    // Test function
-    public Object abc() {
-        File f = new File("src/main/java/dungeonmania/save/writeClass.json");
-        if (f.exists()) {
-            f.delete();
-        }
-        try {
-            f.createNewFile();
-            Position p = new Position(1, 2);
-            Entity e1 = new Entity("e1", "wall", p, false);
-            Entity e2 = new Entity("e2", "player", p, false);
-            List<Entity> entities = new ArrayList<>();
-            entities.add(e1);
-            entities.add(e2);
-            JSONObject obj = new JSONObject();
-            int data[] = new int[2];
-            data[0] = 1;
-            data[1] = 10;
-            obj.put("entities", data);
-             FileWriter fw = new FileWriter(f);
-             fw.write(obj.toString());
-             fw.close();
-            
-            char charBuf[] = new char[100000];
-            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
-            int len = input.read(charBuf);
-            String text =new String(charBuf,0,len);
-            input.close();
-            JSONObject game = new JSONObject(text);
-
-            Object read = game.get("entities");
-            return read;
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return "wrong";
-    }
-
     // Get DungeonResponse from currentGame
     public DungeonResponse getDungeonResponse() {
         String dungeonName = currentGame.getDungeonName();
