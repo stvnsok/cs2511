@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,7 +70,14 @@ public class Entity implements CharacterObserver {
         }
 
         // System.out.println("character not on/ not collectable");
-        
+        List<Entity> entities = character.getEntities();
+
+        for(Entity entity : new ArrayList<>(entities)) {
+            if (entity.getType().equals("bomb") && checkSwitchOn(entities, entity.getPosition())) {
+                explode(entities, entity.getPosition());
+            }
+        }
+
     }
 
     // Checks if current entity is a collectable entity
@@ -114,11 +122,54 @@ public class Entity implements CharacterObserver {
             case "armour":
                 // character.addInventory(new Armour(id, type, 7, character)); ??
                 break;
-            
-            default:
+                
+                default:
                 // treasure, wood, and arrow
                 character.addInventory(new Items(id, type, 1));
         }
+    }
+
+    public void explode(List<Entity> entities, Position position) {
+        List<Position> adjacentPositions = position.getAdjacentPositions();
+
+        for (Entity entity : new ArrayList<>(entities)) {
+            Position entPos = entity.getPosition();
+
+            if (!entity.getType().equals("player") && adjacentPositions.contains(entPos)) {
+                entities.remove(entity);
+            }
+
+            if (!entity.getType().equals("player") && position.equals(entPos)) {
+                entities.remove(entity);
+            }
+
+        }
+    }
+
+    public boolean checkSwitchOn(List<Entity> entities, Position position) {
+        List<Position> adjacentPositions = position.getAdjacentPositions();
+
+        for (Entity entity : new ArrayList<>(entities)) {
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("switch") && adjacentPositions.contains(entPos) && checkBoulder(entities, entPos)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public boolean checkBoulder(List<Entity> entities, Position position) {
+        for (Entity entity : new ArrayList<>(entities)) {
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("boulder") &&  position.equals(entPos)) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }
