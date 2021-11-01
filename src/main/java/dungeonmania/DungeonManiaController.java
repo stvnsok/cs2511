@@ -105,6 +105,12 @@ public class DungeonManiaController {
                     entity = character;
                 } else if (type.equals("door")) {
                     entity = new Door(id, type, p, isinteractable, false, "1");
+                } else if (type.equals("spider")) {
+                    entity = new Spider(id, type, p, isinteractable, 10, 10);
+                } else if (type.equals("zombie")) {
+                    entity = new Zombie(id, type, p, isinteractable, 10, 10);
+                } else if (type.equals("mercenary")) {
+                    entity = new Mercenary(id, type, p, isinteractable, 10, 10, 1, false);
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }

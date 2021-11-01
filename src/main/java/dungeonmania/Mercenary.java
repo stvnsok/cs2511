@@ -38,7 +38,9 @@ public class Mercenary extends Mob implements Enemies {
 
     @Override
     public void move(List<Entity> entities, Character character) {
-        Position charPosition = character.getPosition();
+
+    }
+        /*Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
         List<Node> paths = createMap(entities);
         Node start = null;
@@ -136,7 +138,7 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return true;
-    }
+    }*/
 
     //public void bribe() {}
 
