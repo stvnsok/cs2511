@@ -175,6 +175,12 @@ public class Character extends Mob {
         return observers.contains(observer);
     }
 
+    /**
+     * Checks if a position contains a wall
+     * @param entities
+     * @param position
+     * @return
+     */
     public boolean checkWall(List<Entity> entities, Position position) {
         for (Entity entity : entities) {
 
@@ -187,6 +193,11 @@ public class Character extends Mob {
         return true;
     }
 
+    /**
+     * Checks if a position contains an item removes the item when picked up
+     * @param entities
+     * @param position
+     */
     public void checkItem(List<Entity> entities, Position position) {
         for (Entity entity : new ArrayList<>(entities)) {
 
@@ -200,49 +211,41 @@ public class Character extends Mob {
                 
                 if (position.equals(entPos)) {
                     entities.remove(entity);
-                    Items items = new Items(entity.getId(), entity.getType(), 1);
-                    // inventory.add(items);
                 }
             }
 
             if (entity.getType().equals("bomb") && position.equals(entPos)) {
                 entities.remove(entity);
-                Bomb bomb = new Bomb(entity.getId(), "bomb", 1);
-                // inventory.add(bomb);
             }
 
             if (entity.getType().equals("sword") && position.equals(entPos)) {
                 entities.remove(entity);
-                Sword sword = new Sword(entity.getId(), "sword", 5);
-                // inventory.add(sword);
             }
 
             if (entity.getType().equals("key") && position.equals(entPos)) {
                 entities.remove(entity);
-                Key key = new Key(entity.getId(), "key", 1, entity.getId());
-                // inventory.add(key);
             }
 
             if (entity.getType().equals("healthPotion") && position.equals(entPos)) {
                 entities.remove(entity);
-                HealthPotion healthPotion = new HealthPotion(entity.getId(), "healthPotion", 1);
-                // inventory.add(healthPotion);
             }
 
             if (entity.getType().equals("invisibilityPotion") && position.equals(entPos)) {
                 entities.remove(entity);
-                InvisibilityPotion invisibilityPotion= new InvisibilityPotion(entity.getId(), "invisibilityPotion", 1);
-                // inventory.add(invisibilityPotion);
             }
 
             if (entity.getType().equals("invincibilityPotion") && position.equals(entPos)) {
                 entities.remove(entity);
-                InvincibilityPotion invincibilityPotion = new InvincibilityPotion(entity.getId(), "invincibilityPotion", 1);
-                // inventory.add(invincibilityPotion);
             }
         }
     }
 
+    /**
+     * Checks if a position contains a boulder and moves the boulder
+     * @param entities
+     * @param position
+     * @param direction
+     */
     public void checkBoulder(List<Entity> entities, Position position, Direction direction) {
         for (Entity entity : entities) {
 
@@ -253,11 +256,4 @@ public class Character extends Mob {
             }
         }
     }
-
-    /*private boolean isCollectable() {
-        List<String> collectables = Arrays.asList("treasure", "key", "health_potion", "invincibility_potion", 
-        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour");
-
-        return collectables.contains(type);
-    }*/
 }
