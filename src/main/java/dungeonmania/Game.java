@@ -63,11 +63,54 @@ public class Game {
     }
 
     public void build(String buildable) {
-        for (Entity e : entities) {
+        /*for (Entity e : entities) {
             if (e.getType().equals("player")) {
                 Character character = (Character) e;
                 character.buildItem(buildable);
                 break;
+            }
+        }*/
+
+        
+        if (buildables.contains(buildable)) {
+            if(buildable.equals("bow")) {
+                Bow bow = new Bow("bow"+entities.size(), "bow", 5);
+                inventory.add(bow);
+                buildables.remove("bow");
+
+                int woodRemoved = 0;
+                int arrowRemoved = 0;
+                for(Items items : new ArrayList<>(inventory)) {
+                    if(items.getItemType().equals("wood") && woodRemoved < 1) {
+                        inventory.remove(items);
+                        woodRemoved++;
+                    } else if (items.getItemType().equals("arrow") && arrowRemoved < 3) {
+                        inventory.remove(items);
+                        arrowRemoved++;
+                    }
+
+                }
+            } else if(buildable.equals("shield")) {
+                Shield shield = new Shield("shield"+entities.size(), "shield", 5);
+                inventory.add(shield);
+                buildables.remove("shield");
+
+                int woodRemoved = 0;
+                int keyRemoved = 0;
+                int treasureRemoved = 0;
+                for(Items items : new ArrayList<>(inventory)) {
+                    if(items.getItemType().equals("wood") && woodRemoved < 2) {
+                        inventory.remove(items);
+                        woodRemoved++;
+                    } else if (items.getItemType().equals("treasure") && treasureRemoved < 1 && keyRemoved < 1) {
+                        inventory.remove(items);
+                        treasureRemoved++;
+                    } else if (items.getItemType().equals("key") && keyRemoved < 1 && treasureRemoved < 1) {
+                        inventory.remove(items);
+                        keyRemoved++;
+                    }
+
+                }
             }
         }
         
@@ -102,7 +145,7 @@ public class Game {
             } else if (items.getItemType().equals("key")) {
                 numKey++;
             }
-            
+
         }
 
         for (Entity entity : entities) {
