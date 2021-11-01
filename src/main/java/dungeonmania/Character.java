@@ -135,7 +135,10 @@ public class Character extends Mob {
         //Position curPos = getPosition();
         Position newPos = getPosition().translateBy(direction);
         
-        if (checkWall(mapEntities, newPos) && checkMoveBoulder(mapEntities, newPos, direction)) {
+        if (checkWall(mapEntities, newPos) 
+        && checkMoveBoulder(mapEntities, newPos, direction)
+        && checkDoor(mapEntities, newPos)
+        ) {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
             moveBoulder(mapEntities, newPos, direction);
@@ -271,6 +274,31 @@ public class Character extends Mob {
                     if (entity2.getType().equals("wall") && position.translateBy(direction).equals(entPos2)) {
                         return false;
                     }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkDoor(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
+            Position entPos = entity.getPosition();
+            if (entity.getType().equals("door") && position.equals(entPos)) {
+                Door door = (Door) entity;
+                if (door.isOpen() == false) {
+                    //check if character have the right key
+                    for(Items items : inventory) {
+                        if (items.getItemType().equals("key")) {
+                            Key key = (Key) items;
+                            if (key.getKeyId().equals(door.getKeyId())) {
+                                door.setOpen(true);
+                                door.setType("door_unlocked");
+                                key.use(this);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
                 }
             }
         }

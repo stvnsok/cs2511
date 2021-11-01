@@ -95,7 +95,7 @@ public class Entity implements CharacterObserver {
             case "key":
                 // check if there is not already a key in inventory
 
-                // character.addInventory(new Key(id, type, 1, keyId, character));
+                character.addInventory(new Key(id, type, 1, "1"));
                 // ?? no keyId anywhere
                 break;
 

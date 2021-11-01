@@ -31,6 +31,8 @@
         "key": "images/tileset/items/key_gold.png",
         "sword": "images/tileset/items/sword_silver.png",
         "boulders": "images/tileset/entities/boulder_04.png",
-        "enemies": "images/tileset/entities/ranger.png"
+        "enemies": "images/tileset/entities/ranger.png",
+        "door": "images/tileset/walls/wooden/door_locked_silver.png",
+        "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png"
     }
 }

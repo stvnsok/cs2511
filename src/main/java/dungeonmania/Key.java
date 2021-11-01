@@ -1,5 +1,9 @@
 package dungeonmania;
 
+import java.util.List;
+
+import javax.swing.text.Position;
+
 public class Key extends Items {
     
     private String keyId;
@@ -16,6 +20,4 @@ public class Key extends Items {
     public void setKeyId(String keyId) {
         this.keyId = keyId;
     }
-
-    //public void useKey(int doorId);
 }
