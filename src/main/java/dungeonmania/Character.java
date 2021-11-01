@@ -135,10 +135,10 @@ public class Character extends Mob {
         Position curPos = getPosition();
         Position newPos = getPosition().translateBy(direction);
         
-        if (checkWall(mapEntities, newPos)) {
+        if (checkWall(mapEntities, newPos) && checkMoveBoulder(mapEntities, newPos, direction)) {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
-            checkBoulder(mapEntities, newPos, direction);
+            moveBoulder(mapEntities, newPos, direction);
         }
 
         checkItem(mapEntities, curPos);
@@ -246,14 +246,34 @@ public class Character extends Mob {
      * @param position
      * @param direction
      */
-    public void checkBoulder(List<Entity> entities, Position position, Direction direction) {
+    public void moveBoulder(List<Entity> entities, Position position, Direction direction) {
         for (Entity entity : entities) {
 
             Position entPos = entity.getPosition();
-
             if (entity.getType().equals("boulder") && position.equals(entPos)) {
-                entity.setPosition(entPos.translateBy(direction));
+                Position newPos = entPos.translateBy(direction);
+                if(checkWall(entities, newPos)) {
+                    entity.setPosition(newPos);
+                }
             }
         }
+    }
+
+    public boolean checkMoveBoulder(List<Entity> entities, Position position, Direction direction) {
+        for (Entity entity : entities) {
+            Position entPos = entity.getPosition();
+            if (entity.getType().equals("boulder") && position.equals(entPos)) {
+                for (Entity entity2 : entities) {
+                    Position entPos2 = entity2.getPosition();
+                    if (entity2.getType().equals("boulder") && position.translateBy(direction).equals(entPos2)) {
+                        return false;
+                    }
+                    if (entity2.getType().equals("wall") && position.translateBy(direction).equals(entPos2)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
