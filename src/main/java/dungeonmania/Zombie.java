@@ -51,6 +51,12 @@ public class Zombie extends Mob implements Enemies {
         checkObstacles(entities, newPos, character);
     }
 
+    /**
+     * Checks if there are obstacles in a position
+     * @param entities
+     * @param position
+     * @param character
+     */
     public void checkObstacles(List<Entity> entities, Position position, Character character) {
         boolean setPos = true;
         for (Entity entity : entities) {
