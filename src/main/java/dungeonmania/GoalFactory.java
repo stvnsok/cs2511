@@ -7,7 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class GoalFactory {
-    // Creating goal objects from JSON
+    /**
+     * Creates GoalComposites from JSON
+     * @param object
+     * @return
+     */
     public static Goals createGoals(JSONObject object) {
         String goalType = object.getString("goal");
         
