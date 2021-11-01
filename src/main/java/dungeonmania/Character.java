@@ -200,44 +200,44 @@ public class Character extends Mob {
                 if (position.equals(entPos)) {
                     entities.remove(entity);
                     Items items = new Items(entity.getId(), entity.getType(), 1);
-                    inventory.add(items);
+                    // inventory.add(items);
                 }
             }
 
             if (entity.getType().equals("bomb") && position.equals(entPos)) {
                 entities.remove(entity);
                 Bomb bomb = new Bomb(entity.getId(), "bomb", 1);
-                inventory.add(bomb);
+                // inventory.add(bomb);
             }
 
             if (entity.getType().equals("sword") && position.equals(entPos)) {
                 entities.remove(entity);
                 Sword sword = new Sword(entity.getId(), "sword", 5);
-                inventory.add(sword);
+                // inventory.add(sword);
             }
 
             if (entity.getType().equals("key") && position.equals(entPos)) {
                 entities.remove(entity);
                 Key key = new Key(entity.getId(), "key", 1, entity.getId());
-                inventory.add(key);
+                // inventory.add(key);
             }
 
             if (entity.getType().equals("healthPotion") && position.equals(entPos)) {
                 entities.remove(entity);
                 HealthPotion healthPotion = new HealthPotion(entity.getId(), "healthPotion", 1);
-                inventory.add(healthPotion);
+                // inventory.add(healthPotion);
             }
 
             if (entity.getType().equals("invisibilityPotion") && position.equals(entPos)) {
                 entities.remove(entity);
                 InvisibilityPotion invisibilityPotion= new InvisibilityPotion(entity.getId(), "invisibilityPotion", 1);
-                inventory.add(invisibilityPotion);
+                // inventory.add(invisibilityPotion);
             }
 
             if (entity.getType().equals("invincibilityPotion") && position.equals(entPos)) {
                 entities.remove(entity);
                 InvincibilityPotion invincibilityPotion = new InvincibilityPotion(entity.getId(), "invincibilityPotion", 1);
-                inventory.add(invincibilityPotion);
+                // inventory.add(invincibilityPotion);
             }
         }
     }
