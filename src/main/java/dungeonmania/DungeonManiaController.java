@@ -109,8 +109,6 @@ public class DungeonManiaController {
                 entities.add(entity);
             }
 
-            character.setEntities(entities);
-
             // Create inventory
             List<Items> inventory = new ArrayList<>();
 
@@ -128,6 +126,10 @@ public class DungeonManiaController {
             //     goalCondition = new JSONObject();
             // }
             // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goalCondition);
+            if (character != null) {
+                character.setEntities(entities);
+                character.setInventory(inventory);
+            }
 
             // Create DungeonResponse and Game
             currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
@@ -242,6 +244,41 @@ public class DungeonManiaController {
                 Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
                 // Entity entity = new Entity(id, type, p, isinteractable);
                 Entity entity;
+                
+                // switch (type) {
+                //     case "player":
+                //         character = new Character(id, type, p, isinteractable, 100, 5, null, null);
+                //         entity = character;
+                //     case "wall":
+                //         entity = new Wall(id, type, p, isinteractable);
+                //         break;
+                //     case "exit":
+                //         entity = new Exit(id, type, p, isinteractable);
+                //         break;
+                //     case "boulder":
+                //         entity = new Boulder(id, type, p, isinteractable);
+                //         break;
+                //     case "switch":
+                //         entity = new FloorSwitch(id, type, p, isinteractable);
+                //         break;
+                //     case "door":
+                //         String keyId = JSONEntity.getString("key");
+                //         Boolean isOpen = JSONEntity.getBoolean("isopen");
+                //         // isopen is false for newgame!!
+                //         entity = new Door(id, type, p, isinteractable, isOpen, keyId);
+                //         break;
+                //     case "portal":
+                //         String colour = JSONEntity.getString("colour");
+                //         entity = new Portal(id, type, p, isinteractable, colour);
+                //         break;
+                //     case "zombie_toast_spawner":
+                //         entity = new ZombieToastSpawner(id, type, p, isinteractable);
+                //         break;
+
+
+                //     default:
+                //         entity = new Entity(id, type, p, isinteractable);
+                // }
 
                 if (type.equals("player")) {
                     character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
@@ -252,8 +289,6 @@ public class DungeonManiaController {
 
                 entities.add(entity);
             }
-
-            character.setEntities(entities);
 
             // Load inventory
             JSONArray JSONInventory = game.getJSONArray("inventory");
@@ -271,8 +306,13 @@ public class DungeonManiaController {
             JSONArray JSONBuildables = game.getJSONArray("buildables");
             List<String> buildables = new ArrayList<>();
             for (int i = 0; i < JSONBuildables.length(); i += 1) {
-                String buildableENtity = JSONBuildables.getString(i);
-                buildables.add(buildableENtity);
+                String buildableEntity = JSONBuildables.getString(i);
+                buildables.add(buildableEntity);
+            }
+
+            if (character != null) {
+                character.setEntities(entities);
+                character.setInventory(inventory);
             }
 
             // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
