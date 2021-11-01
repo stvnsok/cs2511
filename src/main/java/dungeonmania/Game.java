@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -80,8 +81,14 @@ public class Game {
         return entities.contains(entity);
     }
 
-    public void tick(Direction movementDirection) {
+    public void tick(String itemUsed, Direction movementDirection) {
         character.move(movementDirection);
+
+        for (Items items : new ArrayList<>(inventory)) {
+            if (items.getItemId().equals(itemUsed)) {
+                items.use(character);
+            }
+        }
     }
 
 }
