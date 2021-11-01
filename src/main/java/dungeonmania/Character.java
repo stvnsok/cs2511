@@ -109,6 +109,13 @@ public class Character extends Mob {
 
     public void setEntities(List<Entity> mapEntities) {
         this.mapEntities = mapEntities;
+
+        // set observers
+        for (Entity mapEntity : mapEntities) {
+            if (mapEntity instanceof CharacterObserver) {
+                this.attach(mapEntity);
+            }
+        }
     }
 
     //public void PlayerMovement(Direction direction) {}
