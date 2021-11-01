@@ -103,6 +103,8 @@ public class DungeonManiaController {
                 } else if (type.equals("player")) {
                     character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
                     entity = character;
+                } else if (type.equals("door")) {
+                    entity = new Door(id, type, p, isinteractable, false, "1");
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
