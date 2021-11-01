@@ -107,11 +107,15 @@ public class Character extends Mob {
         return this.mapEntities;
     }
 
+    public void setEntities(List<Entity> mapEntities) {
+        this.mapEntities = mapEntities;
+    }
+
     //public void PlayerMovement(Direction direction) {}
     // Under assumption argument passed is an id.
     public void useItem(String item) throws InvalidActionException {
         Items useItem = inventory.stream()
-                        .filter(query -> item == query.getItemId()).findAny()
+                        .filter(query -> item.equals(query.getItemId())).findAny()
                         .orElseThrow(() -> new InvalidActionException("Item does not exist"));
         
         useItem.use(this);
