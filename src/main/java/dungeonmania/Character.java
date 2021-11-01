@@ -131,8 +131,9 @@ public class Character extends Mob {
         if (checkWall(mapEntities, newPos)) {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
+            checkBoulder(mapEntities, newPos, direction);
         }
-
+            
         checkItem(mapEntities, curPos);
 
     }
@@ -231,6 +232,17 @@ public class Character extends Mob {
                 entities.remove(entity);
                 InvincibilityPotion invincibilityPotion = new InvincibilityPotion(entity.getId(), "invincibilityPotion", 1);
                 inventory.add(invincibilityPotion);
+            }
+        }
+    }
+
+    public void checkBoulder(List<Entity> entities, Position position, Direction direction) {
+        for (Entity entity : entities) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("boulder") && position.equals(entPos)) {
+                entity.setPosition(entPos.translateBy(direction));
             }
         }
     }
