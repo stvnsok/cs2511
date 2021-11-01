@@ -99,7 +99,15 @@ public class DungeonManiaController {
                 Entity entity;
                 if (type.equals("portal")) {
                     String colour = JSONEntity.getString("colour");
-                    entity = new Portal(id, type, p, isinteractable, colour);
+                    if (colour.equals("blue")) {
+                        entity = new Portal(id, "blue_portal", p, isinteractable, colour);
+                    } else if (colour.equals("red")) {
+                        entity = new Portal(id, "red_portal", p, isinteractable, colour);
+                    } else if (colour.equals("yellow")) {
+                        entity = new Portal(id, "yellow_portal", p, isinteractable, colour);
+                    } else {
+                        entity = new Portal(id, "grey_portal", p, isinteractable, colour);
+                    }
                 } else if (type.equals("player")) {
                     character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
                     entity = character;

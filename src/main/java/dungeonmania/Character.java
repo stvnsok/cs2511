@@ -59,7 +59,6 @@ public class Character extends Mob {
         return this.maxHealth;
     }
 
-    /*
     public void buildItem(String item) throws InvalidActionException, IllegalArgumentException  {
         Build buildable = null;
         switch (item) {
@@ -103,7 +102,7 @@ public class Character extends Mob {
             }
         }
 
-    }*/
+    }
 
     public List<Entity> getEntities() {
         return this.mapEntities;
@@ -138,14 +137,16 @@ public class Character extends Mob {
         
         if (checkWall(mapEntities, newPos) 
         && checkMoveBoulder(mapEntities, newPos, direction)
-        && checkDoor(mapEntities, newPos)
-        ) {
+        && checkDoor(mapEntities, newPos))
+        {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
             moveBoulder(mapEntities, newPos, direction);
         }
 
         checkItem(mapEntities, newPos);
+
+        goThroughPortal(mapEntities, newPos);
 
     }
 
@@ -305,4 +306,31 @@ public class Character extends Mob {
         }
         return true;
     }
+
+    public void goThroughPortal(List<Entity> entities, Position position) {
+        for (Entity entity : new ArrayList<>(entities)) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity instanceof Portal && position.equals(entPos)) {
+                Portal portal = (Portal) entity;
+                String portalColour = portal.getColour();
+
+                for (Entity entity2 : new ArrayList<>(entities)) {
+
+                    Position entPos2 = entity2.getPosition();
+        
+                    if (entity2 instanceof Portal && !entPos.equals(entPos2)) {
+                        Portal portal2 = (Portal) entity2;
+                        String portal2Colour = portal2.getColour();
+
+                        if (portalColour.equals(portal2Colour)) {
+                            this.setPosition(entPos2);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+ 

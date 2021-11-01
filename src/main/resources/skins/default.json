@@ -35,6 +35,10 @@
         "door": "images/tileset/walls/wooden/door_locked_silver.png",
         "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png",
         "shield": "images/tileset/items/shield.png",
-        "zombie": "images/tileset/entities/zombie_00.png"
+        "zombie": "images/tileset/entities/zombie_00.png",
+        "blue_portal": "images/tileset/entities/portal_00.png",
+        "red_portal": "images/tileset/entities/portal_04.png",
+        "yellow_portal": "images/tileset/entities/portal_08.png",
+        "grey_portal": "images/tileset/entities/portal_12.png"
     }
 }
