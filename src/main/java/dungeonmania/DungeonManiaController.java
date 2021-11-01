@@ -24,10 +24,7 @@ import dungeonmania.util.Position;
 
 public class DungeonManiaController {
     private Game currentGame;
-<<<<<<< HEAD
-=======
     private List<String> savedGames = new ArrayList<>();
->>>>>>> Bill
 
     public DungeonManiaController() {
     }
@@ -81,6 +78,8 @@ public class DungeonManiaController {
             JSONObject game = new JSONObject(text);
             input.close();
 
+            Character character = null;
+
             // Create entity
             JSONArray JSONEntities = game.getJSONArray("entities");
             List<Entity> entities = new ArrayList<>();
@@ -93,14 +92,17 @@ public class DungeonManiaController {
                 String type = JSONEntity.getString("type");
                 String id = type + entitiesCount;
                 Boolean isinteractable = false;
-                if (type == "Mercenary" || type == "ZombieToastSpawner") {
+                if (type.equals("Mercenary") || type.equals("ZombieToastSpawner")) {
                     isinteractable = true;
                 }
 
                 Entity entity;
-                if (type == "portal") {
+                if (type.equals("portal")) {
                     String colour = JSONEntity.getString("colour");
                     entity = new Portal(id, type, p, isinteractable, colour);
+                } else if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    entity = character;
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
@@ -126,7 +128,8 @@ public class DungeonManiaController {
             // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goalCondition);
 
             // Create DungeonResponse and Game
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
+            
             return getDungeonResponse();
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +225,7 @@ public class DungeonManiaController {
 
             // Load gameMode
             String gameMode = game.getString("gameMode");
-            Character player;
+            Character character = null;
             
             // Load entities
             JSONArray JSONEntites = game.getJSONArray("entities");
@@ -235,7 +238,16 @@ public class DungeonManiaController {
                 Position p = new Position(x, y);
                 String type = JSONEntity.getString("type");
                 Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
-                Entity entity = new Entity(id, type, p, isinteractable);
+                // Entity entity = new Entity(id, type, p, isinteractable);
+                Entity entity;
+
+                if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    entity = character;
+                } else {
+                    entity = new Entity(id, type, p, isinteractable);
+                }
+
                 entities.add(entity);
             }
 
@@ -259,9 +271,8 @@ public class DungeonManiaController {
                 buildables.add(buildableENtity);
             }
 
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
-
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
 
             return getDungeonResponse();
 
@@ -337,7 +348,10 @@ public class DungeonManiaController {
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection)
             throws IllegalArgumentException, InvalidActionException {
-        return null;
+
+        currentGame.tick(movementDirection);
+
+        return getDungeonResponse();
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
