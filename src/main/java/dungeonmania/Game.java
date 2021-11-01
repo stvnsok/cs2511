@@ -90,7 +90,12 @@ public class Game {
             }
         }
 
-        
+        for (Entity entity : entities) {
+            if (entity instanceof Enemies) {
+                Enemies enemy = (Enemies) entity;
+                enemy.move(entities, character);
+            }
+        }
     }
 
 }
