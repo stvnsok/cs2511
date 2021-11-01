@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.util.Position;
@@ -20,8 +21,21 @@ public class Bomb extends Items {
         Position bombPos = new Position(charPos.getX(), charPos.getY(), charPos.getLayer());
         entities.add(new Entity(String.valueOf(entities.size()), "bomb", bombPos, false));
         
+        explode(entities, bombPos);
 
         super.use(character);
     }
     
+    public void explode(List<Entity> entities, Position position) {
+        List<Position> adjacentPositions = position.getAdjacentPositions();
+
+        for (Entity entity : new ArrayList<>(entities)) {
+            Position entPos = entity.getPosition();
+
+            if (!entity.getType().equals("player") && adjacentPositions.contains(entPos)) {
+                entities.remove(entity);
+            }
+
+        }
+    }
 }
