@@ -101,13 +101,15 @@ public class DungeonManiaController {
                     String colour = JSONEntity.getString("colour");
                     entity = new Portal(id, type, p, isinteractable, colour);
                 } else if (type.equals("player")) {
-                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
                     entity = character;
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
                 entities.add(entity);
             }
+
+            character.setEntities(entities);
 
             // Create inventory
             List<Items> inventory = new ArrayList<>();
@@ -242,7 +244,7 @@ public class DungeonManiaController {
                 Entity entity;
 
                 if (type.equals("player")) {
-                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
                     entity = character;
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
@@ -250,6 +252,8 @@ public class DungeonManiaController {
 
                 entities.add(entity);
             }
+
+            character.setEntities(entities);
 
             // Load inventory
             JSONArray JSONInventory = game.getJSONArray("inventory");

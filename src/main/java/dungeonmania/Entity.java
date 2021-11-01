@@ -58,6 +58,8 @@ public class Entity implements CharacterObserver {
     public void update(Character character) {
         if (character.isOn(this) && isCollectable()) {
             // add collectable to inventory, remove from observers/game map (entities list)?
+
+            System.out.println("character on and collectable");
             collectItem(character);
 
             // remove from observers
@@ -65,6 +67,8 @@ public class Entity implements CharacterObserver {
 
             // remove from game entities
         }
+
+        System.out.println("character not on/ not collectable");
         
     }
 
