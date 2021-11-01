@@ -33,11 +33,7 @@ public class FloorSwitch extends Entity {
         }
     }
 
-<<<<<<< HEAD
     //check if stwitch is active, if it is active check if it is adjacent
-=======
-        //check if stwitch is active, if it is active check if it is adjacent
->>>>>>> 27288e5 (fixed some merge conflicts)
     // anthing adjacent to the bomb
     // get list of entities and get the posiiton and do is adjacent, if it is true remove them from the list
     public void bombExplode() {
@@ -69,6 +65,10 @@ public class FloorSwitch extends Entity {
     }
 
 
+    private Entity[] getEntities() {
+        return null;
+    }
+
     public void deleteEntities(List<Entity> entities, Position bombPosition, Entity e2) {
         for (Position p: bombPosition.getAdjacentPositions()) {
             if(e2.getPosition().equals(p)) {
@@ -77,11 +77,8 @@ public class FloorSwitch extends Entity {
         }
     }
 
-<<<<<<< HEAD
     
 
     
-=======
->>>>>>> 27288e5 (fixed some merge conflicts)
     
 }

@@ -1,46 +1,55 @@
 package dungeonmania;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-<<<<<<< HEAD
-import dungeonmania.util.Direction;
 
-=======
-import dungeonmania.Character;
-import dungeonmania.util.Direction;
->>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
-public class Boulder extends Entity {
+public class Boulder extends Entity implements BoulderSubject {
+    List<BoulderObserver> observers = new ArrayList<>();
 
-    
     public Boulder(String id, String type, Position position, boolean isInteractable) {
         super(id, type, position, isInteractable);
     }
     
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public void moveBoulder(Direction direction) {
+    // public void moveBoulder(Position position) {}
 
-=======
-    public void moveBoulder(Direction direction) 
-=======
-    public void moveBoulder(Direction direction) {
->>>>>>> 27288e5 (fixed some merge conflicts)
-    
->>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
+    public void move(Direction direction) {
         Position oldPosition = getPosition();
         Position newPosition = oldPosition.translateBy(direction);
 
         setPosition(newPosition);
-<<<<<<< HEAD
 
-    }
-=======
->>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
-
+        notifyObservers(oldPosition, newPosition);
     }
 
     @Override
-    public Boolean interact(Direction direction) {
-        moveBoulder(direction);
-        return false;
+    public void attach(BoulderObserver observer) {
+        observers.add(observer);
+
+        // attach observers when generating/loading map?
+    }
+
+    @Override
+    public void detach(BoulderObserver observer) {
+        observers.remove(observer);
+        
+        // detach when bombs destroy observers?
+    }
+
+    @Override
+    public void notifyObservers(Position oldPosition, Position newPosition) {
+        // iterate over copy of observers to prevent ConcurrentModificationException
+        for (BoulderObserver observer : new ArrayList<>(observers)) {
+            observer.update(oldPosition, newPosition);
+        }
+
+        // observers.forEach(o -> o.update(oldPosition, newPosition));
+    }
+
+    // for testing purposes
+    public boolean hasObserver(BoulderObserver observer) {
+        return observers.contains(observer);
     }
 }

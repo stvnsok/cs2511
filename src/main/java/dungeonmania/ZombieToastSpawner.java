@@ -14,14 +14,4 @@ public class ZombieToastSpawner extends Entity {
     }
 
 
-    
-
-<<<<<<< HEAD
-    public Zombie spawnZombie() {
-        return new Zombie("zombie", "zombie_toast", getPosition(), false, 50, 5);
-    }
-
-
-=======
->>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 }

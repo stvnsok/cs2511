@@ -5,20 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-import dungeonmania.util.Direction;
-=======
-import dungeonmania.exceptions.InvalidActionException;
-<<<<<<< HEAD
->>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
-=======
-import dungeonmania.util.Direction;
->>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
-=======
 import dungeonmania.util.Direction;
 import dungeonmania.exceptions.InvalidActionException;
->>>>>>> bcc312a (manually fixing merge conflicts)
 import dungeonmania.util.Position;
 
 public class Character extends Mob {
@@ -42,11 +30,6 @@ public class Character extends Mob {
         this.state = new NormalState(this);
     }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 91b62ed (Changes UML Week 6)
     public List<Items> getInventory() {
         return inventory;
     }
@@ -59,17 +42,6 @@ public class Character extends Mob {
         this.inventory.add(inventoryItem);
     }
 
-<<<<<<< HEAD
-
-    
-    public void updatePosition(Position newPosition) {
-        setPosition(newPosition);
-    }
-
-    public void PlayerMovement(Direction direction) {
-        setPosition(getPosition().translateBy(direction));
-    }
-=======
     public void setState(CharacterState state) {
         this.state = state;
     }
@@ -131,14 +103,9 @@ public class Character extends Mob {
 
     }
 
-<<<<<<< HEAD
-    //public void PlayerMovement(Direction direction) {}
->>>>>>> de6108a (Item tests implemented, minor changes made to CharacterState(and associated subclasses) to facilitate tests and enabled use and build to allow tests to be written. Assumptions with task updated)
-=======
     public List<Entity> getEntities() {
         return this.mapEntities;
     }
->>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
 
     public void setEntities(List<Entity> mapEntities) {
         this.mapEntities = mapEntities;
@@ -154,32 +121,20 @@ public class Character extends Mob {
         useItem.use(this);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    //public void checkRing() {}
-<<<<<<< HEAD
-    
-=======
-
-=======
-    public void PlayerMovement(Direction direction) {
-=======
     //public void checkRing() {}
 
     public void move(Direction direction) {
->>>>>>> bcc312a (manually fixing merge conflicts)
-        setPosition(getPosition().translateBy(direction));
-
-        notifyObservers();
+        Position newPos = getPosition().translateBy(direction);
+        
+        if (checkWall(mapEntities, newPos)) {
+            setPosition(getPosition().translateBy(direction));
+            notifyObservers();
+        }
     }
->>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
     public void battle(Mob enemy) {
         state.battle(enemy);
     }
-<<<<<<< HEAD
->>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
-=======
 
     public void attach(CharacterObserver observer) {
         observers.add(observer);
@@ -202,12 +157,20 @@ public class Character extends Mob {
         observers.forEach(o -> o.update(this));
     }
     
-<<<<<<< HEAD
->>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
-=======
     // for testing purposes
     public boolean hasObserver(CharacterObserver observer) {
         return observers.contains(observer);
     }
->>>>>>> bcc312a (manually fixing merge conflicts)
+
+    public boolean checkWall(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("wall") && position.equals(entPos)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -1,9 +1,6 @@
 package dungeonmania;
 
-<<<<<<< HEAD
 import dungeonmania.Door;
-=======
->>>>>>> 91b62ed (Changes UML Week 6)
 public class Key extends Items {
     
     private int keyId;
@@ -23,26 +20,9 @@ public class Key extends Items {
 
     // might be implemented differently depending on items class
     public void useKey(Door door) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
         if (door.getDoorId() == keyId) {
             door.setOpen(true);
             
         }
->>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
-=======
 
->>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
-=======
-        if (door.getDoorId() == getKeyId()) {
-            door.setOpen(true);
-        }
-        else {
-            door.setOpen(false);
-        }
->>>>>>> 27288e5 (fixed some merge conflicts)
-    }
 }

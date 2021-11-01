@@ -1,16 +1,7 @@
 package dungeonmania;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-public class Shield extends Items implements Build {
-
-    public Shield(String itemId, String itemType, int durability, Character character ) {
-        super(itemId, itemType, durability, character);
-=======
-=======
 import java.util.ArrayList;
 import java.util.HashMap;
->>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +23,6 @@ public class Shield extends Items implements Build {
 
     public List<Map<String, Integer>> getRecipe() {
         return recipe;
->>>>>>> 91b62ed (Changes UML Week 6)
     }
     
 }
