@@ -2,10 +2,11 @@ package dungeonmania;
 
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Position;
-import dungeonmania.Character;
+
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,17 +77,34 @@ public class Portal extends Entity {
 =======
 =======
     
+=======
+import dungeonmania.Character;
 
-    private Position portalPosition;
+public class Portal extends Entity {
+>>>>>>> bcc312a (manually fixing merge conflicts)
+
     
+<<<<<<< HEAD
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
+=======
+    private Position portalPosition;
+    private int portalId;
+>>>>>>> bcc312a (manually fixing merge conflicts)
     private String colour;
     List<Entity> listPortals = new ArrayList<>();
-
     public Portal(String id, String type, Position position, boolean isInteractable, String colour) {
         super(id, type, position, isInteractable);
         this.colour = colour;
+    }   
+
+    public void setportalId(int portalId) {
+        this.portalId = portalId;
     }
+
+    public int getportalId() {
+        return portalId;
+    }
+
     public String getColour() {
         return colour;
     }
@@ -111,7 +129,7 @@ public class Portal extends Entity {
         
         for (Entity p: listPortals){
                 if (getColour().equals(colour)) {
-                    character.updatePosition(p.getPosition()); 
+                    character.setPosition(p.getPosition()); 
                 }
         }
         
@@ -129,5 +147,9 @@ public class Portal extends Entity {
 
     }
 
+<<<<<<< HEAD
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
+=======
+    
+>>>>>>> bcc312a (manually fixing merge conflicts)
 }

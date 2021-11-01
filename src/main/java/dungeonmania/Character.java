@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import dungeonmania.util.Direction;
 =======
 import dungeonmania.exceptions.InvalidActionException;
@@ -14,6 +15,10 @@ import dungeonmania.exceptions.InvalidActionException;
 =======
 import dungeonmania.util.Direction;
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
+=======
+import dungeonmania.util.Direction;
+import dungeonmania.exceptions.InvalidActionException;
+>>>>>>> bcc312a (manually fixing merge conflicts)
 import dungeonmania.util.Position;
 
 public class Character extends Mob {
@@ -22,6 +27,10 @@ public class Character extends Mob {
     private List<Entity> mapEntities;
     private int maxHealth;
     private CharacterState state;
+
+    private Key currentKey; // as character can only hold one key at a time??
+
+    private List<CharacterObserver> observers = new ArrayList<>();
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
             List<Items> inventory, List<Entity> mapEntities) {
@@ -131,16 +140,21 @@ public class Character extends Mob {
     }
 >>>>>>> 4cf6fde (Building and using regular items complete, and passes test. Items now has method-forward Character for potion/bomb use Character also now has access to list of map entities so bomb can be placed)
 
+    public void setEntities(List<Entity> mapEntities) {
+        this.mapEntities = mapEntities;
+    }
+
     //public void PlayerMovement(Direction direction) {}
     // Under assumption argument passed is an id.
     public void useItem(String item) throws InvalidActionException {
         Items useItem = inventory.stream()
-                        .filter(query -> item == query.getItemId()).findAny()
+                        .filter(query -> item.equals(query.getItemId())).findAny()
                         .orElseThrow(() -> new InvalidActionException("Item does not exist"));
         
         useItem.use(this);
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     //public void checkRing() {}
 <<<<<<< HEAD
@@ -149,21 +163,51 @@ public class Character extends Mob {
 
 =======
     public void PlayerMovement(Direction direction) {
+=======
+    //public void checkRing() {}
+
+    public void move(Direction direction) {
+>>>>>>> bcc312a (manually fixing merge conflicts)
         setPosition(getPosition().translateBy(direction));
+
+        notifyObservers();
     }
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
-    public void updatePosition(Position newPosition) {
-        setPosition(newPosition);
+    public void battle(Mob enemy) {
+        state.battle(enemy);
     }
 <<<<<<< HEAD
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
 =======
 
+    public void attach(CharacterObserver observer) {
+        observers.add(observer);
+        
+        // attach observers when generating/loading map?
+    }
 
-    //public void useItem(String item) {}
+    public void detach(CharacterObserver observer) {
+        observers.remove(observer);
 
-    //public void checkRing() {}
+        // detach observers when they are destroyed/die/become allied?
+    }
+
+    public void notifyObservers() {
+        // iterate over copy of observers to prevent ConcurrentModificationException
+        for (CharacterObserver observer : new ArrayList<>(observers)) {
+            observer.update(this);
+        }
+
+        observers.forEach(o -> o.update(this));
+    }
     
+<<<<<<< HEAD
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
+=======
+    // for testing purposes
+    public boolean hasObserver(CharacterObserver observer) {
+        return observers.contains(observer);
+    }
+>>>>>>> bcc312a (manually fixing merge conflicts)
 }
