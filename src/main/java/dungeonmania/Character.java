@@ -132,7 +132,7 @@ public class Character extends Mob {
     //public void checkRing() {}
 
     public void move(Direction direction) {
-        Position curPos = getPosition();
+        //Position curPos = getPosition();
         Position newPos = getPosition().translateBy(direction);
         
         if (checkWall(mapEntities, newPos) && checkMoveBoulder(mapEntities, newPos, direction)) {
@@ -141,7 +141,7 @@ public class Character extends Mob {
             moveBoulder(mapEntities, newPos, direction);
         }
 
-        checkItem(mapEntities, curPos);
+        checkItem(mapEntities, newPos);
 
     }
 
