@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -124,12 +125,16 @@ public class Character extends Mob {
     //public void checkRing() {}
 
     public void move(Direction direction) {
+        Position curPos = getPosition();
         Position newPos = getPosition().translateBy(direction);
         
         if (checkWall(mapEntities, newPos)) {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
         }
+
+        checkItem(mapEntities, curPos);
+
     }
 
     public void battle(Mob enemy) {
@@ -173,4 +178,67 @@ public class Character extends Mob {
         }
         return true;
     }
+
+    public void checkItem(List<Entity> entities, Position position) {
+        for (Entity entity : new ArrayList<>(entities)) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("treasure")
+            || entity.getType().equals("arrow")
+            || entity.getType().equals("wood")
+            || entity.getType().equals("armour")
+            ) {
+                
+                if (position.equals(entPos)) {
+                    entities.remove(entity);
+                    Items items = new Items(entity.getId(), entity.getType(), 1);
+                    inventory.add(items);
+                }
+            }
+
+            if (entity.getType().equals("bomb") && position.equals(entPos)) {
+                entities.remove(entity);
+                Bomb bomb = new Bomb(entity.getId(), "bomb", 1);
+                inventory.add(bomb);
+            }
+
+            if (entity.getType().equals("sword") && position.equals(entPos)) {
+                entities.remove(entity);
+                Sword sword = new Sword(entity.getId(), "sword", 5);
+                inventory.add(sword);
+            }
+
+            if (entity.getType().equals("key") && position.equals(entPos)) {
+                entities.remove(entity);
+                Key key = new Key(entity.getId(), "key", 1, entity.getId());
+                inventory.add(key);
+            }
+
+            if (entity.getType().equals("healthPotion") && position.equals(entPos)) {
+                entities.remove(entity);
+                HealthPotion healthPotion = new HealthPotion(entity.getId(), "healthPotion", 1);
+                inventory.add(healthPotion);
+            }
+
+            if (entity.getType().equals("invisibilityPotion") && position.equals(entPos)) {
+                entities.remove(entity);
+                InvisibilityPotion invisibilityPotion= new InvisibilityPotion(entity.getId(), "invisibilityPotion", 1);
+                inventory.add(invisibilityPotion);
+            }
+
+            if (entity.getType().equals("invincibilityPotion") && position.equals(entPos)) {
+                entities.remove(entity);
+                InvincibilityPotion invincibilityPotion = new InvincibilityPotion(entity.getId(), "invincibilityPotion", 1);
+                inventory.add(invincibilityPotion);
+            }
+        }
+    }
+
+    /*private boolean isCollectable() {
+        List<String> collectables = Arrays.asList("treasure", "key", "health_potion", "invincibility_potion", 
+        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour");
+
+        return collectables.contains(type);
+    }*/
 }
