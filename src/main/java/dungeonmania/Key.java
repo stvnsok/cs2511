@@ -23,6 +23,13 @@ public class Key extends Items {
 
     // might be implemented differently depending on items class
     public void useKey(Door door) {
+<<<<<<< HEAD
 
+=======
+        if (door.getDoorId() == keyId) {
+            door.setOpen(true);
+            
+        }
+>>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
     }
 }

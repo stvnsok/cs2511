@@ -138,5 +138,13 @@ public class Character extends Mob {
     }
 
     //public void checkRing() {}
+<<<<<<< HEAD
     
+=======
+
+
+    public void teleportCharacter(Position newPosition){
+        setPosition(newPosition);
+    }
+>>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
 }

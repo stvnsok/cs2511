@@ -28,6 +28,7 @@ public class Door extends Entity {
         return doorId;
     }
 
+<<<<<<< HEAD
     public boolean checkOpen(Key key) {
         // get key from character inventory 
         
@@ -45,6 +46,17 @@ public class Door extends Entity {
         if (isOpen == true) {
             
         }
+=======
+    public boolean open(Key key) {
+        
+        if (key.getKeyId() == doorId) {
+            setOpen(true);
+           
+            
+        }
+
+        return isOpen;
+>>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
     }
 
 }
