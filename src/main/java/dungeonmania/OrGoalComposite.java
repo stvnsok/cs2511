@@ -9,7 +9,9 @@ public class OrGoalComposite implements Goals {
     public OrGoalComposite(List<Goals> children) {
         this.children = children;
     }
-
+    /**
+     * Returns goal string depending on how many goals are fulfilled in composite
+     */
     public String getGoal() {
         List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
         int size = unfilfilled.size();
@@ -24,7 +26,9 @@ public class OrGoalComposite implements Goals {
         return returnString;
     
     }
-
+    /**
+     * Checks children for any fulfilled goals, returning true if it finds any()
+     */
     public boolean fulfilledGoals() {
         for (Goals goal : children) {
             if (goal.fulfilledGoals()) {

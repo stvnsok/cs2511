@@ -9,7 +9,9 @@ public class Bomb extends Items {
     public Bomb(String itemId, String itemType, int durability) {
         super(itemId, itemType, durability);
     }
-
+    /**
+     * On use, add a bomb to the list of entities on the game.
+     */
     @Override
     public void use(Character character) {
         List<Entity> entities = character.getEntities();
