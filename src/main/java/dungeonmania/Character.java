@@ -124,9 +124,12 @@ public class Character extends Mob {
     //public void checkRing() {}
 
     public void move(Direction direction) {
-        setPosition(getPosition().translateBy(direction));
-
-        notifyObservers();
+        Position newPos = getPosition().translateBy(direction);
+        
+        if (checkWall(mapEntities, newPos)) {
+            setPosition(getPosition().translateBy(direction));
+            notifyObservers();
+        }
     }
 
     public void battle(Mob enemy) {
@@ -157,5 +160,17 @@ public class Character extends Mob {
     // for testing purposes
     public boolean hasObserver(CharacterObserver observer) {
         return observers.contains(observer);
+    }
+
+    public boolean checkWall(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("wall") && position.equals(entPos)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
