@@ -27,7 +27,11 @@ public class FloorSwitchTest {
         Boulder b = new Boulder("boulder1", "boulder", new Position(5,4), false);
         FloorSwitch floorSwitch1 = new FloorSwitch("floorSwitch1", "switch", new Position(5,5), false);
         
+<<<<<<< HEAD
         Character c1 = new Character("player", "character",new Position(5,3) ,false, 100, 10, null);
+=======
+        Character c1 = new Character("player", "character",new Position(5,3) ,false, 100, 10, null, entities);
+>>>>>>> 27288e5 (fixed some merge conflicts)
         entities.add(b);
         entities.add(floorSwitch1);
         entities.add(c1);

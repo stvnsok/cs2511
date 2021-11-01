@@ -29,22 +29,30 @@ public class BoulderTest {
         Position start = new Position (3,2);
 
         
-        Character character = new Character("player", "character",start ,false, 100, 10, null);
+        Character character = new Character("player", "character",start ,false, 100, 10, null, null);
         
         Position bPosition = new Position(3,3);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
 <<<<<<< HEAD
+<<<<<<< HEAD
         boulder.moveBoulder(Direction.DOWN);
 =======
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
+=======
+        boulder.moveBoulder(Direction.DOWN);
+>>>>>>> 27288e5 (fixed some merge conflicts)
         //game.interact("boulder1");
         //player position
         Position newcPosition = new Position(3,3);
         Position newbPosition = new Position(3,4);
         assertEquals(newcPosition, character.getPosition());
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 27288e5 (fixed some merge conflicts)
 
         // boulder position
         assertEquals(newbPosition, boulder.getPosition());
@@ -58,22 +66,33 @@ public class BoulderTest {
         Position start = new Position (3,2);
 
         
-        Character character = new Character("player", "character",start ,false, 100, 10, null);
+        Character character = new Character("player", "character",start ,false, 100, 10, null, null);
         
         Position bPosition = new Position(3,3, 0);
         Boulder boulder = new Boulder("boulder1", "boulder", bPosition, true);
 
         character.PlayerMovement(Direction.DOWN);
 <<<<<<< HEAD
+<<<<<<< HEAD
         boulder.moveBoulder(Direction.DOWN);
 =======
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
+=======
+        boulder.moveBoulder(Direction.DOWN);
+>>>>>>> 27288e5 (fixed some merge conflicts)
         Position fPosition = new Position (3,4);
         FloorSwitch fSwitch = new FloorSwitch("floorswitch1", "switch", fPosition, false);
 
+<<<<<<< HEAD
         assertEquals(boulder.getPosition(), fPosition);
         fSwitch.checkFloorSwitch(boulder);
+=======
+        assertEquals(boulder.getPosition(),fSwitch.getPosition());
+        fSwitch.checkFloorSwitch(boulder);
+
+
+>>>>>>> 27288e5 (fixed some merge conflicts)
 
         assertEquals(true, fSwitch.getisTriggered());
 
@@ -89,7 +108,7 @@ public class BoulderTest {
 
         Position start = new Position (10,10);
 
-        Character character = new Character("player", "character", start, false, 100, 10, null);
+        Character character = new Character("player", "character", start, false, 100, 10, null, null);
 
         Position b1Position = new Position(11,10,0);
         Position b2Position = new Position(9,10,0);
@@ -107,9 +126,16 @@ public class BoulderTest {
 
         character.PlayerMovement(Direction.LEFT);
         assertEquals(b1Position, b1.getPosition());
+<<<<<<< HEAD
         character.PlayerMovement(Direction.RIGHT);;
         assertEquals(b2Position, b2.getPosition());
   
+=======
+
+        character.PlayerMovement(Direction.RIGHT);;
+        assertEquals(b2Position, b2.getPosition());
+
+>>>>>>> 27288e5 (fixed some merge conflicts)
 
     }
 
@@ -118,7 +144,7 @@ public class BoulderTest {
     public void moveBoulderintoDoorTest() {
         Position start = new Position (10,10);
 
-        Character character = new Character("player", "character", start, false, 100, 10, null);
+        Character character = new Character("player", "character", start, false, 100, 10, null, null);
         Position b1Position = new Position(11,10);
         Boulder b1 = new Boulder("boulder1", "boulder", b1Position, true);
         Position d1Position = new Position(12, 10);
@@ -130,6 +156,7 @@ public class BoulderTest {
         character.PlayerMovement(Direction.LEFT);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         assertEquals(b1Position, b1.getPosition());
 
     
@@ -139,9 +166,18 @@ public class BoulderTest {
         assertEquals(b1Position.getX(), b1.getPosition().getX());
         assertEquals(b1Position.getY(), b1.getPosition().getY());
         assertEquals(b1Position.getLayer(), b1.getPosition().getLayer());
+=======
+        assertEquals(b1Position, b1.getPosition());
+
+>>>>>>> 27288e5 (fixed some merge conflicts)
     
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
 
+<<<<<<< HEAD
+=======
+        assertEquals(d1Position, d1.getPosition());
+
+>>>>>>> 27288e5 (fixed some merge conflicts)
     }
 
 

@@ -16,10 +16,14 @@ public class Boulder extends Entity {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void moveBoulder(Direction direction) {
 
 =======
     public void moveBoulder(Direction direction) 
+=======
+    public void moveBoulder(Direction direction) {
+>>>>>>> 27288e5 (fixed some merge conflicts)
     
 >>>>>>> bbcc3d2 (fixed merge conflicts with local branch)
         Position oldPosition = getPosition();

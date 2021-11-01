@@ -1,6 +1,9 @@
 package dungeonmania;
 
 import dungeonmania.util.Position;
+
+import java.util.List;
+
 import dungeonmania.Boulder;
 
 import java.util.List;
@@ -30,7 +33,11 @@ public class FloorSwitch extends Entity {
         }
     }
 
+<<<<<<< HEAD
     //check if stwitch is active, if it is active check if it is adjacent
+=======
+        //check if stwitch is active, if it is active check if it is adjacent
+>>>>>>> 27288e5 (fixed some merge conflicts)
     // anthing adjacent to the bomb
     // get list of entities and get the posiiton and do is adjacent, if it is true remove them from the list
     public void bombExplode() {
@@ -70,8 +77,11 @@ public class FloorSwitch extends Entity {
         }
     }
 
+<<<<<<< HEAD
     
 
     
+=======
+>>>>>>> 27288e5 (fixed some merge conflicts)
     
 }

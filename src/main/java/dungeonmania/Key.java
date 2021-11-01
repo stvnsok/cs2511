@@ -25,6 +25,7 @@ public class Key extends Items {
     public void useKey(Door door) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
         if (door.getDoorId() == keyId) {
@@ -35,5 +36,13 @@ public class Key extends Items {
 =======
 
 >>>>>>> 17b8173 (fixed some minor errors with test and also added portal, although it is not working as intended yet)
+=======
+        if (door.getDoorId() == getKeyId()) {
+            door.setOpen(true);
+        }
+        else {
+            door.setOpen(false);
+        }
+>>>>>>> 27288e5 (fixed some merge conflicts)
     }
 }

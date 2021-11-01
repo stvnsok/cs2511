@@ -35,6 +35,7 @@ public class DoorTest {
         assertEquals(doorPosition.getLayer(), door.getPosition().getLayer());
         
     }
+    @Test
     // testing opening the door, if there is a key with id that matches the door, then the door should open
     public void openDoorTest() {
 
@@ -46,17 +47,18 @@ public class DoorTest {
         
         List<Items> items = new ArrayList<>();
         Position start = new Position (4,3);
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items);
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, null);
         
-        Key key = new Key("key1", "Key", 1, 1, c1);
+        Key key = new Key("key1", "Key", 1, 1);
         items.add(key);
         c1.PlayerMovement(Direction.DOWN);
 
-        c1.useitem(key);
+        //c1.useItem("Key");
+        key.useKey(door);
 
         assertEquals(true, door.isOpen());
     }
-
+    @Test
     // tesing the wrong key. If there is a wrong key, the door should not open
     public void wrongKeyTest(){
 
@@ -67,14 +69,14 @@ public class DoorTest {
         door.setDoorId(2);
         List<Items> items = new ArrayList<>();
         Position start = new Position (4,3);
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items);
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, null);
         
-        Key key = new Key("key1", "Key", 1, 1, c1);
+        Key key = new Key("key1", "Key", 1, 1);
         items.add(key);
         c1.PlayerMovement(Direction.DOWN);
 
-        c1.useitem(key);
-
+        //c1.useItem("Key");
+        key.useKey(door);
         assertEquals(false, door.isOpen());
     }
 
