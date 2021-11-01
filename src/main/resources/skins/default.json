@@ -33,6 +33,8 @@
         "boulders": "images/tileset/entities/boulder_04.png",
         "enemies": "images/tileset/entities/ranger.png",
         "door": "images/tileset/walls/wooden/door_locked_silver.png",
-        "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png"
+        "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png",
+        "shield": "images/tileset/items/shield.png",
+        "zombie": "images/tileset/entities/zombie_00.png"
     }
 }
