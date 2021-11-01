@@ -1,4 +1,5 @@
 package dungeonmania;
+<<<<<<< HEAD
 import java.util.List;
 
 <<<<<<< HEAD
@@ -6,6 +7,8 @@ import java.util.List;
 import dungeonmania.util.Position;
 =======
 =======
+=======
+>>>>>>> d284196 (merge conflicts)
 import java.util.List;
 
 import dungeonmania.util.Position;
@@ -27,19 +30,15 @@ public class Bomb extends Items {
         super(itemId, itemType, durability);
 >>>>>>> f010aa2 (Items and associated subclasses no longer stores character)
     }
+    
 
-    @Override
-    public void use(Character character) {
-        List<Entity> entities = character.getEntities();
-        Position charPos = character.getPosition();
-        // Get all entities on same position as character.
-        Position bombPos = new Position(charPos.getX(), charPos.getY(), charPos.getLayer());
-        entities.add(new Entity(String.valueOf(entities.size()), "bomb", bombPos, false));
-        
 
+<<<<<<< HEAD
         super.use(character);
     }
     
 
 
+=======
+>>>>>>> d284196 (merge conflicts)
 }
