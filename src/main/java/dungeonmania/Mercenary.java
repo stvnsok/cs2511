@@ -37,20 +37,12 @@ public class Mercenary extends Mob implements Enemies {
     }
 
     @Override
-    public void move(List<Entity> entities) {
-        Position charPosition = null;
-        for (Entity entity : entities) {
-            //get the character position
-            if (entity.getType().equals("Character")) {
-                charPosition = entity.getPosition();
-            }
-        }
-        
+    public void move(List<Entity> entities, Character character) {
+        Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
         List<Node> paths = createMap(entities);
         Node start = null;
         Node end = null;
-
 
         for (Node node : paths) {
             if(node.getPosition().equals(curPos)) {
@@ -109,7 +101,8 @@ public class Mercenary extends Mob implements Enemies {
         for (int x=0; x < 21; x++) {
             for (int y=0; y < 21; y++) {
                 Position curPos = new Position(x, y);
-                if (checkObstacles(entities,curPos) == true) {
+                System.out.println(curPos.toString());
+                if (checkObstacles(entities,curPos)) {
                     //check adjacent obstacles
                     List<Position> adjacentPositions = curPos.getAdjacentPositions();
                     List<Node> adjacentPath = new ArrayList<>();
@@ -132,9 +125,9 @@ public class Mercenary extends Mob implements Enemies {
 
             Position entPos = entity.getPosition();
 
-            if (entity.getType().equals("Boulder")
-                || entity.getType().equals("Wall")
-                || entity.getType().equals("Door")) {
+            if (entity.getType().equals("boulder")
+                || entity.getType().equals("wall")
+                || entity.getType().equals("door")) {
             
                 if (position.equals(entPos)) {
                     return false;

@@ -12,41 +12,58 @@ public class Zombie extends Mob implements Enemies {
     }
 
     @Override
-    public void move(List<Entity> entities) {
+    public void move(List<Entity> entities, Character character) {
         Random random = new Random();
         int direction = random.nextInt(4);
 
         Position curPos = this.getPosition();
+        Position newPos = null;
+
+        if (character.getStateName().equals("Invincible")) {
+            //runs away
+            Position charPos = character.getPosition();
+
+            if (charPos.getY() >= curPos.getY()) { //character is below the spider
+                newPos = new Position(curPos.getX(), curPos.getY()-1);
+                this.setPosition(newPos);
+            } else if (charPos.getY() < curPos.getY()) { //character is above the spider
+                newPos = new Position(curPos.getX(), curPos.getY()+1);
+                this.setPosition(newPos);
+            } else if (charPos.getX() > curPos.getX()) { //character is on the right of the spider 
+                newPos = new Position(curPos.getX()-1, curPos.getY());
+                this.setPosition(newPos);
+            } else if (charPos.getY() >= curPos.getY()) { //character is on the left of the spider
+                newPos = new Position(curPos.getX()+1, curPos.getY());
+                this.setPosition(newPos);
+            }
+        } 
+
 
         if (direction == 0) { //UP
-            Position newPos = new Position(curPos.getX(), curPos.getY()-1);
-            checkObstacles(entities, newPos);
+            newPos = new Position(curPos.getX(), curPos.getY()-1);
         } else if (direction == 1) { //DOWN
-            Position newPos = new Position(curPos.getX(), curPos.getY()+1);
-            checkObstacles(entities, newPos);
+            newPos = new Position(curPos.getX(), curPos.getY()+1);
         } else if (direction == 2) { //LEFT
-            Position newPos = new Position(curPos.getX()-1, curPos.getY());
-            checkObstacles(entities, newPos);
+            newPos = new Position(curPos.getX()-1, curPos.getY());
         } else if (direction == 3) { //RIGHT
-            Position newPos = new Position(curPos.getX()+1, curPos.getY());
-            checkObstacles(entities, newPos);
+            newPos = new Position(curPos.getX()+1, curPos.getY());
         }
-        
+        checkObstacles(entities, newPos, character);
     }
 
-    public void checkObstacles(List<Entity> entities, Position position) {
+    public void checkObstacles(List<Entity> entities, Position position, Character character) {
         boolean setPos = true;
         for (Entity entity : entities) {
 
             Position entPos = entity.getPosition();
 
-            if (entity.getType().equals("Boulder")
-                || entity.getType().equals("Wall")
-                || entity.getType().equals("Door")) {
+            if (entity.getType().equals("boulder")
+                || entity.getType().equals("wall")
+                || entity.getType().equals("door")) {
             
                 if (position.equals(entPos)) {
                     setPos = false;
-                    move(entities);
+                    move(entities, character);
                 }
 
             }
