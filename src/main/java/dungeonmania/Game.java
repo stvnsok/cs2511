@@ -84,10 +84,25 @@ public class Game {
     public void tick(String itemUsed, Direction movementDirection) {
         character.move(movementDirection);
 
+        int numWood = 0;
+        int numArrows = 0;
+        int numTreasure = 0;
+        int numKey = 0;
         for (Items items : new ArrayList<>(inventory)) {
             if (items.getItemId().equals(itemUsed)) {
                 items.use(character);
             }
+
+            if (items.getItemType().equals("wood")) {
+                numWood++;
+            } else if (items.getItemType().equals("arrow")) {
+                numArrows++;
+            } else if (items.getItemType().equals("treasure")) {
+                numTreasure++;
+            } else if (items.getItemType().equals("key")) {
+                numKey++;
+            }
+            
         }
 
         for (Entity entity : entities) {
@@ -96,6 +111,16 @@ public class Game {
                 enemy.move(entities, character);
             }
         }
+
+        if (numWood > 0 && numArrows > 2 && !buildables.contains("bow")) {
+            buildables.add("bow");
+        }
+        if (numWood > 1 && numTreasure > 0 && !buildables.contains("shield")) {
+            buildables.add("shield");
+        } else if (numWood > 1 && numKey > 0 && !buildables.contains("shield")) {
+            buildables.add("shield");
+        }
+
     }
 
 }
