@@ -1,9 +1,5 @@
 package dungeonmania;
 
-import java.util.List;
-
-import javax.swing.text.Position;
-
 public class Key extends Items {
     
     private String keyId;

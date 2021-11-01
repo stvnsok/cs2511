@@ -59,6 +59,7 @@ public class Character extends Mob {
         return this.maxHealth;
     }
 
+    /*
     public void buildItem(String item) throws InvalidActionException, IllegalArgumentException  {
         Build buildable = null;
         switch (item) {
@@ -102,7 +103,7 @@ public class Character extends Mob {
             }
         }
 
-    }
+    }*/
 
     public List<Entity> getEntities() {
         return this.mapEntities;
