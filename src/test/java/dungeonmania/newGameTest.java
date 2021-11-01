@@ -24,7 +24,7 @@ public class newGameTest {
     @Test
     public void successfulTest() {
         DungeonManiaController d = new DungeonManiaController();
-        DungeonResponse newDungeon = d.newGame("advanced", "peaceful");
+        DungeonResponse newDungeon = d.newGame("advanced", "Peaceful");
         List<EntityResponse> entities = newDungeon.getEntities();
         EntityResponse lowerRightCorner = entities.get(entities.size() - 1);
         assertEquals(lowerRightCorner.getType(), "wall");

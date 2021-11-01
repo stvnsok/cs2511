@@ -123,5 +123,13 @@ public class Spider extends Mob implements Enemies {
             dirClockwise = true;
         }
     }
+
+    @Override
+    public void update(Character character) {
+        if (character.isOn(this)) {
+            // battle!
+            character.battle(this);
+        }
+    }
 }
 

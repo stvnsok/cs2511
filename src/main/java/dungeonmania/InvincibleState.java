@@ -4,7 +4,6 @@ public class InvincibleState implements CharacterState {
     private int duration = 10;
     private Character character;
 
-
     public InvincibleState(Character character) {
         this.character = character;
     }
@@ -23,6 +22,13 @@ public class InvincibleState implements CharacterState {
         this.duration -= 1;
     }
 
-    //public void battle(Mob mob) {}
+    @Override
+    public void battle(Mob enemy) {
+        // defeat enemy immediately
+        enemy.takeDamage(enemy.getHealth());
+
+        // remove enemy from observers and game??
+        character.detach((CharacterObserver) enemy);
+    }
 
 }

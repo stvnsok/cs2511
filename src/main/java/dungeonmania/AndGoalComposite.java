@@ -1,40 +1,38 @@
 package dungeonmania;
 
-public class AndGoalComposite implements Goals{
-    private Goals goal1;
-    private Goals goal2;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public AndGoalComposite(Goals goal1, Goals goal2) {
-        this.goal1 = goal1;
-        this.goal2 = goal2;
+public class AndGoalComposite implements Goals{
+    private List<Goals> children;
+
+    public AndGoalComposite(List<Goals> children) {
+        this.children = children;
     }
 
     public String getGoal() {
-        boolean g1 = goal1.fulfilledGoals();
-        boolean g2 = goal2.fulfilledGoals();
-        if (g1 && g2) {
-            return "";
+        List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
+        int size = unfilfilled.size();
+        String returnString = "";
+        if (size > 1) {
+            returnString = "( " + unfilfilled.get(0).getGoal();
+            for (int i = 1; i < size; i++) {
+                returnString += " AND " + unfilfilled.get(i).getGoal();
+            }
+            returnString += " )";
+            
+        } else if (size == 1) {
+            returnString = unfilfilled.get(0).getGoal();
         }
-        if (g1 && !g2) {
-            return goal2.getGoal();
-        }
-        if (!g1 && g2) {
-            return goal1.getGoal();
-        }
-        return "(" + goal1.getGoal() + " AND " + goal2.getGoal() + ")";
-    }
-
-    public Goals getGoal1() {
-        return goal1;
-    }
-
-    public Goals getGoal2() {
-        return goal2;
+        return returnString;
     }
 
     public boolean fulfilledGoals() {
-        return goal1.fulfilledGoals() & goal2.fulfilledGoals();
+        for (Goals goal : children) {
+            if (!goal.fulfilledGoals()) {
+                return false;
+            }
+        }
+        return true;
     }
-
-
 }

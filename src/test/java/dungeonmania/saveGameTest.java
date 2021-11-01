@@ -29,17 +29,17 @@ public class saveGameTest {
         DungeonManiaController d = new DungeonManiaController();
         
         // Load a game
-        DungeonResponse actualDungeon = d.loadGame("test2");
+        DungeonResponse actualDungeon = d.loadGame("test1");
         // Delete the file if it exist
-        File f = new File("src/main/java/dungeonmania/save/test3.json");
+        File f = new File("src/main/java/dungeonmania/save/test1.json");
 
         if (f.exists()) {
             f.delete();
         }
-        d.saveGame("test3");
+        d.saveGame("test1");
         //DungeonResponse clearDungeon = d.newGame("advanced", "peaceful");
         //assertNotEquals(unexpected, actual);
-        DungeonResponse loadSavedDungeon = d.loadGame("test3");
+        DungeonResponse loadSavedDungeon = d.loadGame("test1");
 
         assertTrue(actualDungeon.getDungeonName().equals(loadSavedDungeon.getDungeonName()));
         assertListOfEntitiesEqual(actualDungeon.getEntities(), loadSavedDungeon.getEntities());

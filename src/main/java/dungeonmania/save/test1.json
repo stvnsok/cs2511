@@ -69,7 +69,17 @@
         }
     ], 
     "buildables": [
-            "sheild"
+            "shield"
     ], 
-    "goals": "treasure and enemies"
+    "goal-condition": {
+        "goal": "AND",
+        "subgoals": [
+          {
+            "goal": "enemies"
+          },
+          {
+            "goal": "treasure"
+          }
+        ]
+      }
 }

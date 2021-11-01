@@ -140,4 +140,13 @@ public class Mercenary extends Mob implements Enemies {
 
     //public void bribe() {}
 
+
+    @Override
+    public void update(Character character) {
+        if (character.isOn(this)) {
+            // battle!
+            character.battle(this);
+        }
+    }
+
 }

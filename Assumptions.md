@@ -7,8 +7,14 @@ Item Assumptions:
 5. Using an item decreases its durability by 1.
 6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
 
-7. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
-8. The id of entities is defined as entities type concatenated with current entities number.
-9. Function saveGame would throw IllegalArgumentException if name already exist.
-1. saveGame will save the game in JSON format under directory "src/main/java/dungeonmania/save".
+Dungeon Mania Controller Assumptions:
+1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
+2. The id of entities is defined as entities type concatenated with current entities number.
+3. Function saveGame would throw IllegalArgumentException if name already exist.
+4. saveGame will save the game in JSON format under directory "src/main/java/dungeonmania/save".
+
+Observer Assumptions:
+1. The player moves before enemies at each tick.
+2. The player and enemy takes damage at the same time in battles.
+3. The player takes no damage from battles when in the invincible state.
 

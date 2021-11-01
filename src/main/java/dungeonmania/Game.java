@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import dungeonmania.util.Direction;
+
 public class Game {
     
     private String dungeonName;
@@ -13,9 +15,10 @@ public class Game {
     private List<String> buildables;
     private Goals goals;
     private JSONObject jGoals;
+    private Character character;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
-            List<String> buildables, JSONObject jGoals) {
+            List<String> buildables, JSONObject jGoals, Character character) {
         this.dungeonName = dungeonName;
         this.gameMode = gameMode;
         this.entities = entities;
@@ -23,6 +26,7 @@ public class Game {
         this.buildables = buildables;
         this.jGoals = jGoals;
         this.goals = GoalFactory.createGoals(jGoals);
+        this.character = character;
     }
 
     public String getDungeonName() {
@@ -53,15 +57,31 @@ public class Game {
         return jGoals;
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
     public void build(String buildable) {
         for (Entity e : entities) {
-            if (e.getType() == "player") {
+            if (e.getType().equals("player")) {
                 Character character = (Character) e;
                 character.buildItem(buildable);
                 break;
             }
         }
         
+    }
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
+    }
+
+    public boolean hasEntity(Entity entity) {
+        return entities.contains(entity);
+    }
+
+    public void tick(Direction movementDirection) {
+        character.move(movementDirection);
     }
 
 }

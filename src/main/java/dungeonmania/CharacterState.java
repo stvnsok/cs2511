@@ -13,4 +13,5 @@ public interface CharacterState {
     }
     default public void tickStateDuration() {};
 
+    public void battle(Mob enemy);
 }

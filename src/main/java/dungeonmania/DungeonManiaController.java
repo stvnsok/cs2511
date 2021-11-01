@@ -1,5 +1,19 @@
 package dungeonmania;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.json.JSONArray;
+// import org.json.JSONException;
+import org.json.JSONObject;
+
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -7,29 +21,6 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.ldap.LdapName;
-import javax.naming.spi.DirStateFactory.Result;
-
-import org.json.*;
-
-import org.json.JSONObject;
 
 public class DungeonManiaController {
     private Game currentGame;
@@ -78,14 +69,16 @@ public class DungeonManiaController {
         int entitiesCount = 0;
 
         // Read the json file
-        char charBuf[] = new char[10000];
+        char charBuf[] = new char[100000];
         File f = new File("src/main/resources/dungeons/" + dungeonName + ".json");
         try {
-            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            InputStreamReader input = new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
-            String text =new String(charBuf,0,len);
+            String text = new String(charBuf,0,len);
             JSONObject game = new JSONObject(text);
             input.close();
+
+            Character character = null;
 
             // Create entity
             JSONArray JSONEntities = game.getJSONArray("entities");
@@ -99,14 +92,17 @@ public class DungeonManiaController {
                 String type = JSONEntity.getString("type");
                 String id = type + entitiesCount;
                 Boolean isinteractable = false;
-                if (type == "Mercenary" || type == "ZombieToastSpawner") {
+                if (type.equals("Mercenary") || type.equals("ZombieToastSpawner")) {
                     isinteractable = true;
                 }
 
                 Entity entity;
-                if (type == "portal") {
+                if (type.equals("portal")) {
                     String colour = JSONEntity.getString("colour");
                     entity = new Portal(id, type, p, isinteractable, colour);
+                } else if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    entity = character;
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
@@ -122,8 +118,18 @@ public class DungeonManiaController {
             // Create Goals
             //String goals = game.getJSONObject("goal-condition").toString();
 
+            // JSONObject goalCondition;
+            // try {
+            //     // file may not contain goal condition? like portals.json
+            //     goalCondition = game.getJSONObject("goal-condition");
+            // } catch (JSONException e) {
+            //     goalCondition = new JSONObject();
+            // }
+            // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goalCondition);
+
             // Create DungeonResponse and Game
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
+            
             return getDungeonResponse();
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,8 +146,8 @@ public class DungeonManiaController {
             f.createNewFile();
             JSONObject JSONDungeon = new JSONObject();
 
-            // Save dungeonId
-            savedGames.add(dungeonId());
+            // Save name
+            savedGames.add(name);
 
             // Transform dungeonName
             JSONDungeon.put("dungeonName", currentGame.getDungeonName());
@@ -186,7 +192,7 @@ public class DungeonManiaController {
             JSONDungeon.put("buildables", JSONBuildables);
 
             // Transform goals
-            JSONDungeon.put("goals", currentGame.getGoals());
+            JSONDungeon.put("goal-condition", currentGame.getJGoals());
 
             FileWriter fw = new FileWriter(f);
             fw.write(JSONDungeon.toString());
@@ -200,7 +206,7 @@ public class DungeonManiaController {
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         // Read a JSON file
-        char charBuf[] = new char[10000];
+        char charBuf[] = new char[100000];
         File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
 
         if (!f.exists()) {
@@ -219,7 +225,7 @@ public class DungeonManiaController {
 
             // Load gameMode
             String gameMode = game.getString("gameMode");
-            Character player;
+            Character character = null;
             
             // Load entities
             JSONArray JSONEntites = game.getJSONArray("entities");
@@ -232,7 +238,16 @@ public class DungeonManiaController {
                 Position p = new Position(x, y);
                 String type = JSONEntity.getString("type");
                 Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
-                Entity entity = new Entity(id, type, p, isinteractable);
+                // Entity entity = new Entity(id, type, p, isinteractable);
+                Entity entity;
+
+                if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null); // testing
+                    entity = character;
+                } else {
+                    entity = new Entity(id, type, p, isinteractable);
+                }
+
                 entities.add(entity);
             }
 
@@ -256,10 +271,8 @@ public class DungeonManiaController {
                 buildables.add(buildableENtity);
             }
 
-            // Load goals
-            String goals = game.getString("goals");
-
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
 
             return getDungeonResponse();
 
@@ -278,7 +291,7 @@ public class DungeonManiaController {
             f.delete();
         }
         try {
-            Boolean createDungeon = f.createNewFile();
+            f.createNewFile();
             Position p = new Position(1, 2);
             Entity e1 = new Entity("e1", "wall", p, false);
             Entity e2 = new Entity("e2", "player", p, false);
@@ -294,7 +307,7 @@ public class DungeonManiaController {
              fw.write(obj.toString());
              fw.close();
             
-            char charBuf[] = new char[10000];
+            char charBuf[] = new char[100000];
             InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
             String text =new String(charBuf,0,len);
@@ -335,7 +348,10 @@ public class DungeonManiaController {
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection)
             throws IllegalArgumentException, InvalidActionException {
-        return null;
+
+        currentGame.tick(movementDirection);
+
+        return getDungeonResponse();
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
@@ -350,4 +366,10 @@ public class DungeonManiaController {
         currentGame.build(buildable);
         return getDungeonResponse();
     }
+
+    // for testing purposes??
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 }
+
