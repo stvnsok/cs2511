@@ -214,9 +214,9 @@
         "type": "wall"
       },
       {
-        "x": 0,
-        "y": 5,
-        "type": "wall"
+        "x": 11,
+        "y": 10,
+        "type": "invincibility_potion"
       },
       {
         "x": 3,

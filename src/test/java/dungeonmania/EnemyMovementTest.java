@@ -123,8 +123,8 @@ public class EnemyMovementTest {
         int y = spiderPos.getY();
 
         assertEquals(x, 1);
-        assertEquals(y, 0);
-        assertTrue(mercenary.getPosition().equals(new Position(1, 0)));
+        assertEquals(y, 2);
+        assertTrue(mercenary.getPosition().equals(new Position(1, 2)));
 
 
     }

@@ -23,32 +23,32 @@ public class Zombie extends Mob implements Enemies {
             //runs away
             Position charPos = character.getPosition();
 
-            if (charPos.getY() >= curPos.getY()) { //character is below the spider
+            if (charPos.getY() > curPos.getY()) { //character is below the spider
                 newPos = new Position(curPos.getX(), curPos.getY()-1);
-                this.setPosition(newPos);
             } else if (charPos.getY() < curPos.getY()) { //character is above the spider
                 newPos = new Position(curPos.getX(), curPos.getY()+1);
-                this.setPosition(newPos);
             } else if (charPos.getX() > curPos.getX()) { //character is on the right of the spider 
                 newPos = new Position(curPos.getX()-1, curPos.getY());
-                this.setPosition(newPos);
-            } else if (charPos.getY() >= curPos.getY()) { //character is on the left of the spider
+            } else if (charPos.getX() <= curPos.getX()) { //character is on the left of the spider
                 newPos = new Position(curPos.getX()+1, curPos.getY());
+            }
+            if(checkObstacles(entities, newPos)) {
                 this.setPosition(newPos);
             }
-        } 
-
-
-        if (direction == 0) { //UP
-            newPos = new Position(curPos.getX(), curPos.getY()-1);
-        } else if (direction == 1) { //DOWN
-            newPos = new Position(curPos.getX(), curPos.getY()+1);
-        } else if (direction == 2) { //LEFT
-            newPos = new Position(curPos.getX()-1, curPos.getY());
-        } else if (direction == 3) { //RIGHT
-            newPos = new Position(curPos.getX()+1, curPos.getY());
+        } else {
+            if (direction == 0) { //UP
+                newPos = new Position(curPos.getX(), curPos.getY()-1);
+            } else if (direction == 1) { //DOWN
+                newPos = new Position(curPos.getX(), curPos.getY()+1);
+            } else if (direction == 2) { //LEFT
+                newPos = new Position(curPos.getX()-1, curPos.getY());
+            } else if (direction == 3) { //RIGHT
+                newPos = new Position(curPos.getX()+1, curPos.getY());
+            }
+            checkObstacles(entities, newPos, character);
         }
-        checkObstacles(entities, newPos, character);
+
+
     }
 
     /**
@@ -77,6 +77,24 @@ public class Zombie extends Mob implements Enemies {
         if (setPos) {
             this.setPosition(position);
         } 
+    }
+
+    public boolean checkObstacles(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("boulder")
+                || entity.getType().equals("wall")
+                || entity.getType().equals("door")) {
+            
+                if (position.equals(entPos)) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
     }
 
     @Override
