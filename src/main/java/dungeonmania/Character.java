@@ -231,15 +231,15 @@ public class Character extends Mob {
                 entities.remove(entity);
             }
 
-            if (entity.getType().equals("healthPotion") && position.equals(entPos)) {
+            if (entity.getType().equals("health_potion") && position.equals(entPos)) {
                 entities.remove(entity);
             }
 
-            if (entity.getType().equals("invisibilityPotion") && position.equals(entPos)) {
+            if (entity.getType().equals("invisibility_potion") && position.equals(entPos)) {
                 entities.remove(entity);
             }
 
-            if (entity.getType().equals("invincibilityPotion") && position.equals(entPos)) {
+            if (entity.getType().equals("invincibility_potion") && position.equals(entPos)) {
                 entities.remove(entity);
             }
         }

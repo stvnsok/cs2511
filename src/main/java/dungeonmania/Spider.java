@@ -26,7 +26,7 @@ public class Spider extends Mob implements Enemies {
             //runs away
             Position charPos = character.getPosition();
 
-            if (charPos.getY() >= curPos.getY()) { //character is below the spider
+            if (charPos.getY() > curPos.getY()) { //character is below the spider
                 newPos = new Position(curPos.getX(), curPos.getY()-1);
                 this.setPosition(newPos);
             } else if (charPos.getY() < curPos.getY()) { //character is above the spider
@@ -35,41 +35,40 @@ public class Spider extends Mob implements Enemies {
             } else if (charPos.getX() > curPos.getX()) { //character is on the right of the spider 
                 newPos = new Position(curPos.getX()-1, curPos.getY());
                 this.setPosition(newPos);
-            } else if (charPos.getY() >= curPos.getY()) { //character is on the left of the spider
+            } else if (charPos.getX() <= curPos.getX()) { //character is on the left of the spider
                 newPos = new Position(curPos.getX()+1, curPos.getY());
                 this.setPosition(newPos);
             }
-        } 
-
-        if (dirClockwise == true) {
-            if (moveCycle == 0 || moveCycle == 6 || moveCycle == 7) { //UP
-                newPos = new Position(curPos.getX(), curPos.getY()-1);
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 1 || moveCycle == 8) { //RIGHT
-                newPos = new Position(curPos.getX()+1, curPos.getY());
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 2 || moveCycle == 3) { //DOWN
-                newPos = new Position(curPos.getX(), curPos.getY()+1);
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 4 || moveCycle == 5) { //LEFT
-                newPos = new Position(curPos.getX()-1, curPos.getY());
-                checkBoulder(entities, newPos, character);
-            }
         } else {
-            if (moveCycle == 0 || moveCycle == 7 || moveCycle == 8) { //DOWN
-                newPos = new Position(curPos.getX(), curPos.getY()+1);
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 1 || moveCycle == 2) { //LEFT
-                newPos = new Position(curPos.getX()-1, curPos.getY());
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 3 || moveCycle == 4) { //UP
-                newPos = new Position(curPos.getX(), curPos.getY()-1);
-                checkBoulder(entities, newPos, character);
-            } else if (moveCycle == 5 || moveCycle == 6) { //RIGHT
-                newPos = new Position(curPos.getX()+1, curPos.getY());
-                checkBoulder(entities, newPos, character);
+            if (dirClockwise == true) {
+                if (moveCycle == 0 || moveCycle == 6 || moveCycle == 7) { //UP
+                    newPos = new Position(curPos.getX(), curPos.getY()-1);
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 1 || moveCycle == 8) { //RIGHT
+                    newPos = new Position(curPos.getX()+1, curPos.getY());
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 2 || moveCycle == 3) { //DOWN
+                    newPos = new Position(curPos.getX(), curPos.getY()+1);
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 4 || moveCycle == 5) { //LEFT
+                    newPos = new Position(curPos.getX()-1, curPos.getY());
+                    checkBoulder(entities, newPos, character);
+                }
+            } else {
+                if (moveCycle == 0 || moveCycle == 7 || moveCycle == 8) { //DOWN
+                    newPos = new Position(curPos.getX(), curPos.getY()+1);
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 1 || moveCycle == 2) { //LEFT
+                    newPos = new Position(curPos.getX()-1, curPos.getY());
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 3 || moveCycle == 4) { //UP
+                    newPos = new Position(curPos.getX(), curPos.getY()-1);
+                    checkBoulder(entities, newPos, character);
+                } else if (moveCycle == 5 || moveCycle == 6) { //RIGHT
+                    newPos = new Position(curPos.getX()+1, curPos.getY());
+                    checkBoulder(entities, newPos, character);
+                }       
             }
-            
         }
     }
 
