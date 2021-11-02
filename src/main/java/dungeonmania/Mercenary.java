@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Node;
 import dungeonmania.util.Position;
 
@@ -38,7 +39,28 @@ public class Mercenary extends Mob implements Enemies {
 
     @Override
     public void move(List<Entity> entities, Character character) {
+        Position charPosition = character.getPosition();
+        Position curPos = this.getPosition();
+        Position diff = Position.calculatePositionBetween(charPosition, curPos);
+        Position newPos = curPos;
 
+        if (Math.abs(diff.getX()) > Math.abs(diff.getY())) { //move sideways 
+            if (diff.getX() > 0) {
+                newPos = new Position(curPos.getX()-1, curPos.getY());
+            } else if (diff.getX() < 0) {
+                newPos = new Position(curPos.getX()+1, curPos.getY());
+            }
+        } else if (Math.abs(diff.getX()) < Math.abs(diff.getY())) {
+            if (diff.getY() > 0) {
+                newPos = new Position(curPos.getX(), curPos.getY()-1);
+            } else if (diff.getY() < 0) {
+                newPos = new Position(curPos.getX(), curPos.getY()+1);
+            }
+        }
+
+        if (checkObstacles(entities, newPos)) {
+            this.setPosition(newPos);
+        }
     }
         /*Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
@@ -120,7 +142,7 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return paths;
-    }
+    }*/
     
     public boolean checkObstacles(List<Entity> entities, Position position) {
         for (Entity entity : entities) {
@@ -138,7 +160,7 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return true;
-    }*/
+    }
 
     //public void bribe() {}
 

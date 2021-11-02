@@ -118,7 +118,13 @@ public class EnemyMovementTest {
         entities.add(character);
 
         mercenary.move(entities, character);
-        assertTrue(mercenary.getPosition().equals(new Position(1, 2)));
+        Position spiderPos = mercenary.getPosition();
+        int x = spiderPos.getX();
+        int y = spiderPos.getY();
+
+        assertEquals(x, 1);
+        assertEquals(y, 0);
+        assertTrue(mercenary.getPosition().equals(new Position(1, 0)));
 
 
     }
