@@ -332,5 +332,40 @@ public class Character extends Mob {
             }
         }
     }
+
+    public void activateBomb(List<Entity> entities, Position position) {
+        for(Entity e1 : new ArrayList<>(entities)) {
+            Position bombpos = e1.getPosition();
+            if (e1.getType().equals("bomb") && bombpos.isAdjacent(bombpos, position)) {
+                
+                for (Entity e2 : new ArrayList<>(entities)) {
+                    for (Position p :bombpos.getAdjacentPositions()) {
+                        if (!e2.getType().equals("player") && e2.getPosition().equals(p)) {
+                            entities.remove(e2);
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    public void checkSwitch(List<Entity> entities, Position position) {
+        for (Entity e1: new ArrayList<>(entities)) {
+            if (e1.getType().equals("switch")) {
+                for (Entity e2: new ArrayList<>(entities)) {
+                    if (e2.getType().equals("boulder")) {
+                        if (e2.getPosition().equals(e1.getPosition())) {
+                            activateBomb(entities, e1.getPosition());
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 }
+
+
  
