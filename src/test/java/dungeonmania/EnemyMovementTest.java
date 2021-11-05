@@ -16,8 +16,10 @@ public class EnemyMovementTest {
     public void SpiderMovement() {
         Spider spider = new Spider("1", "Spider", new Position(1, 1), true, 10, 10);
         List<Entity> entities = new ArrayList<>();
-        Wall wall = new Wall("2", "Wall", new Position(2, 2), false);
+        Wall wall = new Wall("2", "wall", new Position(2, 2), false);
         entities.add(wall);
+        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        entities.add(character);
 
         /*Position spiderPos = spider.getPosition();
         int x = spiderPos.getX();
@@ -27,75 +29,84 @@ public class EnemyMovementTest {
         assertEquals(y, 0);*/
         
         //Checks if spider makes full rotation with walls in place
-        spider.move(entities);
+        spider.move(entities, character);
+        Position spiderPos = spider.getPosition();
+        int x = spiderPos.getX();
+        int y = spiderPos.getY();
+
+        assertEquals(x, 1);
+        assertEquals(y, 0);
         assertTrue(spider.getPosition().equals(new Position(1, 0)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
         
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2 ,1)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 2)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(1, 2)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(0, 2)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(0, 1)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(0 ,0)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(1 ,0)));
 
         //checks if spider change direction after seeing boulder
-        Boulder boulder = new Boulder("3", "Boulder", new Position(2, 1), true);
-        Boulder boulder2 = new Boulder("4", "Boulder", new Position(0, 1), true);
+        Boulder boulder = new Boulder("3", "boulder", new Position(2, 1), true);
+        Boulder boulder2 = new Boulder("4", "boulder", new Position(0, 1), true);
         entities.add(boulder);
         entities.add(boulder2);
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
 
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(1, 0)));
         
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(0, 0)));
 
-        spider.move(entities);
+        spider.move(entities, character);
        
         assertTrue(spider.getPosition().equals(new Position(1, 0)));
-        spider.move(entities);
+        spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
+
     }
 
     @Test
     public void ZombieMovement() {
         Zombie zombie = new Zombie("1", "Zombie", new Position(5, 5), true, 10, 10);
         List<Entity> entities = new ArrayList<>();
+        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        entities.add(character);
 
-        zombie.move(entities);
+        zombie.move(entities, character);
 
         //checks if zombie moves
         assertFalse(zombie.getPosition().equals(new Position(5, 5)));
         
         //checks where zombie goes if only 1 option
         Zombie zombie2 = new Zombie("1", "Zombie", new Position(1, 1), true, 10, 10);
-        Wall wall = new Wall("2", "Wall", new Position(1, 0), true);
+        Wall wall = new Wall("2", "wall", new Position(1, 0), true);
         entities.add(wall);
-        Wall wall1 = new Wall("2", "Wall", new Position(0, 1), true);
+        Wall wall1 = new Wall("2", "wall", new Position(0, 1), true);
         entities.add(wall1);
-        Wall wall2 = new Wall("2", "Wall", new Position(1, 2), true);
+        Wall wall2 = new Wall("2", "wall", new Position(1, 2), true);
         entities.add(wall2);
 
-        zombie2.move(entities);
+        zombie2.move(entities, character);
         assertTrue(zombie2.getPosition().equals(new Position(2,1)));
     }
 
@@ -106,7 +117,13 @@ public class EnemyMovementTest {
         Character character = new Character("2", "Character", new Position(1, 6), true, 10, 10, new ArrayList<>(), new ArrayList<>());
         entities.add(character);
 
-        mercenary.move(entities);
+        mercenary.move(entities, character);
+        Position spiderPos = mercenary.getPosition();
+        int x = spiderPos.getX();
+        int y = spiderPos.getY();
+
+        assertEquals(x, 1);
+        assertEquals(y, 2);
         assertTrue(mercenary.getPosition().equals(new Position(1, 2)));
 
 

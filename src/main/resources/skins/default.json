@@ -28,8 +28,17 @@
         "mercenary": "images/tileset/entities/ranger.png",
         "switch": "images/tileset/floor_switch.png",
         "invincibility_potion": "images/tileset/items/potion_10.png",
+        "key": "images/tileset/items/key_gold.png",
         "sword": "images/tileset/items/sword_silver.png",
         "boulders": "images/tileset/entities/boulder_04.png",
-        "enemies": "images/tileset/entities/ranger.png"
+        "enemies": "images/tileset/entities/ranger.png",
+        "door": "images/tileset/walls/wooden/door_locked_silver.png",
+        "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png",
+        "shield": "images/tileset/items/shield.png",
+        "zombie": "images/tileset/entities/zombie_00.png",
+        "blue_portal": "images/tileset/entities/portal_00.png",
+        "red_portal": "images/tileset/entities/portal_04.png",
+        "yellow_portal": "images/tileset/entities/portal_08.png",
+        "grey_portal": "images/tileset/entities/portal_12.png"
     }
 }

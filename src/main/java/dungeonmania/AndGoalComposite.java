@@ -9,7 +9,9 @@ public class AndGoalComposite implements Goals{
     public AndGoalComposite(List<Goals> children) {
         this.children = children;
     }
-
+    /**
+     * Returns goal string depending on how many goals there are left to fulfill.
+     */
     public String getGoal() {
         List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
         int size = unfilfilled.size();
@@ -26,7 +28,9 @@ public class AndGoalComposite implements Goals{
         }
         return returnString;
     }
-
+    /**
+     * Checks children if all goals are fulfilled. If it spots one unfulfilled, returns false.
+     */
     public boolean fulfilledGoals() {
         for (Goals goal : children) {
             if (!goal.fulfilledGoals()) {

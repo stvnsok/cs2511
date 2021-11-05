@@ -7,7 +7,7 @@ public class Items {
     //variable names changed to be clearer
 
     private String itemId;
-    private String itemType; //enum(?)
+    private String itemType; 
     private int durability;
 
     public Items(String itemId, String itemType, int durability) {
@@ -39,7 +39,10 @@ public class Items {
     public void setDurability(int durability) {
         this.durability = durability;
     }
-
+    /**
+     * Uses item and if durability reaches 0, get rid of the item from inventory.
+     * @param character
+     */
     public void use(Character character) {
         this.durability = this.durability - 1;
         if (this.durability == 0) {

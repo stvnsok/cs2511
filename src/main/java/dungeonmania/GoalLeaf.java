@@ -7,7 +7,9 @@ public class GoalLeaf implements Goals {
     public GoalLeaf(String goalType) {
         this.goalType = goalType;
     }
-
+    /**
+     * Returns goaltype with colon for frontend image use.
+     */
     public String getGoal() {
         return ":" + goalType;
     }

@@ -4,7 +4,6 @@ public class InvisibleState implements CharacterState{
     private int duration = 15;
     private Character character;
     
-    
     public InvisibleState(Character character) {
         this.character = character;
     }
@@ -20,6 +19,10 @@ public class InvisibleState implements CharacterState{
     public void tickStateDuration() {
         this.duration -= 1;
     }
-    //public void battle(Mob mob) {}
+    
+    @Override
+    public void battle(Mob enemy) {
+        // do nothing?
+    }
 
 }

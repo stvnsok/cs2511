@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Node;
 import dungeonmania.util.Position;
 
@@ -37,20 +38,35 @@ public class Mercenary extends Mob implements Enemies {
     }
 
     @Override
-    public void move(List<Entity> entities) {
-        Position charPosition = null;
-        for (Entity entity : entities) {
-            //get the character position
-            if (entity.getType().equals("Character")) {
-                charPosition = entity.getPosition();
+    public void move(List<Entity> entities, Character character) {
+        Position charPosition = character.getPosition();
+        Position curPos = this.getPosition();
+        Position diff = Position.calculatePositionBetween(charPosition, curPos);
+        Position newPos = curPos;
+
+        if (Math.abs(diff.getX()) > Math.abs(diff.getY())) { //move sideways 
+            if (diff.getX() > 0) {
+                newPos = new Position(curPos.getX()-1, curPos.getY());
+            } else if (diff.getX() < 0) {
+                newPos = new Position(curPos.getX()+1, curPos.getY());
+            }
+        } else if (Math.abs(diff.getX()) < Math.abs(diff.getY())) {
+            if (diff.getY() > 0) {
+                newPos = new Position(curPos.getX(), curPos.getY()-1);
+            } else if (diff.getY() < 0) {
+                newPos = new Position(curPos.getX(), curPos.getY()+1);
             }
         }
-        
+
+        if (checkObstacles(entities, newPos)) {
+            this.setPosition(newPos);
+        }
+    }
+        /*Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
         List<Node> paths = createMap(entities);
         Node start = null;
         Node end = null;
-
 
         for (Node node : paths) {
             if(node.getPosition().equals(curPos)) {
@@ -109,7 +125,8 @@ public class Mercenary extends Mob implements Enemies {
         for (int x=0; x < 21; x++) {
             for (int y=0; y < 21; y++) {
                 Position curPos = new Position(x, y);
-                if (checkObstacles(entities,curPos) == true) {
+                System.out.println(curPos.toString());
+                if (checkObstacles(entities,curPos)) {
                     //check adjacent obstacles
                     List<Position> adjacentPositions = curPos.getAdjacentPositions();
                     List<Node> adjacentPath = new ArrayList<>();
@@ -125,16 +142,16 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return paths;
-    }
+    }*/
     
     public boolean checkObstacles(List<Entity> entities, Position position) {
         for (Entity entity : entities) {
 
             Position entPos = entity.getPosition();
 
-            if (entity.getType().equals("Boulder")
-                || entity.getType().equals("Wall")
-                || entity.getType().equals("Door")) {
+            if (entity.getType().equals("boulder")
+                || entity.getType().equals("wall")
+                || entity.getType().equals("door")) {
             
                 if (position.equals(entPos)) {
                     return false;
@@ -146,5 +163,14 @@ public class Mercenary extends Mob implements Enemies {
     }
 
     //public void bribe() {}
+
+
+    @Override
+    public void update(Character character) {
+        if (character.isOn(this)) {
+            // battle!
+            character.battle(this);
+        }
+    }
 
 }

@@ -1,7 +1,8 @@
 package dungeonmania;
 
-public class CharacterObserver {
-    
-    //public void update(Subject) {}
+public interface CharacterObserver {
+// public class CharacterObserver {
+
+    public void update(Character character);
 
 }

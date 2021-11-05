@@ -7,7 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class GoalFactory {
-    // Creating goal objects from JSON
+    /**
+     * Creates GoalComposites from JSON
+     * @param object
+     * @return
+     */
     public static Goals createGoals(JSONObject object) {
         String goalType = object.getString("goal");
         
@@ -26,7 +30,7 @@ public class GoalFactory {
             for (int i = 0; i < goalArray2.length(); i++) {
                 subgoals2.add(createGoals(goalArray2.getJSONObject(i)));
             }
-            return new AndGoalComposite(subgoals2);
+            return new OrGoalComposite(subgoals2);
         
             default:
                 return new GoalLeaf(goalType);

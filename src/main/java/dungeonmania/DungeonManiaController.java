@@ -78,6 +78,8 @@ public class DungeonManiaController {
             JSONObject game = new JSONObject(text);
             input.close();
 
+            Character character = null;
+
             // Create entity
             JSONArray JSONEntities = game.getJSONArray("entities");
             List<Entity> entities = new ArrayList<>();
@@ -90,14 +92,33 @@ public class DungeonManiaController {
                 String type = JSONEntity.getString("type");
                 String id = type + entitiesCount;
                 Boolean isinteractable = false;
-                if (type == "Mercenary" || type == "ZombieToastSpawner") {
+                if (type.equals("Mercenary") || type.equals("ZombieToastSpawner")) {
                     isinteractable = true;
                 }
 
                 Entity entity;
-                if (type == "portal") {
+                if (type.equals("portal")) {
                     String colour = JSONEntity.getString("colour");
-                    entity = new Portal(id, type, p, isinteractable, colour);
+                    if (colour.equals("blue")) {
+                        entity = new Portal(id, "blue_portal", p, isinteractable, colour);
+                    } else if (colour.equals("red")) {
+                        entity = new Portal(id, "red_portal", p, isinteractable, colour);
+                    } else if (colour.equals("yellow")) {
+                        entity = new Portal(id, "yellow_portal", p, isinteractable, colour);
+                    } else {
+                        entity = new Portal(id, "grey_portal", p, isinteractable, colour);
+                    }
+                } else if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
+                    entity = character;
+                } else if (type.equals("door")) {
+                    entity = new Door(id, type, p, isinteractable, false, "1");
+                } else if (type.equals("spider")) {
+                    entity = new Spider(id, type, p, isinteractable, 10, 10);
+                } else if (type.equals("zombie")) {
+                    entity = new Zombie(id, type, p, isinteractable, 10, 10);
+                } else if (type.equals("mercenary")) {
+                    entity = new Mercenary(id, type, p, isinteractable, 10, 10, 1, false);
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
@@ -121,9 +142,14 @@ public class DungeonManiaController {
             //     goalCondition = new JSONObject();
             // }
             // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, goalCondition);
+            if (character != null) {
+                character.setEntities(entities);
+                character.setInventory(inventory);
+            }
 
             // Create DungeonResponse and Game
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
+            
             return getDungeonResponse();
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,7 +245,7 @@ public class DungeonManiaController {
 
             // Load gameMode
             String gameMode = game.getString("gameMode");
-            Character player;
+            Character character = null;
             
             // Load entities
             JSONArray JSONEntites = game.getJSONArray("entities");
@@ -232,7 +258,51 @@ public class DungeonManiaController {
                 Position p = new Position(x, y);
                 String type = JSONEntity.getString("type");
                 Boolean isinteractable = JSONEntity.getBoolean("isinteractable");
-                Entity entity = new Entity(id, type, p, isinteractable);
+                // Entity entity = new Entity(id, type, p, isinteractable);
+                Entity entity;
+                
+                // switch (type) {
+                //     case "player":
+                //         character = new Character(id, type, p, isinteractable, 100, 5, null, null);
+                //         entity = character;
+                //     case "wall":
+                //         entity = new Wall(id, type, p, isinteractable);
+                //         break;
+                //     case "exit":
+                //         entity = new Exit(id, type, p, isinteractable);
+                //         break;
+                //     case "boulder":
+                //         entity = new Boulder(id, type, p, isinteractable);
+                //         break;
+                //     case "switch":
+                //         entity = new FloorSwitch(id, type, p, isinteractable);
+                //         break;
+                //     case "door":
+                //         String keyId = JSONEntity.getString("key");
+                //         Boolean isOpen = JSONEntity.getBoolean("isopen");
+                //         // isopen is false for newgame!!
+                //         entity = new Door(id, type, p, isinteractable, isOpen, keyId);
+                //         break;
+                //     case "portal":
+                //         String colour = JSONEntity.getString("colour");
+                //         entity = new Portal(id, type, p, isinteractable, colour);
+                //         break;
+                //     case "zombie_toast_spawner":
+                //         entity = new ZombieToastSpawner(id, type, p, isinteractable);
+                //         break;
+
+
+                //     default:
+                //         entity = new Entity(id, type, p, isinteractable);
+                // }
+
+                if (type.equals("player")) {
+                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
+                    entity = character;
+                } else {
+                    entity = new Entity(id, type, p, isinteractable);
+                }
+
                 entities.add(entity);
             }
 
@@ -252,13 +322,17 @@ public class DungeonManiaController {
             JSONArray JSONBuildables = game.getJSONArray("buildables");
             List<String> buildables = new ArrayList<>();
             for (int i = 0; i < JSONBuildables.length(); i += 1) {
-                String buildableENtity = JSONBuildables.getString(i);
-                buildables.add(buildableENtity);
+                String buildableEntity = JSONBuildables.getString(i);
+                buildables.add(buildableEntity);
             }
 
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            if (character != null) {
+                character.setEntities(entities);
+                character.setInventory(inventory);
+            }
 
-            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            // currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"));
+            currentGame = new Game(dungeonName, gameMode, entities, inventory, buildables, game.getJSONObject("goal-condition"), character);
 
             return getDungeonResponse();
 
@@ -296,7 +370,10 @@ public class DungeonManiaController {
 
     public DungeonResponse tick(String itemUsed, Direction movementDirection)
             throws IllegalArgumentException, InvalidActionException {
-        return null;
+
+        currentGame.tick(itemUsed, movementDirection);
+
+        return getDungeonResponse();
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
@@ -311,4 +388,10 @@ public class DungeonManiaController {
         currentGame.build(buildable);
         return getDungeonResponse();
     }
+
+    // for testing purposes??
+    public Game getCurrentGame() {
+        return currentGame;
+    }
 }
+
