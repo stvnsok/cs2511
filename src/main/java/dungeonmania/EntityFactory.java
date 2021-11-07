@@ -8,21 +8,32 @@ import org.json.JSONObject;
 import dungeonmania.util.Position;
 
 public class EntityFactory {
-    public static List<Entity> createEntity(JSONArray entities, String gameMode) {
+    private Character character;
+    public EntityFactory() {
+
+    }
+    /**
+     * Takes a JSONArray of entities and a gameMode(to account for player health) and produces
+     * a list of entity objects.
+     * @param entities
+     * @param gameMode
+     * @return List of entity objects
+     */
+    public List<Entity> createEntity(JSONArray entities, String gameMode) {
         List<Entity> entityList = new ArrayList<>();
         for (int i = 0; i < entities.length(); i++) {
             JSONObject entity = entities.getJSONObject(i);
             Position position = new Position(entity.getInt("x"), entity.getInt("y"));
             String type = entity.getString("type");
-            String id = String.valueOf(i);
+            String id = type + String.valueOf(i);
             switch (type) {
                 case "door":
                 case "key":
-                    entityList.add(createEntity(id, position, type, entity.getString("key")));
+                    entityList.add(createKeyObject(id, position, type, entity.getInt("key")));
                     break;
 
                 case "portal":
-                    entityList.add(createEntity(id, position, type, entity.getString("colour")));
+                    entityList.add(createPortal(id, position, type, entity.getString("colour")));
                     break;
 
                 case "player":
@@ -36,7 +47,13 @@ public class EntityFactory {
         }
         return entityList;
     }
-
+    /**
+     * Takes in an id, position and type of entity and produces entity object.
+     * @param id
+     * @param position
+     * @param type
+     * @return an Entity object of requested position and type.
+     */
     public static Entity createEntity(String id, Position position, String type) {
         switch (type) {
             case "zombie":
@@ -58,21 +75,40 @@ public class EntityFactory {
                 return new Entity(id, type, position, false);
         }
     }
-
-    public static Character createPlayer(String id, Position position, String type, String gameMode, List<Entity> entities) {
+    /**
+     * Creates a Character object that will represent the player. Health will change based on given gamemode.
+     * @param id
+     * @param position
+     * @param type
+     * @param gameMode
+     * @param entities
+     * @return a Character entity
+     */
+    public Character createPlayer(String id, Position position, String type, String gameMode, List<Entity> entities) {
         int health = (gameMode == "Hard") ? (10):(20);
         int attack = 7;
         List<Items> inventory = new ArrayList<>();
-        return new Character(id, type, position, false, health, attack, inventory, entities);
+        character = new Character(id, type, position, false, health, attack, inventory, entities);
+        return character;
     }
-    // Don't know how key entities are represented yet.
-    public static Entity createEntity(String id, Position position, String type, String extra) {
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public static Entity createPortal(String id, Position position, String type, String colour) {
+        return new Portal(id, colour + "_" + type, position, false, colour);
+    }
+
+
+    public static Entity createKeyObject(String id, Position position, String type, int keyId) {
         switch (type) {
             case "door":
-                return new Door(id, type, position, false, false, extra);
+                return new Door(id, type, position, false, false, keyId);
             
-            case "portal":
-                return new Portal(id, type, position, false, extra);
+            case "key":
+                return new KeyEntity(id, type, position, false, keyId);
+            
             default:
                 return null;
         }
