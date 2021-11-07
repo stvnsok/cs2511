@@ -18,7 +18,7 @@ public class ItemFactory {
             int durability = jitem.getInt("durability");
             Items item = null;
             if (jitem.getString("type") == "key") {
-                item = createItem(id, type, durability, jitem.getString("key"));
+                item = createItem(id, type, durability, jitem.getInt("key"));
             } else {
                 item = createItem(id, type, durability);
             }
@@ -57,7 +57,7 @@ public class ItemFactory {
         }
     }
 
-    public static Items createItem(String id, String type, int durability, String kID) {
+    public static Items createItem(String id, String type, int durability, int kID) {
         return new Key(id, type, durability, kID);
     }
 }
