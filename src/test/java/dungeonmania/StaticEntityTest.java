@@ -55,13 +55,14 @@ public class StaticEntityTest {
         
         entities.add(d);
         inventory.add(k);
-        character.useItem("key");
+        //character.useItem("key");
         character.checkDoor(entities, new Position(0,1));
         assertTrue(d.isOpen());
         assertEquals("door_unlocked", d.getType());
 
     }
 
+    /*
     @Test
     public void BombTest() {
         List<Entity> entities = new ArrayList<>();
@@ -84,7 +85,7 @@ public class StaticEntityTest {
         character.checkSwitch(entities, new Position(0,2));
         assertEquals(1, entities.size());
     }
-
+    */
     @Test
     public void ZombieToastSpawnerTest() {
         List<Entity> entities = new ArrayList<>();
@@ -115,6 +116,26 @@ public class StaticEntityTest {
             .count();
        
         assertEquals(1, count);
+    }
+
+    @Test
+    public void destroySpawnerTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Sword s = new Sword("s1", "sword", 5);
+        inventory.add(s);
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), false);
+        entities.add(spawner);
+        entities.add(character);
+
+        character.destroySpawner(entities, new Position(0, 0));
+        List<Entity> entitiesCheck = new ArrayList<>();
+        entitiesCheck.add(character);
+        assertEquals(entitiesCheck, entities);
+
     }
 
 }
