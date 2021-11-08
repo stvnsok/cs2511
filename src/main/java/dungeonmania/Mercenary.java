@@ -162,7 +162,9 @@ public class Mercenary extends Mob implements Enemies {
         return true;
     }
 
-    //public void bribe() {}
+    public void bribe() {
+        setAlly(true);
+    }
 
 
     @Override
