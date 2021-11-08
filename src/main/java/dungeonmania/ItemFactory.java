@@ -56,6 +56,9 @@ public class ItemFactory {
             case "bomb":
                 return new Bomb(id, type, durability);
             
+            case "sword":
+                return new Sword(id, type, durability);
+
             case "armour":
                 return new Armour(id, type, durability);
 

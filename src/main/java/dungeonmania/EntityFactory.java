@@ -41,7 +41,8 @@ public class EntityFactory {
                     break;
 
                 default:
-                    entityList.add(createEntity(String.valueOf(i), position, type));
+                    // entityList.add(createEntity(String.valueOf(i), position, type));
+                    entityList.add(createEntity(id, position, type));
                     break;
             }
         }
@@ -57,13 +58,13 @@ public class EntityFactory {
     public static Entity createEntity(String id, Position position, String type) {
         switch (type) {
             case "zombie":
-                return new Zombie(id, type, position, false, 12, 12);
+                return new Zombie(id, type, position, false, 20, 4);
             
             case "spider":
-                return new Spider(id, type, position, false, 4, 4);
+                return new Spider(id, type, position, false, 10, 3);
             
             case "mercenary":
-                return new Mercenary(id, type, position, true, 15, 15, 1, false);
+                return new Mercenary(id, type, position, true, 25, 5, 1, false);
 
             case "boulder":
                 return new Boulder(id, type, position, false);
@@ -85,8 +86,8 @@ public class EntityFactory {
      * @return a Character entity
      */
     public Character createPlayer(String id, Position position, String type, String gameMode, List<Entity> entities) {
-        int health = (gameMode == "Hard") ? (10):(20);
-        int attack = 7;
+        int health = (gameMode.equals("Hard")) ? (10):(20);
+        int attack = 3;
         List<Items> inventory = new ArrayList<>();
         character = new Character(id, type, position, false, health, attack, inventory, entities);
         return character;

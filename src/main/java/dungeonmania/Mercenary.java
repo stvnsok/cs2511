@@ -62,6 +62,10 @@ public class Mercenary extends Mob implements Enemies {
         if (checkObstacles(entities, newPos)) {
             this.setPosition(newPos);
         }
+
+        if (this.isOn(character)) {
+            character.battle(this);
+        }
     }
         /*Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
@@ -166,13 +170,13 @@ public class Mercenary extends Mob implements Enemies {
     //public void bribe() {}
 
 
-    @Override
-    public void update(Character character) {
-        if (character.isOn(this)) {
-            // battle!
-            character.battle(this);
-        }
-    }
+    // @Override
+    // public void update(Character character) {
+    //     if (character.isOn(this)) {
+    //         // battle!
+    //         character.battle(this);
+    //     }
+    // }
 
     public Armour getArmour() {
         return armour;

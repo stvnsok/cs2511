@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -49,7 +50,9 @@ public class Zombie extends Mob implements Enemies {
             checkObstacles(entities, newPos, character);
         }
 
-
+        if (this.isOn(character)) {
+            character.battle(this);
+        }
     }
 
     /**
@@ -60,7 +63,7 @@ public class Zombie extends Mob implements Enemies {
      */
     public void checkObstacles(List<Entity> entities, Position position, Character character) {
         boolean setPos = true;
-        for (Entity entity : entities) {
+        for (Entity entity :  new ArrayList<>(entities)) {
 
             Position entPos = entity.getPosition();
 
@@ -98,13 +101,13 @@ public class Zombie extends Mob implements Enemies {
         return true;
     }
 
-    @Override
-    public void update(Character character) {
-        if (character.isOn(this)) {
-            // battle!
-            character.battle(this);
-        }
-    }
+    // @Override
+    // public void update(Character character) {
+    //     if (character.isOn(this)) {
+    //         // battle!
+    //         character.battle(this);
+    //     }
+    // }
 
     public Armour getArmour() {
         return armour;

@@ -145,13 +145,13 @@ public class Character extends Mob {
         {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
+            checkBattle();
             moveBoulder(mapEntities, newPos, direction);
         }
 
         checkItem(mapEntities, newPos);
 
         goThroughPortal(mapEntities, newPos);
-
     }
 
     public void battle(Mob enemy) {
@@ -309,6 +309,18 @@ public class Character extends Mob {
             }
         }
         return true;
+    }
+
+    public void checkBattle() {
+        for (Entity entity : new ArrayList<>(mapEntities)) {
+            if (!entity.getId().equals(this.getId()) && this.isOn(entity) && entity instanceof Mob) {
+                Mob enemy = (Mob) entity;
+                this.battle(enemy);
+                System.out.println(this.getId() + " battle with " + entity.getId());
+            }
+
+            System.out.println();
+        }
     }
 
     public void goThroughPortal(List<Entity> entities, Position position) {

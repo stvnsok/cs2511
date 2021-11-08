@@ -69,7 +69,8 @@
         {
             "id": "key3", 
             "type": "key",
-            "durability": 5
+            "durability": 5,
+            "key": 1
         }, 
         {
             "id": "wood4", 

@@ -206,9 +206,9 @@ public class DungeonManiaController {
             String gameMode = game.getString("gameMode");
             
             // Load entities
-            JSONArray JSONEntites = game.getJSONArray("entities");
+            JSONArray JSONEntities = game.getJSONArray("entities");
             EntityFactory eFactory = new EntityFactory();
-            List<Entity> entities = eFactory.createEntity(JSONEntites, gameMode);
+            List<Entity> entities = eFactory.createEntity(JSONEntities, gameMode);
             Character character = eFactory.getCharacter();
 
             // Load inventory
@@ -293,7 +293,7 @@ public class DungeonManiaController {
             ItemResponse itemR = new ItemResponse(i.getItemId(), i.getItemType());
             inventoryR.add(itemR);
         }
-
+        currentGame.getGoals();
         DungeonResponse currentDungeon = new DungeonResponse(dungeonId(), dungeonName, entitiesR, inventoryR, currentGame.getBuildables(), currentGame.getGoals());
         return currentDungeon;
     }

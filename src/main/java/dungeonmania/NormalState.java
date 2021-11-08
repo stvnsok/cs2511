@@ -15,6 +15,11 @@ public class NormalState implements CharacterState{
         // get enemy initial health so enemy and player can take damage at "same time"
         int enemyHealth = enemy.getHealth();
 
+        // for testing!!!
+        System.out.println("Battle against " + enemy.getType() + enemy.getId() + "!");
+        System.out.println("Player Health before: " + character.getHealth());
+        System.out.println("Enemy Health before: " + enemy.getHealth());
+
         int characterDamage = character.getHealth() * character.getAttack() / 5;
         int enemyDamage = enemyHealth * enemy.getAttack() / 10;
 
@@ -88,8 +93,7 @@ public class NormalState implements CharacterState{
         }
 
         // for testing!!!
-        System.out.println("Battle against " + enemy.getId() + "!");
-        System.out.println("Player Health now: " + character.getHealth());
-        System.out.println("Enemy Health now: " + enemy.getHealth());
+        System.out.println("Player Health after: " + character.getHealth());
+        System.out.println("Enemy Health after: " + enemy.getHealth());
     }
 }
