@@ -70,6 +70,10 @@ public class Spider extends Mob implements Enemies {
                 }       
             }
         }
+
+        if (this.isOn(character)) {
+            character.battle(this);
+        }
     }
 
     /**
@@ -123,12 +127,12 @@ public class Spider extends Mob implements Enemies {
         }
     }
 
-    @Override
-    public void update(Character character) {
-        if (character.isOn(this)) {
-            // battle!
-            character.battle(this);
-        }
-    }
+    // @Override
+    // public void update(Character character) {
+    //     if (character.isOn(this)) {
+    //         // battle!
+    //         character.battle(this);
+    //     }
+    // }
 }
 

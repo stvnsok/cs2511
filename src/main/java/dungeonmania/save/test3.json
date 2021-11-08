@@ -69,7 +69,8 @@
       {
         "durability": 5,
         "id": "key3",
-        "type": "key"
+        "type": "key",
+        "key": 1
       },
       {
         "durability": 500,

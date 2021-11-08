@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 public class ItemFactory {
     private static final int sword_durability = 7;
+    private static final int armour_durability = 7;
 
     public static List<Items> createInventory (JSONArray jItems) throws IllegalArgumentException {
         List<Items> inventory = new ArrayList<>();
@@ -32,7 +33,10 @@ public class ItemFactory {
         switch (type) {
             case "sword":
                 return createItem(id, type, sword_durability);
-        
+            
+            case "armour":
+                return createItem(id, type, armour_durability);
+
             default:
                 return createItem(id, type, 1);
         }
@@ -52,6 +56,15 @@ public class ItemFactory {
             case "bomb":
                 return new Bomb(id, type, durability);
             
+            case "sword":
+                return new Sword(id, type, durability);
+
+            case "armour":
+                return new Armour(id, type, durability);
+
+            case "one_ring":
+                return new TheOneRing(id, type, durability);
+                
             default:
                 return new Items(id, type, durability);
         }

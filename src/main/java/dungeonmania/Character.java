@@ -114,9 +114,13 @@ public class Character extends Mob {
         // set observers
         for (Entity mapEntity : mapEntities) {
             if (mapEntity instanceof CharacterObserver) {
-                this.attach(mapEntity);
+                this.attach((CharacterObserver) mapEntity);
             }
         }
+    }
+
+    public void mapRemove(Entity entity) {
+        mapEntities.remove(entity);
     }
 
     //public void PlayerMovement(Direction direction) {}
@@ -141,13 +145,13 @@ public class Character extends Mob {
         {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
+            checkBattle();
             moveBoulder(mapEntities, newPos, direction);
         }
 
         checkItem(mapEntities, newPos);
 
         goThroughPortal(mapEntities, newPos);
-
     }
 
     public void battle(Mob enemy) {
@@ -172,12 +176,7 @@ public class Character extends Mob {
             observer.update(this);
         }
 
-        observers.forEach(o -> o.update(this));
-    }
-    
-    // for testing purposes
-    public boolean hasObserver(CharacterObserver observer) {
-        return observers.contains(observer);
+        // observers.forEach(o -> o.update(this));
     }
 
     /**
@@ -307,6 +306,18 @@ public class Character extends Mob {
         return true;
     }
 
+    public void checkBattle() {
+        for (Entity entity : new ArrayList<>(mapEntities)) {
+            if (!entity.getId().equals(this.getId()) && this.isOn(entity) && entity instanceof Mob) {
+                Mob enemy = (Mob) entity;
+                this.battle(enemy);
+                System.out.println(this.getId() + " battle with " + entity.getId());
+            }
+
+            System.out.println();
+        }
+    }
+
     public void goThroughPortal(List<Entity> entities, Position position) {
         for (Entity entity : new ArrayList<>(entities)) {
 
@@ -333,8 +344,73 @@ public class Character extends Mob {
         }
     }
 
-    
+    public Sword getSword() {
+        for (Items item : inventory) {
+            if (item instanceof Sword) {
+                return (Sword) item;
+            }
+        }
+        return null;
+    }
 
+    public Bow getBow() {
+        for (Items item : inventory) {
+            if (item instanceof Bow) {
+                return (Bow) item;
+            }
+        }
+        return null;
+    }
+
+    public Armour getArmour() {
+        for (Items item : inventory) {
+            if (item instanceof Armour) {
+                return (Armour) item;
+            }
+        }
+        return null;
+    }
+
+    public Shield getShield() {
+        for (Items item : inventory) {
+            if (item instanceof Shield) {
+                return (Shield) item;
+            }
+        }
+        return null;
+    }
+
+    public TheOneRing getTheOneRing() {
+        for (Items item : inventory) {
+            // if (item.getItemType().equals("one_ring")) {
+            if (item instanceof TheOneRing) {
+                return (TheOneRing) item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove enemy from the game, and check for armour and One Ring.
+     * @param enemy
+     * @param eArmour
+     */
+    public void removeEnemy(Mob enemy, Armour eArmour) {
+        mapRemove(enemy);
+        // check enemy armour
+        if (eArmour != null) {
+            // give to character
+            addInventory(eArmour);
+        }
+
+        // check enemy theOneRing
+        if (TheOneRing.doesDropRing()) {
+            String id = "one_ring" + getEntities().size();
+            TheOneRing ring = (TheOneRing) ItemFactory.createItem(id, "one_ring");
+            addInventory(ring);
+        }
+    }
 }
 
 

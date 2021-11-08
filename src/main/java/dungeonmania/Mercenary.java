@@ -13,6 +13,7 @@ public class Mercenary extends Mob implements Enemies {
     
     private int bribeAmount;
     private boolean isAlly;
+    private Armour armour;
     
     public Mercenary(String id, String type, Position position, boolean isInteractable, int health, int attack,
             int bribeAmount, boolean isAlly) {
@@ -60,6 +61,10 @@ public class Mercenary extends Mob implements Enemies {
 
         if (checkObstacles(entities, newPos)) {
             this.setPosition(newPos);
+        }
+
+        if (this.isOn(character)) {
+            character.battle(this);
         }
     }
         /*Position charPosition = character.getPosition();
@@ -168,12 +173,19 @@ public class Mercenary extends Mob implements Enemies {
     }
 
 
-    @Override
-    public void update(Character character) {
-        if (character.isOn(this)) {
-            // battle!
-            character.battle(this);
-        }
+    // @Override
+    // public void update(Character character) {
+    //     if (character.isOn(this)) {
+    //         // battle!
+    //         character.battle(this);
+    //     }
+    // }
+
+    public Armour getArmour() {
+        return armour;
     }
 
+    public void setArmour(Armour armour) {
+        this.armour = armour;
+    }
 }

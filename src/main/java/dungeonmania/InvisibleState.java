@@ -22,7 +22,7 @@ public class InvisibleState implements CharacterState{
     
     @Override
     public void battle(Mob enemy) {
-        // do nothing?
+        // do nothing
     }
 
 }

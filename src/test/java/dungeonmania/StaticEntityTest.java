@@ -1,20 +1,13 @@
 package dungeonmania;
-import dungeonmania.util.Direction;
+
 import dungeonmania.util.Position;
-import dungeonmania.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.Collections;
-import dungeonmania.Game;
-import dungeonmania.Character;
 
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 

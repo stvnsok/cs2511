@@ -8,8 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.DungeonResponse;
@@ -34,18 +32,23 @@ public class loadGameTest {
         String dungeonName = "advanced";
 
         List<EntityResponse> entities = new ArrayList<>();
-        EntityResponse entity1 = new EntityResponse("wall1", "wall", new Position(0, 0), false);
-        EntityResponse entity2 = new EntityResponse("wall2", "wall", new Position(0, 1), false);
-        EntityResponse entity3 = new EntityResponse("wall3", "wall", new Position(0, 2), false);
-        EntityResponse entity4 = new EntityResponse("wall4", "wall", new Position(0, 3), false);
-        EntityResponse entity5 = new EntityResponse("wall5", "wall", new Position(0, 4), false);
-        EntityResponse entity6 = new EntityResponse("player1", "player", new Position(1, 1), false);
+        EntityResponse entity1 = new EntityResponse("wall0", "wall", new Position(0, 0), false);
+        EntityResponse entity2 = new EntityResponse("wall1", "wall", new Position(0, 1), false);
+        EntityResponse entity3 = new EntityResponse("wall2", "wall", new Position(0, 2), false);
+        EntityResponse entity4 = new EntityResponse("wall3", "wall", new Position(0, 3), false);
+        EntityResponse entity5 = new EntityResponse("wall4", "wall", new Position(0, 4), false);
+        EntityResponse entity6 = new EntityResponse("treasure5", "treasure", new Position(0, 6), false);
+        EntityResponse entity7 = new EntityResponse("mercenary6", "mercenary", new Position(3, 5), false);
+        EntityResponse entity8 = new EntityResponse("player7", "player", new Position(1, 1), false);
+
         entities.add(entity1);
         entities.add(entity2);
         entities.add(entity3);
         entities.add(entity4);
         entities.add(entity5);
         entities.add(entity6);
+        entities.add(entity7);
+        entities.add(entity8);
         
         List<ItemResponse> inventory = new ArrayList<>();
         ItemResponse item1 = new ItemResponse("wood1", "wood");
@@ -72,8 +75,8 @@ public class loadGameTest {
         assertTrue(loadedDungeon.getGoals().equals(goals));
     }
 
-    public boolean assertListOfEntitiesEqual(List<EntityResponse> a, List<EntityResponse> b) {
-        for (int i = 0; i < a.size(); i += 1) {
+    public void assertListOfEntitiesEqual(List<EntityResponse> a, List<EntityResponse> b) {
+        for (int i = 0; i < a.size(); i++) {
             EntityResponse entity_a = a.get(i);
             EntityResponse entity_b = b.get(i);
             Position position_a = entity_a.getPosition();
@@ -83,13 +86,11 @@ public class loadGameTest {
             assertEquals(position_a.getY(), position_b.getY());
             assertEquals(position_a.getLayer(), position_b.getLayer());
             assertEquals(entity_a.getType(), entity_b.getType());
-            return true;
         }
-        return false;
     }
 
     public boolean assertListOfInventoryEqual(List<ItemResponse> a, List<ItemResponse> b) {
-        for (int i = 0; i < a.size(); i += 1) {
+        for (int i = 0; i < a.size(); i++) {
             ItemResponse entity_a = a.get(i);
             ItemResponse entity_b = b.get(i);
             assertEquals(entity_a.getId(), entity_b.getId());

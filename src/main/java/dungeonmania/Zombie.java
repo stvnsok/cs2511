@@ -1,11 +1,13 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import dungeonmania.util.Position;
 
 public class Zombie extends Mob implements Enemies {
+    private Armour armour = null;
 
     public Zombie(String id, String type, Position position, boolean isInteractable, int health, int attack) {
         super(id, type, position, isInteractable, health, attack);
@@ -48,7 +50,9 @@ public class Zombie extends Mob implements Enemies {
             checkObstacles(entities, newPos, character);
         }
 
-
+        if (this.isOn(character)) {
+            character.battle(this);
+        }
     }
 
     /**
@@ -59,7 +63,7 @@ public class Zombie extends Mob implements Enemies {
      */
     public void checkObstacles(List<Entity> entities, Position position, Character character) {
         boolean setPos = true;
-        for (Entity entity : entities) {
+        for (Entity entity :  new ArrayList<>(entities)) {
 
             Position entPos = entity.getPosition();
 
@@ -97,11 +101,19 @@ public class Zombie extends Mob implements Enemies {
         return true;
     }
 
-    @Override
-    public void update(Character character) {
-        if (character.isOn(this)) {
-            // battle!
-            character.battle(this);
-        }
+    // @Override
+    // public void update(Character character) {
+    //     if (character.isOn(this)) {
+    //         // battle!
+    //         character.battle(this);
+    //     }
+    // }
+
+    public Armour getArmour() {
+        return armour;
+    }
+
+    public void setArmour(Armour armour) {
+        this.armour = armour;
     }
 }

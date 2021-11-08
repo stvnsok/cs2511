@@ -38,7 +38,6 @@ public class saveGameTest {
         }
         d.saveGame("test1");
         //DungeonResponse clearDungeon = d.newGame("advanced", "peaceful");
-        //assertNotEquals(unexpected, actual);
         DungeonResponse loadSavedDungeon = d.loadGame("test1");
 
         assertTrue(actualDungeon.getDungeonName().equals(loadSavedDungeon.getDungeonName()));
@@ -49,7 +48,7 @@ public class saveGameTest {
 
     }
     
-    public boolean assertListOfEntitiesEqual(List<EntityResponse> a, List<EntityResponse> b) {
+    public void assertListOfEntitiesEqual(List<EntityResponse> a, List<EntityResponse> b) {
         for (int i = 0; i < a.size(); i += 1) {
             EntityResponse entity_a = a.get(i);
             EntityResponse entity_b = b.get(i);
@@ -60,19 +59,15 @@ public class saveGameTest {
             assertEquals(position_a.getY(), position_b.getY());
             assertEquals(position_a.getLayer(), position_b.getLayer());
             assertEquals(entity_a.getType(), entity_b.getType());
-            return true;
         }
-        return false;
     }
 
-    public boolean assertListOfInventoryEqual(List<ItemResponse> a, List<ItemResponse> b) {
+    public void assertListOfInventoryEqual(List<ItemResponse> a, List<ItemResponse> b) {
         for (int i = 0; i < a.size(); i += 1) {
             ItemResponse entity_a = a.get(i);
             ItemResponse entity_b = b.get(i);
             assertEquals(entity_a.getId(), entity_b.getId());
             assertEquals(entity_a.getType(), entity_b.getType());
-            return true;
         }
-        return false;
     }
 }

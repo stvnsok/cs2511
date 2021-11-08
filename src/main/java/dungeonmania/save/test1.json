@@ -4,42 +4,56 @@
     "gameMode": "standard",
     "entities": [
         {
-            "id": "wall1",
+            "id": "wall0",
             "x": 0,
             "y": 0,
             "type": "wall",
             "isinteractable": false
         }, 
         {
-            "id": "wall2",
+            "id": "wall1",
             "x": 0,
             "y": 1,
             "type": "wall",
             "isinteractable": false
         }, 
         {
-            "id": "wall3",
+            "id": "wall2",
             "x": 0,
             "y": 2,
             "type": "wall",
             "isinteractable": false
         }, 
         {
-            "id": "wall4",
+            "id": "wall3",
             "x": 0,
             "y": 3,
             "type": "wall",
             "isinteractable": false
         }, 
         {
-            "id": "wall5",
+            "id": "wall4",
             "x": 0,
             "y": 4,
             "type": "wall",
             "isinteractable": false
         }, 
         {
-            "id": "player1",
+            "id": "treasure5",
+            "x": 0,
+            "y": 6,
+            "type": "treasure",
+            "isinteractable": false
+        },
+        {
+            "id": "mercenary6",
+            "x": 3,
+            "y": 5,
+            "type": "mercenary",
+            "isinteractable": true
+        },
+        {
+            "id": "player7",
             "x": 1,
             "y": 1,
             "type": "player",
@@ -60,7 +74,8 @@
         {
             "id": "key3", 
             "type": "key",
-            "durability": 10
+            "durability": 10,
+            "key": 1
         }, 
         {
             "id": "wood4", 

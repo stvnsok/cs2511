@@ -25,10 +25,18 @@ public class InvincibleState implements CharacterState {
     @Override
     public void battle(Mob enemy) {
         // defeat enemy immediately
-        enemy.takeDamage(enemy.getHealth());
+        // remove enemy from game
 
-        // remove enemy from observers and game??
-        character.detach((CharacterObserver) enemy);
+        Armour eArmour = null;
+
+        if (enemy instanceof Zombie) {
+            Zombie zombie = (Zombie) enemy;
+            eArmour = zombie.getArmour();
+        } else if (enemy instanceof Mercenary) {
+            Mercenary mercenary = (Mercenary) enemy;
+            eArmour = mercenary.getArmour();
+        }
+
+        character.removeEnemy(enemy, eArmour);
     }
-
 }

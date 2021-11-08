@@ -51,4 +51,25 @@ public class Items {
         }
     }
     
+    /**
+     * Uses armour and if durability reaches 0, set zombie's armour to null.
+     * @param zombie
+     */
+    public void use(Zombie zombie) {
+        this.durability = this.durability - 1;
+        if (this.durability == 0) {
+            zombie.setArmour(null);
+        }
+    }
+
+    /**
+     * Uses armour and if durability reaches 0, set mercenary's armour to null.
+     * @param zombie
+     */
+    public void use(Mercenary mercenary) {
+        this.durability = this.durability - 1;
+        if (this.durability == 0) {
+            mercenary.setArmour(null);
+        }
+    }
 }
