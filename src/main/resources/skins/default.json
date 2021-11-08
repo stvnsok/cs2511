@@ -39,6 +39,7 @@
         "blue_portal": "images/tileset/entities/portal_00.png",
         "red_portal": "images/tileset/entities/portal_04.png",
         "yellow_portal": "images/tileset/entities/portal_08.png",
-        "grey_portal": "images/tileset/entities/portal_12.png"
+        "grey_portal": "images/tileset/entities/portal_12.png",
+        "zombie_toast_spawner": "images/tileset/entities/zombie_spawner.png"
     }
 }
