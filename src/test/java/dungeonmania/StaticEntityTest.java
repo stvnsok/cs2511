@@ -132,9 +132,10 @@ public class StaticEntityTest {
         entities.add(character);
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
 
-        g.interactSpawner("spawner", new Position(0,0));
+        g.interactSpawner("spawner");
         List<Entity> entitiesCheck = new ArrayList<>();
         entitiesCheck.add(character);
+        //checks the list off entities to make sure that spawner has been removed
         assertEquals(entitiesCheck, entities);
 
     }

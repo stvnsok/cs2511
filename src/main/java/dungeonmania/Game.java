@@ -1,7 +1,10 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.json.JSONObject;
 
@@ -123,6 +126,10 @@ public class Game {
         entities.add(entity);
     }
 
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
     public boolean hasEntity(Entity entity) {
         return entities.contains(entity);
     }
@@ -190,26 +197,29 @@ public class Game {
     }
 
 
-    public void interactSpawner(String entityId, Position position){
+    public void interactSpawner(String entityId){
+        List<Entity> toRemove = new ArrayList<>();
         for (Entity entity : entities) {
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
+                
                 Position spawnerPos = entity.getPosition();
                 List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
+
                 for (Position p : adjacentPos) {
-                    if (p.equals(position)){
-                        for (Items item: inventory) {
-                            if(item.getItemType().equals("sword")){
-                                //sword use
-                            
-                                
-                                entities.remove(entity);
+                    if (p.equals(character.getPosition())){
+                        for (Items i: inventory) {
+                            if (i.getItemType().equals("sword")){
+                                toRemove.add(entity);
                             }
                         }
+                    
                     }
 
                 }
                 
             }
         }
+        // small brain method to deal with concurrentmodifcationexception but at least it works
+        entities.removeAll(toRemove); 
     }
 }

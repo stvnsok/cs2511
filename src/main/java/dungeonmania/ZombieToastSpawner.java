@@ -14,7 +14,4 @@ public class ZombieToastSpawner extends Entity {
         return new Zombie("zombie", "zombie_toast", getPosition(), false, 50, 5);
     }
 
-
-
-
 }
