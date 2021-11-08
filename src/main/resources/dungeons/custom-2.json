@@ -41,7 +41,7 @@
       {
         "x": 7,
         "y": 0,
-        "type": "wall"
+        "type": "zombie_toast_spawner"
       },
       {
         "x": 8,

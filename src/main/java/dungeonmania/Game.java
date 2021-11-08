@@ -169,9 +169,9 @@ public class Game {
 
         //zombieToastSpawner
         if(gameTick%20 == 0) {
-            for (Entity entity : entities) {
+            for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
-                    Zombie zombie = new Zombie(entities.size()+"zombie", "zombie", entity.getPosition(), true, 10, 10);
+                    Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
                     entities.add(zombie);
                 }
             }
