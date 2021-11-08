@@ -8,8 +8,9 @@ import org.json.JSONObject;
 
 public class ItemFactory {
     private static final int sword_durability = 7;
+    private static final int armour_durability = 7;
 
-    public static List<Items> createInventory (JSONArray jItems) {
+    public static List<Items> createInventory (JSONArray jItems) throws IllegalArgumentException {
         List<Items> inventory = new ArrayList<>();
         for (int i = 0; i < jItems.length(); i++) {
             JSONObject jitem = jItems.getJSONObject(i);
@@ -17,8 +18,8 @@ public class ItemFactory {
             String type = jitem.getString("type");
             int durability = jitem.getInt("durability");
             Items item = null;
-            if (jitem.getString("type") == "key") {
-                item = createItem(id, type, durability, jitem.getString("key"));
+            if (jitem.getString("type").equals("key")) {
+                item = createItem(id, type, durability, jitem.getInt("key"));
             } else {
                 item = createItem(id, type, durability);
             }
@@ -32,7 +33,10 @@ public class ItemFactory {
         switch (type) {
             case "sword":
                 return createItem(id, type, sword_durability);
-        
+            
+            case "armour":
+                return createItem(id, type, armour_durability);
+
             default:
                 return createItem(id, type, 1);
         }
@@ -52,12 +56,15 @@ public class ItemFactory {
             case "bomb":
                 return new Bomb(id, type, durability);
             
+            case "armour":
+                return new Armour(id, type, durability);
+
             default:
                 return new Items(id, type, durability);
         }
     }
 
-    public static Items createItem(String id, String type, int durability, String kID) {
+    public static Items createItem(String id, String type, int durability, int kID) {
         return new Key(id, type, durability, kID);
     }
 }

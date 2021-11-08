@@ -91,6 +91,7 @@ public class Entity implements CharacterObserver {
 
     // Adds collectable item to character's inventory
     private void collectItem(Character character) {
+<<<<<<< HEAD
         switch (type) {
             case "key":
                 // check if there is not already a key in inventory
@@ -127,6 +128,9 @@ public class Entity implements CharacterObserver {
                 // treasure, wood, and arrow
                 character.addInventory(new Items(id, type, 1));
         }
+=======
+        character.addInventory(ItemFactory.createItem(id, type));
+>>>>>>> master
     }
 
     public void explode(List<Entity> entities, Position position) {

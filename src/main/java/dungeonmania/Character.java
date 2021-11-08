@@ -296,7 +296,7 @@ public class Character extends Mob {
                     for(Items items : inventory) {
                         if (items.getItemType().equals("key")) {
                             Key key = (Key) items;
-                            if (key.getKeyId().equals(door.getKeyId())) {
+                            if (key.getKeyId() == (door.getKeyId())) {
                                 door.setOpen(true);
                                 door.setType("door_unlocked");
                                 key.use(this);
