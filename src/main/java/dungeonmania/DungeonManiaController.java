@@ -313,6 +313,8 @@ public class DungeonManiaController {
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
         
         currentGame.interact(entityId);
+        currentGame.interactSpawner(entityId);
+        
 
         return getDungeonResponse();
     }
