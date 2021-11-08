@@ -1,24 +1,31 @@
 package dungeonmania;
 
-public class GoalLeaf implements Goals {
+public abstract class GoalLeaf implements Goals {
     private String goalType;
-    private boolean goalFulfilled = false;
+    private Game game;
 
-    public GoalLeaf(String goalType) {
-        this.goalType = goalType;
-    }
     /**
      * Returns goaltype with colon for frontend image use.
      */
     public String getGoal() {
-        return ":" + goalType;
+        if (!fulfilledGoals()) {
+            return goalType;
+        }
+        return "";
+        
     }
 
-    public void setFulfilled(boolean goalFulfilled) {
-        this.goalFulfilled = goalFulfilled;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
-    public boolean fulfilledGoals() {
-        return goalFulfilled;
+    public Game getGame() {
+        return game;
     }
+
+    public void setGoalType(String goalType) {
+        this.goalType = goalType;
+    }
+
+    public abstract boolean fulfilledGoals();
 }
