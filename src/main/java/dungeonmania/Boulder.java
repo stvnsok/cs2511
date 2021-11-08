@@ -47,9 +47,4 @@ public class Boulder extends Entity implements BoulderSubject {
 
         // observers.forEach(o -> o.update(oldPosition, newPosition));
     }
-
-    // for testing purposes
-    public boolean hasObserver(BoulderObserver observer) {
-        return observers.contains(observer);
-    }
 }

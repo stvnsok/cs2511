@@ -178,11 +178,6 @@ public class Character extends Mob {
 
         // observers.forEach(o -> o.update(this));
     }
-    
-    // for testing purposes
-    public boolean hasObserver(CharacterObserver observer) {
-        return observers.contains(observer);
-    }
 
     /**
      * Checks if a position contains a wall
@@ -383,6 +378,38 @@ public class Character extends Mob {
             }
         }
         return null;
+    }
+
+    public TheOneRing getTheOneRing() {
+        for (Items item : inventory) {
+            // if (item.getItemType().equals("one_ring")) {
+            if (item instanceof TheOneRing) {
+                return (TheOneRing) item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Remove enemy from the game, and check for armour and One Ring.
+     * @param enemy
+     * @param eArmour
+     */
+    public void removeEnemy(Mob enemy, Armour eArmour) {
+        mapRemove(enemy);
+        // check enemy armour
+        if (eArmour != null) {
+            // give to character
+            addInventory(eArmour);
+        }
+
+        // check enemy theOneRing
+        if (TheOneRing.doesDropRing()) {
+            String id = "one_ring" + getEntities().size();
+            TheOneRing ring = (TheOneRing) ItemFactory.createItem(id, "one_ring");
+            addInventory(ring);
+        }
     }
 }
  

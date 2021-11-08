@@ -58,14 +58,14 @@ public class EntityFactory {
     public static Entity createEntity(String id, Position position, String type) {
         switch (type) {
             case "zombie":
-                return new Zombie(id, type, position, false, 20, 4);
+                return new Zombie(id, type, position, false, 15, 4);
                 // random chance of armour for zombie?
             
             case "spider":
                 return new Spider(id, type, position, false, 10, 3);
             
             case "mercenary":
-                return new Mercenary(id, type, position, true, 25, 5, 1, false);
+                return new Mercenary(id, type, position, true, 18, 5, 1, false);
                 // random chance of armour for mercenary?
 
             case "boulder":
@@ -89,7 +89,7 @@ public class EntityFactory {
      */
     public Character createPlayer(String id, Position position, String type, String gameMode, List<Entity> entities) {
         int health = (gameMode.equals("Hard")) ? (10):(20);
-        int attack = 3;
+        int attack = 4;
         List<Items> inventory = new ArrayList<>();
         character = new Character(id, type, position, false, health, attack, inventory, entities);
         return character;

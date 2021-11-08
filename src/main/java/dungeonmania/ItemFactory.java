@@ -62,6 +62,9 @@ public class ItemFactory {
             case "armour":
                 return new Armour(id, type, durability);
 
+            case "one_ring":
+                return new TheOneRing(id, type, durability);
+                
             default:
                 return new Items(id, type, durability);
         }

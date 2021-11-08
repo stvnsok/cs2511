@@ -27,7 +27,9 @@
         "spider": "images/tileset/entities/spider_00.png",
         "mercenary": "images/tileset/entities/ranger.png",
         "switch": "images/tileset/floor_switch.png",
+        "health_potion": "images/tileset/items/potion_4.png",
         "invincibility_potion": "images/tileset/items/potion_10.png",
+        "invisibility_potion": "images/tileset/items/potion_2.png",
         "key": "images/tileset/items/key_gold.png",
         "sword": "images/tileset/items/sword_silver.png",
         "boulders": "images/tileset/entities/boulder_04.png",
@@ -39,6 +41,9 @@
         "blue_portal": "images/tileset/entities/portal_00.png",
         "red_portal": "images/tileset/entities/portal_04.png",
         "yellow_portal": "images/tileset/entities/portal_08.png",
-        "grey_portal": "images/tileset/entities/portal_12.png"
+        "grey_portal": "images/tileset/entities/portal_12.png",
+        "one_ring": "images/tileset/items/ring_0_special.png",
+        "zombie_toast_spawner": "images/tileset/entities/zombie_spawner.png",
+        "armour": "images/tileset/items/armour.png"
     }
 }

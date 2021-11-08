@@ -16,9 +16,9 @@ public class NormalState implements CharacterState{
         int enemyHealth = enemy.getHealth();
 
         // for testing!!!
-        System.out.println("Battle against " + enemy.getType() + enemy.getId() + "!");
-        System.out.println("Player Health before: " + character.getHealth());
-        System.out.println("Enemy Health before: " + enemy.getHealth());
+        // System.out.println("Battle against " + enemy.getId() + "!");
+        // System.out.println("Player Health before: " + character.getHealth());
+        // System.out.println("Enemy Health before: " + enemy.getHealth());
 
         int characterDamage = character.getHealth() * character.getAttack() / 5;
         int enemyDamage = enemyHealth * enemy.getAttack() / 10;
@@ -74,26 +74,24 @@ public class NormalState implements CharacterState{
 
         // if enemy health <= 0, remove from game
         if (enemy.getHealth() <= 0) {
-            character.detach((CharacterObserver) enemy);
-            character.mapRemove(enemy);
-
-            // check enemy armour
-            if (eArmour != null) {
-                // give to character
-                character.addInventory(eArmour);
-            }
+            character.removeEnemy(enemy, eArmour);
         }
 
         // if player health <= 0
         if (character.getHealth() <= 0) {
-            // check one ring?
-
-            // remove from game
-            character.mapRemove(character);
+            // use the one ring if exist
+            TheOneRing ring = character.getTheOneRing();
+            if (ring != null) {
+                ring.use(character);
+            } else {
+                // remove from game
+                character.mapRemove(character);
+            }
         }
 
         // for testing!!!
-        System.out.println("Player Health after: " + character.getHealth());
-        System.out.println("Enemy Health after: " + enemy.getHealth());
+        // System.out.println("Player Health after: " + character.getHealth());
+        // System.out.println("Enemy Health after: " + enemy.getHealth());
     }
+    
 }
