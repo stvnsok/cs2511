@@ -25,10 +25,9 @@ public class InvincibleState implements CharacterState {
     @Override
     public void battle(Mob enemy) {
         // defeat enemy immediately
-        enemy.takeDamage(enemy.getHealth());
-
-        // remove enemy from observers and game??
+        // remove enemy from game
         character.detach((CharacterObserver) enemy);
+        character.mapRemove(enemy);
     }
 
 }

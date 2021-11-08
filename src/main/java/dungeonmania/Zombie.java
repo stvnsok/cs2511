@@ -6,6 +6,7 @@ import java.util.Random;
 import dungeonmania.util.Position;
 
 public class Zombie extends Mob implements Enemies {
+    private Armour armour = null;
 
     public Zombie(String id, String type, Position position, boolean isInteractable, int health, int attack) {
         super(id, type, position, isInteractable, health, attack);
@@ -103,5 +104,13 @@ public class Zombie extends Mob implements Enemies {
             // battle!
             character.battle(this);
         }
+    }
+
+    public Armour getArmour() {
+        return armour;
+    }
+
+    public void setArmour(Armour armour) {
+        this.armour = armour;
     }
 }

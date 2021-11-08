@@ -98,30 +98,21 @@ public class CharacterObserverTest {
         assertEquals(mercenary.getHealth(), 70); // mercenary takes no damage
     }
 
-    @Test
-    public void characterOnExit() {
-        // not sure if correct or if there is a better way to test exit,
-        // as goals have not been implemented
+    // @Test
+    // public void characterOnExit() {
+    //     // not sure if correct or if there is a better way to test exit,
+    //     // as goals have not been implemented
 
-        DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("empty.json", "Standard");
-        Game game = controller.getCurrentGame();
-        // empty.json has exit goal
-        
-        Character character = new Character("player", "character", new Position(7,7), false, 100, 20, null, null);
-        
-        Exit exit = new Exit("exit", "exit", new Position(8,8), false);
+    //     DungeonManiaController controller = new DungeonManiaController();
+    //     controller.newGame("exit", "Standard");
 
-        game.addEntity(character);
-        game.addEntity(exit);
+    //     // Move character towards exit
+    //     DungeonResponse dungeonResponse = controller.tick("", Direction.DOWN);
+    //     assertEquals(dungeonResponse.getGoals(), ":exit");
 
-        // Move character towards exit
-        DungeonResponse dungeonResponse = controller.tick("", Direction.DOWN);
-        assertEquals(dungeonResponse.getGoals(), "exit");
-
-        // Move character onto exit
-        dungeonResponse = controller.tick("", Direction.RIGHT);
-        // Game finished - dungeon response's goals should be empty
-        assertEquals(dungeonResponse.getGoals(), "");
-    }
+    //     // Move character onto exit
+    //     dungeonResponse = controller.tick("", Direction.RIGHT);
+    //     // Game finished - dungeon response's goals should be empty
+    //     assertEquals(dungeonResponse.getGoals(), "");
+    // }
 }

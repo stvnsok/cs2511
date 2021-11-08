@@ -3,10 +3,10 @@ package dungeonmania;
 import dungeonmania.util.Position;
 
 public class Door extends Entity {
-    private String keyId;
+    private int keyId;
     private boolean isOpen;
 
-    public Door(String id, String type, Position position, boolean isInteractable, boolean isOpen, String keyId) {
+    public Door(String id, String type, Position position, boolean isInteractable, boolean isOpen, int keyId) {
         super(id, type, position, isInteractable);
         this.isOpen = isOpen;
         this.keyId = keyId;
@@ -20,7 +20,7 @@ public class Door extends Entity {
         this.isOpen = isOpen;
     }
 
-    public String getKeyId() {
+    public int getKeyId() {
         return keyId;
     }
 

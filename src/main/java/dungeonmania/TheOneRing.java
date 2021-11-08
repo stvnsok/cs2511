@@ -3,17 +3,22 @@ package dungeonmania;
 import java.util.Random;
 
 public class TheOneRing extends Items {
+    public static int seed = 0;
 
-    public TheOneRing(String itemId) {
-        super(itemId, "theOneRing", 1);
+    public TheOneRing(String itemId, String type, int durability) {
+        super(itemId, type, durability);
     }
 
     /**
      * Determine whether the enemy drop the one ring or not without seed.
      * @return true if it drops
      */
-    public boolean doesDrop() {
+    public static Boolean doesDropRing() {
         Random r = new Random();
+        if (seed != 0) {
+            r.setSeed(seed);
+            seed = 0;
+        }
         if (r.nextInt(100) < 10) {
             return true;
         }
@@ -24,7 +29,7 @@ public class TheOneRing extends Items {
      * Determine whether the enemy drop the one ring or not with seed (for test purpose).
      * @return true if it drops
      */
-    public boolean doesDrop(int seed) {
+    public static boolean doesDropRing(int seed) {
         Random r = new Random(seed);
         if (r.nextInt(100) < 10) {
             return true;

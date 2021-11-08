@@ -13,6 +13,7 @@ public class Mercenary extends Mob implements Enemies {
     
     private int bribeAmount;
     private boolean isAlly;
+    private Armour armour;
     
     public Mercenary(String id, String type, Position position, boolean isInteractable, int health, int attack,
             int bribeAmount, boolean isAlly) {
@@ -173,4 +174,11 @@ public class Mercenary extends Mob implements Enemies {
         }
     }
 
+    public Armour getArmour() {
+        return armour;
+    }
+
+    public void setArmour(Armour armour) {
+        this.armour = armour;
+    }
 }

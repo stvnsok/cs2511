@@ -26,8 +26,8 @@ public class Game {
         this.inventory = inventory;
         this.buildables = buildables;
         this.jGoals = jGoals;
-        this.goals = GoalFactory.createGoals(jGoals);
         this.character = character;
+        this.goals = GoalFactory.createGoals(jGoals, this);
     }
 
     public String getDungeonName() {

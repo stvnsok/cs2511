@@ -91,42 +91,7 @@ public class Entity implements CharacterObserver {
 
     // Adds collectable item to character's inventory
     private void collectItem(Character character) {
-        switch (type) {
-            case "key":
-                // check if there is not already a key in inventory
-
-                character.addInventory(new Key(id, type, 1, "1"));
-                // ?? no keyId anywhere
-                break;
-
-            case "health_potion":
-                character.addInventory(new HealthPotion(id, type, 1));
-                break;    
-            
-            case "invincibility_potion":
-                character.addInventory(new InvincibilityPotion(id, type, 1));
-                break;
-
-            case "invisibility_potion":
-                character.addInventory(new InvisibilityPotion(id, type, 1));
-                break;
-                
-            case "bomb":
-                character.addInventory(new Bomb(id, type, 1));
-                break;
-                
-            case "sword":
-                character.addInventory(new Sword(id, type, 7));
-                break;
-            
-            case "armour":
-                // character.addInventory(new Armour(id, type, 7, character)); ??
-                break;
-                
-                default:
-                // treasure, wood, and arrow
-                character.addInventory(new Items(id, type, 1));
-        }
+        character.addInventory(ItemFactory.createItem(id, type));
     }
 
     public void explode(List<Entity> entities, Position position) {
