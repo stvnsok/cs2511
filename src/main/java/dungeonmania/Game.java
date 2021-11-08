@@ -18,6 +18,7 @@ public class Game {
     private Goals goals;
     private JSONObject jGoals;
     private Character character;
+    private int gameTick;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
             List<String> buildables, JSONObject jGoals, Character character) {
@@ -29,6 +30,7 @@ public class Game {
         this.jGoals = jGoals;
         this.character = character;
         this.goals = GoalFactory.createGoals(jGoals, this);
+        this.gameTick = 0;
     }
 
     public String getDungeonName() {
@@ -165,6 +167,26 @@ public class Game {
             buildables.add("shield");
         }
 
+        //zombieToastSpawner
+        if(gameTick%20 == 0) {
+            for (Entity entity : entities) {
+                if (entity instanceof ZombieToastSpawner) {
+                    Zombie zombie = new Zombie(entities.size()+"zombie", "zombie", entity.getPosition(), true, 10, 10);
+                    entities.add(zombie);
+                }
+            }
+        }    
+
+        gameTick++;
+    }
+
+    public void interact(String entityId) {
+        for(Entity entity : entities) {
+            if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
+                Mercenary mercenary = (Mercenary) entity;
+                mercenary.bribe();
+            }
+        }
     }
 
 
