@@ -25,21 +25,27 @@
         {
             "x": 6,
             "y": 6,
-            "type": "door"
+            "type": "door",
+            "key": 1
         },
         {
             "x": 6,
             "y": 10,
-            "type": "key"
+            "type": "key",
+            "key": 1
+        },
+        {
+          "x": 1,
+          "y": 8,
+          "type": "treasure"
         }
-
-
     ],
+
     "goal-condition": {
       "goal": "AND",
       "subgoals": [
         {
-          "goal": "enemies"
+          "goal": "boulders"
         },
         {
           "goal": "treasure"

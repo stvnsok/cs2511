@@ -59,12 +59,14 @@ public class EntityFactory {
         switch (type) {
             case "zombie":
                 return new Zombie(id, type, position, false, 20, 4);
+                // random chance of armour for zombie?
             
             case "spider":
                 return new Spider(id, type, position, false, 10, 3);
             
             case "mercenary":
                 return new Mercenary(id, type, position, true, 25, 5, 1, false);
+                // random chance of armour for mercenary?
 
             case "boulder":
                 return new Boulder(id, type, position, false);
