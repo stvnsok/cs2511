@@ -163,6 +163,7 @@ public class Mercenary extends Mob implements Enemies {
     }
 
     public void bribe() {
+        System.out.println("BRIBED");
         setAlly(true);
     }
 
