@@ -50,8 +50,8 @@ public class StaticEntityTest {
         Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
         
-        Door d = new Door("d1", "door", new Position(0,1), false, false, "1");
-        Key k = new Key("k1", "key", 1, "1");
+        Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
+        Key k = new Key("k1", "key", 1, 1);
         
         entities.add(d);
         inventory.add(k);
@@ -105,7 +105,7 @@ public class StaticEntityTest {
                 entities.add(z1.spawnZombie());
             }
             else {
-               g.tick("", Direction.DOWN);
+               g.tick("", Direction.NONE);
             }
 
         });

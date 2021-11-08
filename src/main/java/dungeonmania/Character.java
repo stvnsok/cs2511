@@ -337,8 +337,8 @@ public class Character extends Mob {
     public void destroySpawner(List<Entity> entities, Position position) {
         
 
-        for (Entity entity : new ArrayList<>(entities)) {
-            if (entity.getType().equals("zombie_toast_spawner")) {
+        for (Entity entity : entities) {
+            if (entity instanceof ZombieToastSpawner) {
                 Position spawnerPos = entity.getPosition();
 
                 List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
