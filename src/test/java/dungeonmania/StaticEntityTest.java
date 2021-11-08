@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -55,7 +57,7 @@ public class StaticEntityTest {
 
     }
 
-    /*
+    
     @Test
     public void BombTest() {
         List<Entity> entities = new ArrayList<>();
@@ -73,13 +75,16 @@ public class StaticEntityTest {
         entities.add(character);
         entities.add(b1);
         entities.add(b2);
+        
+        //entities.add(new Entity("bomb", "bomb", new Position(1,2), false));
         b.use(character);
-        entities.add(new Entity("bomb", "bomb", new Position(1,2), false));
-        character.checkSwitch(entities, new Position(0,2));
+        floorSwitch.checkBoulder(entities, new Position(0,1));
+        floorSwitch.checkSwitchOn(entities, new Position(0,1));
+        floorSwitch.explode(entities, new Position(1,2));
         assertEquals(1, entities.size());
     }
-    */
-    /*
+    
+    
     @Test
     public void ZombieToastSpawnerTest() {
         List<Entity> entities = new ArrayList<>();
@@ -92,27 +97,21 @@ public class StaticEntityTest {
         ZombieToastSpawner z1 = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(5,5), false);
         entities.add(z1);
 
-        
-        IntStream.range(0, 30).forEach(i -> {
-            if(i == 20) {
-                z1.spawnZombie();
-                entities.add(z1.spawnZombie());
-            }
-            else {
-               g.tick("", Direction.NONE);
-            }
+        //40 ticks
+        IntStream.range(0, 40).forEach(i -> {
+            g.tick("", Direction.NONE);
 
         });
 
         long count = entities
             .stream()
-            .filter(e -> e.getType().equals("zombie_toast"))
+            .filter(e -> e.getType().equals("zombie"))
             .count();
        
-        assertEquals(1, count);
+        assertEquals(2, count);
     }
 
-    */
+    
 
     @Test
     public void destroySpawnerTest() {
