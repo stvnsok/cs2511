@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Game {
     
@@ -166,4 +167,27 @@ public class Game {
 
     }
 
+
+    public void interactSpawner(String entityId, Position position){
+        for (Entity entity : entities) {
+            if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
+                Position spawnerPos = entity.getPosition();
+                List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
+                for (Position p : adjacentPos) {
+                    if (p.equals(position)){
+                        for (Items item: inventory) {
+                            if(item.getItemType().equals("sword")){
+                                //sword use
+                            
+                                
+                                entities.remove(entity);
+                            }
+                        }
+                    }
+
+                }
+                
+            }
+        }
+    }
 }

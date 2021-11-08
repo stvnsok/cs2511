@@ -333,33 +333,6 @@ public class Character extends Mob {
         }
     }
 
-
-    public void destroySpawner(List<Entity> entities, Position position) {
-        
-
-        for (Entity entity : entities) {
-            if (entity instanceof ZombieToastSpawner) {
-                Position spawnerPos = entity.getPosition();
-
-                List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
-
-                for (Position p : adjacentPos) {
-                    if (p.equals(position)){
-                        for (Items item: inventory) {
-                            if(item.getItemType().equals("sword")){
-                                //sword use
-
-                                //destroy spawner
-                                entities.remove(entity);
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-    }
 }
 
 

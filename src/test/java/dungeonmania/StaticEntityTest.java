@@ -127,11 +127,12 @@ public class StaticEntityTest {
         Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
         Sword s = new Sword("s1", "sword", 5);
         inventory.add(s);
-        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), false);
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), true);
         entities.add(spawner);
         entities.add(character);
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
 
-        character.destroySpawner(entities, new Position(0, 0));
+        g.interactSpawner("spawner", new Position(0,0));
         List<Entity> entitiesCheck = new ArrayList<>();
         entitiesCheck.add(character);
         assertEquals(entitiesCheck, entities);
