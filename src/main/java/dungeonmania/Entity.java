@@ -120,10 +120,10 @@ public class Entity implements CharacterObserver {
                 break;
             
             case "armour":
-                // character.addInventory(new Armour(id, type, 7, character)); ??
+                character.addInventory(new Armour(id, type, 7));
                 break;
                 
-                default:
+            default:
                 // treasure, wood, and arrow
                 character.addInventory(new Items(id, type, 1));
         }

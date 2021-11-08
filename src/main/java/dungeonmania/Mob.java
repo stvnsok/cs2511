@@ -30,7 +30,6 @@ public class Mob extends Entity {
     
     public void takeDamage(int damage) {
         health = health - damage;
-        // check if health <= 0 and remove entity?
     }
 
     //public void checkArmor() {}

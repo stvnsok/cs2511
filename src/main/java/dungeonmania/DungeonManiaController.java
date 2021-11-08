@@ -109,16 +109,16 @@ public class DungeonManiaController {
                         entity = new Portal(id, "grey_portal", p, isinteractable, colour);
                     }
                 } else if (type.equals("player")) {
-                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
+                    character = new Character(id, type, p, isinteractable, 20, 1, new ArrayList<>(), null);
                     entity = character;
                 } else if (type.equals("door")) {
                     entity = new Door(id, type, p, isinteractable, false, "1");
                 } else if (type.equals("spider")) {
-                    entity = new Spider(id, type, p, isinteractable, 10, 10);
+                    entity = new Spider(id, type, p, isinteractable, 10, 5);
                 } else if (type.equals("zombie")) {
-                    entity = new Zombie(id, type, p, isinteractable, 10, 10);
+                    entity = new Zombie(id, type, p, isinteractable, 10, 6);
                 } else if (type.equals("mercenary")) {
-                    entity = new Mercenary(id, type, p, isinteractable, 10, 10, 1, false);
+                    entity = new Mercenary(id, type, p, isinteractable, 10, 7, 1, false);
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
                 }
@@ -263,7 +263,7 @@ public class DungeonManiaController {
                 
                 // switch (type) {
                 //     case "player":
-                //         character = new Character(id, type, p, isinteractable, 100, 5, null, null);
+                //         character = new Character(id, type, p, isinteractable, 20, 1, null, null);
                 //         entity = character;
                 //     case "wall":
                 //         entity = new Wall(id, type, p, isinteractable);
@@ -297,7 +297,7 @@ public class DungeonManiaController {
                 // }
 
                 if (type.equals("player")) {
-                    character = new Character(id, type, p, isinteractable, 100, 5, new ArrayList<>(), null);
+                    character = new Character(id, type, p, isinteractable, 20, 1, new ArrayList<>(), null);
                     entity = character;
                 } else {
                     entity = new Entity(id, type, p, isinteractable);
@@ -425,11 +425,6 @@ public class DungeonManiaController {
         }
         currentGame.build(buildable);
         return getDungeonResponse();
-    }
-
-    // for testing purposes??
-    public Game getCurrentGame() {
-        return currentGame;
     }
 }
 

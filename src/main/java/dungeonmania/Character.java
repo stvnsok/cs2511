@@ -114,9 +114,13 @@ public class Character extends Mob {
         // set observers
         for (Entity mapEntity : mapEntities) {
             if (mapEntity instanceof CharacterObserver) {
-                this.attach(mapEntity);
+                this.attach((CharacterObserver) mapEntity);
             }
         }
+    }
+
+    public void mapRemove(Entity entity) {
+        mapEntities.remove(entity);
     }
 
     //public void PlayerMovement(Direction direction) {}
@@ -172,7 +176,7 @@ public class Character extends Mob {
             observer.update(this);
         }
 
-        observers.forEach(o -> o.update(this));
+        // observers.forEach(o -> o.update(this));
     }
     
     // for testing purposes
@@ -331,6 +335,42 @@ public class Character extends Mob {
                 }
             }
         }
+    }
+
+    public Sword getSword() {
+        for (Items item : inventory) {
+            if (item instanceof Sword) {
+                return (Sword) item;
+            }
+        }
+        return null;
+    }
+
+    public Bow getBow() {
+        for (Items item : inventory) {
+            if (item instanceof Bow) {
+                return (Bow) item;
+            }
+        }
+        return null;
+    }
+
+    public Armour getArmour() {
+        for (Items item : inventory) {
+            if (item instanceof Armour) {
+                return (Armour) item;
+            }
+        }
+        return null;
+    }
+
+    public Shield getShield() {
+        for (Items item : inventory) {
+            if (item instanceof Shield) {
+                return (Shield) item;
+            }
+        }
+        return null;
     }
 }
  
