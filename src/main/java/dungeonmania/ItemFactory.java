@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public class ItemFactory {
     private static final int sword_durability = 7;
 
-    public static List<Items> createInventory (JSONArray jItems) {
+    public static List<Items> createInventory (JSONArray jItems) throws IllegalArgumentException {
         List<Items> inventory = new ArrayList<>();
         for (int i = 0; i < jItems.length(); i++) {
             JSONObject jitem = jItems.getJSONObject(i);
@@ -17,7 +17,7 @@ public class ItemFactory {
             String type = jitem.getString("type");
             int durability = jitem.getInt("durability");
             Items item = null;
-            if (jitem.getString("type") == "key") {
+            if (jitem.getString("type").equals("key")) {
                 item = createItem(id, type, durability, jitem.getInt("key"));
             } else {
                 item = createItem(id, type, durability);
