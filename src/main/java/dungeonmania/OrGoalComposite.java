@@ -13,13 +13,13 @@ public class OrGoalComposite implements Goals {
      * Returns goal string depending on how many goals are fulfilled in composite
      */
     public String getGoal() {
-        List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
-        int size = unfilfilled.size();
+        List<Goals> unfulfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
+        int size = unfulfilled.size();
         String returnString = "";
         if (size == children.size()) {
-            returnString = "( " + unfilfilled.get(0).getGoal();
+            returnString = "( " + unfulfilled.get(0).getGoal();
             for (int i = 1; i < size; i++) {
-                returnString += " OR " + unfilfilled.get(i).getGoal();
+                returnString += " OR " + unfulfilled.get(i).getGoal();
             }
             returnString += " )";
         }

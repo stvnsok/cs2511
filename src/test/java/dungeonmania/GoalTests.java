@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 /**
@@ -34,6 +34,21 @@ public class GoalTests {
         game.tick(null, Direction.DOWN);
         assertTrue(goal.fulfilledGoals());
         assertEquals("", goal.getGoal());
+    }
+
+    @Test
+    public void dungeonExitGoalTest() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("exit", "Standard");
+
+        // Move character towards exit
+        DungeonResponse dungeonResponse = controller.tick("", Direction.DOWN);
+        assertEquals(dungeonResponse.getGoals(), ":exit");
+
+        // Move character onto exit
+        dungeonResponse = controller.tick("", Direction.RIGHT);
+        // Game finished - dungeon response's goals should be empty
+        assertEquals(dungeonResponse.getGoals(), "");
     }
 
     @Test

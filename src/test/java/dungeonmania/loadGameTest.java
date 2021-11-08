@@ -8,8 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.response.models.DungeonResponse;
@@ -78,7 +76,7 @@ public class loadGameTest {
     }
 
     public void assertListOfEntitiesEqual(List<EntityResponse> a, List<EntityResponse> b) {
-        for (int i = 0; i < a.size(); i += 1) {
+        for (int i = 0; i < a.size(); i++) {
             EntityResponse entity_a = a.get(i);
             EntityResponse entity_b = b.get(i);
             Position position_a = entity_a.getPosition();
@@ -92,7 +90,7 @@ public class loadGameTest {
     }
 
     public boolean assertListOfInventoryEqual(List<ItemResponse> a, List<ItemResponse> b) {
-        for (int i = 0; i < a.size(); i += 1) {
+        for (int i = 0; i < a.size(); i++) {
             ItemResponse entity_a = a.get(i);
             ItemResponse entity_b = b.get(i);
             assertEquals(entity_a.getId(), entity_b.getId());

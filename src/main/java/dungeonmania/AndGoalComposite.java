@@ -13,18 +13,18 @@ public class AndGoalComposite implements Goals{
      * Returns goal string depending on how many goals there are left to fulfill.
      */
     public String getGoal() {
-        List<Goals> unfilfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
-        int size = unfilfilled.size();
+        List<Goals> unfulfilled = children.stream().filter(g -> !g.fulfilledGoals()).collect(Collectors.toList());
+        int size = unfulfilled.size();
         String returnString = "";
         if (size > 1) {
-            returnString = "( " + unfilfilled.get(0).getGoal();
+            returnString = "( " + unfulfilled.get(0).getGoal();
             for (int i = 1; i < size; i++) {
-                returnString += " AND " + unfilfilled.get(i).getGoal();
+                returnString += " AND " + unfulfilled.get(i).getGoal();
             }
             returnString += " )";
             
         } else if (size == 1) {
-            returnString = unfilfilled.get(0).getGoal();
+            returnString = unfulfilled.get(0).getGoal();
         }
         return returnString;
     }

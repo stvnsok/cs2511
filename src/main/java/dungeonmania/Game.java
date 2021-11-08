@@ -1,11 +1,15 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.json.JSONObject;
 
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class Game {
     
@@ -17,6 +21,7 @@ public class Game {
     private Goals goals;
     private JSONObject jGoals;
     private Character character;
+    private int gameTick;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
             List<String> buildables, JSONObject jGoals, Character character) {
@@ -28,6 +33,7 @@ public class Game {
         this.jGoals = jGoals;
         this.character = character;
         this.goals = GoalFactory.createGoals(jGoals, this);
+        this.gameTick = 0;
     }
 
     public String getDungeonName() {
@@ -120,6 +126,10 @@ public class Game {
         entities.add(entity);
     }
 
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
     public boolean hasEntity(Entity entity) {
         return entities.contains(entity);
     }
@@ -164,6 +174,52 @@ public class Game {
             buildables.add("shield");
         }
 
+        //zombieToastSpawner
+        if(gameTick%20 == 0) {
+            for (Entity entity : new ArrayList<>(entities)) {
+                if (entity instanceof ZombieToastSpawner) {
+                    Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
+                    entities.add(zombie);
+                }
+            }
+        }    
+
+        gameTick++;
     }
 
+    public void interact(String entityId) {
+        for(Entity entity : entities) {
+            if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
+                Mercenary mercenary = (Mercenary) entity;
+                mercenary.bribe();
+            }
+        }
+    }
+
+
+    public void interactSpawner(String entityId){
+        List<Entity> toRemove = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
+                
+                Position spawnerPos = entity.getPosition();
+                List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
+
+                for (Position p : adjacentPos) {
+                    if (p.equals(character.getPosition())){
+                        for (Items i: inventory) {
+                            if (i.getItemType().equals("sword")){
+                                toRemove.add(entity);
+                            }
+                        }
+                    
+                    }
+
+                }
+                
+            }
+        }
+        // small brain method to deal with concurrentmodifcationexception but at least it works
+        entities.removeAll(toRemove); 
+    }
 }
