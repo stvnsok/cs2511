@@ -86,6 +86,7 @@ public class StaticEntityTest {
         assertEquals(1, entities.size());
     }
     */
+    /*
     @Test
     public void ZombieToastSpawnerTest() {
         List<Entity> entities = new ArrayList<>();
@@ -117,6 +118,8 @@ public class StaticEntityTest {
        
         assertEquals(1, count);
     }
+
+    */
 
     @Test
     public void destroySpawnerTest() {
