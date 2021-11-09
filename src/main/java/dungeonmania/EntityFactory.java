@@ -1,6 +1,8 @@
 package dungeonmania;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,30 +23,32 @@ public class EntityFactory {
      */
     public List<Entity> createEntity(JSONArray entities, String gameMode) {
         List<Entity> entityList = new ArrayList<>();
+        Pattern specialPattern = Pattern.compile("key|door|portal|player");
         for (int i = 0; i < entities.length(); i++) {
             JSONObject entity = entities.getJSONObject(i);
             Position position = new Position(entity.getInt("x"), entity.getInt("y"));
             String type = entity.getString("type");
+            Matcher matcher = specialPattern.matcher(type);
             String id = type + String.valueOf(i);
-            switch (type) {
-                case "door":
-                case "key":
-                    entityList.add(createKeyObject(id, position, type, entity.getInt("key")));
-                    break;
-
-                case "portal":
-                    entityList.add(createPortal(id, position, type, entity.getString("colour")));
-                    break;
-
-                case "player":
-                    entityList.add(createPlayer(id, position, type, gameMode, entityList));
-                    break;
-
-                default:
-                    // entityList.add(createEntity(String.valueOf(i), position, type));
-                    entityList.add(createEntity(id, position, type));
-                    break;
+            if (matcher.find()) {
+                switch (matcher.group()) {
+                    case "door":
+                    case "key":
+                        entityList.add(createKeyObject(id, position, type, matcher.group(), entity.getInt("key")));
+                        break;
+    
+                    case "portal":
+                        entityList.add(createPortal(id, position, type, entity.getString("colour")));
+                        break;
+    
+                    case "player":
+                        entityList.add(createPlayer(id, position, type, gameMode, entityList));
+                        break;
+                }
+            } else {
+                entityList.add(createEntity(id, position, type));
             }
+            
         }
         return entityList;
     }
@@ -56,27 +60,29 @@ public class EntityFactory {
      * @return an Entity object of requested position and type.
      */
     public static Entity createEntity(String id, Position position, String type) {
-        switch (type) {
-            case "zombie":
-                return new Zombie(id, type, position, false, 15, 4);
-                // random chance of armour for zombie?
-            
-            case "spider":
-                return new Spider(id, type, position, false, 10, 3);
-            
-            case "mercenary":
-                return new Mercenary(id, type, position, true, 18, 5, 1, false);
-                // random chance of armour for mercenary?
-
-            case "boulder":
-                return new Boulder(id, type, position, false);
-            
-            case "zombie_toast_spawner":
-                return new ZombieToastSpawner(id, type, position, true);
+        Pattern entPattern = Pattern.compile("zombie|spider|mercenary|boulder|zombie_toast_spawner");
+        Matcher matcher = entPattern.matcher(type);
+        if (matcher.find()) {
+            switch (type) {
+                case "zombie":
+                    return new Zombie(id, type, position, false, 15, 4);
+                    // random chance of armour for zombie?
                 
-            default:
-                return new Entity(id, type, position, false);
-        }
+                case "spider":
+                    return new Spider(id, type, position, false, 10, 3);
+                
+                case "mercenary":
+                    return new Mercenary(id, type, position, true, 18, 5, 1, false);
+                    // random chance of armour for mercenary?
+    
+                case "boulder":
+                    return new Boulder(id, type, position, false);
+                
+                case "zombie_toast_spawner":
+                    return new ZombieToastSpawner(id, type, position, true);
+            }
+        } 
+        return new Entity(id, type, position, false);
     }
     /**
      * Creates a Character object that will represent the player. Health will change based on given gamemode.
@@ -104,13 +110,13 @@ public class EntityFactory {
     }
 
 
-    public static Entity createKeyObject(String id, Position position, String type, int keyId) {
+    public static Entity createKeyObject(String id, Position position, String fullType, String type, int keyId) {
         switch (type) {
             case "door":
-                return new Door(id, type, position, false, false, keyId);
+                return new Door(id, fullType, position, false, false, keyId);
             
             case "key":
-                return new KeyEntity(id, type, position, false, keyId);
+                return new KeyEntity(id, fullType, position, false, keyId);
             
             default:
                 return null;
