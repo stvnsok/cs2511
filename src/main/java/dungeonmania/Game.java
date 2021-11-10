@@ -3,6 +3,7 @@ package dungeonmania;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
@@ -183,6 +184,43 @@ public class Game {
                 }
             }
         }    
+
+        //spider spawning
+        int maxX = 0;
+        int maxY = 0;
+        int minX = 0;
+        int minY = 0;
+        int spiderNum = 0;
+        
+        for (Entity entity : entities) {
+            if (entity.getPosition().getX() > maxX) {
+                maxX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() > maxY) {
+                maxY = entity.getPosition().getY();
+            }
+            if (entity.getPosition().getX() < minX) {
+                minX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() < minY) {
+                minY = entity.getPosition().getY();
+            }
+            if (entity instanceof Spider) {
+                spiderNum++;
+            }
+
+        }
+
+        //System.out.println(maxX +"|"+ maxY +"|"+ minX +"|"+ minY);
+
+        Random random = new Random();
+        //generate random percentage
+        if (random.nextInt(5) == 0 && spiderNum < 4) {
+            //generate random position
+            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 10);
+            entities.add(spider);
+        }
 
         gameTick++;
     }
