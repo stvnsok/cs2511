@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.util.Position;
@@ -85,7 +86,7 @@ public class Spider extends Mob implements Enemies {
      */
     public void checkBoulder(List<Entity> entities, Position position, Character character) {
         boolean setPos = true;
-        for (Entity entity : entities) {
+        for (Entity entity : new ArrayList<>(entities)) {
 
             Position entPos = entity.getPosition();
 

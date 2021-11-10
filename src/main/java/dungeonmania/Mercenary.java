@@ -75,7 +75,7 @@ public class Mercenary extends Mob implements Enemies {
             this.setPosition(newPos);
         }
 
-        if (this.isOn(character)) {
+        if (this.isOn(character) && !isAlly) {
             character.battle(this);
         }
     }

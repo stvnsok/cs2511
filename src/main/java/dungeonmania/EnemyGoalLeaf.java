@@ -12,6 +12,10 @@ public class EnemyGoalLeaf extends GoalLeaf {
     public boolean fulfilledGoals() {
         Game game = getGame();
         List<Entity> entities = game.getEntities();
-        return entities.stream().noneMatch(e -> e instanceof Enemies);
+
+        // return entities.stream().noneMatch(e -> e instanceof Enemies);
+        return entities.stream()
+                        .filter(e -> e instanceof Enemies || e instanceof ZombieToastSpawner)
+                        .noneMatch(e -> !(e instanceof Mercenary) || !((Mercenary) e).isAlly());
     }
 }
