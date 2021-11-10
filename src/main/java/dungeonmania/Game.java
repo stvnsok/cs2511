@@ -188,10 +188,35 @@ public class Game {
     }
 
     public void interact(String entityId) {
-        for(Entity entity : entities) {
-            if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
+        int treasureNum = 0;
+        for(Entity entity : new ArrayList<>(entities)) {
+            if(entity.getId().equals(entityId) && entity instanceof Mercenary && entity.getPosition().getAdjacentPositions2().contains(character.getPosition())) {
                 Mercenary mercenary = (Mercenary) entity;
-                mercenary.bribe();
+
+                for(Items item : inventory) {
+                    if (item.getItemType().equals("treasure")) {
+                        treasureNum++;
+                        
+                    } 
+                }
+                
+                if (treasureNum >= mercenary.getBribeAmount()) {
+                    
+                    mercenary.bribe();
+                    mercenary.setInteractable(false);
+                    
+                    int i = mercenary.getBribeAmount();
+                    for(Items item : new ArrayList<>(inventory)) {
+                        if (i  == 0) {
+                            break;
+                        }
+                        if (item.getItemType().equals("treasure")) {
+                            inventory.remove(item);
+                            i--;
+                        }
+    
+                    }
+                }
             }
         }
     }
