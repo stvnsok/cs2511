@@ -60,7 +60,7 @@ public class Mercenary extends Mob implements Enemies {
         }
 
         if (checkObstacles(entities, newPos)) {
-            //this.setPosition(newPos);
+            this.setPosition(newPos);
         }
 
         if (this.isOn(character)) {

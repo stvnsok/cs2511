@@ -176,7 +176,14 @@ public class Game {
         }
 
         //zombieToastSpawner
-        if(gameTick%20 == 0) {
+        int spawnTick;
+        if (gameMode.equals("Hard")) {
+            spawnTick = 15;    
+        } else {
+            spawnTick = 20;
+        }
+
+        if(gameTick%spawnTick == 0) {
             for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
                     Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
