@@ -2,6 +2,7 @@ package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class ItemTest {
@@ -22,6 +24,7 @@ public class ItemTest {
         c1.addInventory(i1);
         assertEquals(new ArrayList<Items>(Arrays.asList(i1)), c1.getInventory());
     }
+    
     // Using an item should cause it to lose a point of durability
     @Test
     public void useItem() {
@@ -33,6 +36,7 @@ public class ItemTest {
         c1.useItem("s1");
         assertEquals(3, i1.getDurability());
     }
+    
     // When Item runs out of durability, it should 'break' disappearing from inventory
     @Test
     public void breakItem() {
@@ -46,6 +50,7 @@ public class ItemTest {
         assertEquals(0, c1.getInventory().size());
         assertEquals(new ArrayList<Items>(), c1.getInventory());
     }
+    
     // Testing Potion usage, as they have different effects that just decreasing durability
     @Test
     public void usePotion() {
@@ -67,6 +72,7 @@ public class ItemTest {
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals(c1.getMaxHealth(), c1.getHealth());
     }
+    
     // Testing building items with Character
     @Test
     public void buildTest() {
@@ -88,11 +94,13 @@ public class ItemTest {
         Items e = c1.getInventory().get(0);
         assertEquals("bow", e.getItemType());
     }
+    
     @Test
     public void useBomb() {
         // Creating a new game just to have access to entity list
         List<Entity> entities = new ArrayList<>();
-        Character c1 = new Character("player", "Character", new Position(10,11), false, 100, 10, new ArrayList<>(), entities);
+        Position cPosition = new Position(10,11);
+        Character c1 = new Character("player", "Character", cPosition, false, 100, 10, new ArrayList<>(), entities);
         entities.add(c1);
         c1.addInventory(new Bomb("a", "bomb", 1));
         c1.useItem("a");
@@ -101,10 +109,14 @@ public class ItemTest {
         Entity testBomb = entities.get(1);
         assertEquals("bomb", testBomb.getType());
         Position bPosition = testBomb.getPosition();
-        assertEquals(10, bPosition.getX());
-        assertEquals(11, bPosition.getY());
-        assertEquals(0, bPosition.getLayer());
+        assertEquals(cPosition, bPosition); // character and bomb on same position
+
+        // attempt to move character back to original position, but move is blocked by the placed bomb
+        c1.move(Direction.LEFT);
+        c1.move(Direction.RIGHT);
+
+        assertEquals(0, c1.getInventory().size()); // character has not picked up the bomb
+        assertEquals(2, entities.size());
+        assertNotEquals(cPosition, c1.getPosition()); // character is not back to original position
     }
-
-
 }
