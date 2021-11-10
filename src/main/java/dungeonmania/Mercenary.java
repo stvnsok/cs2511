@@ -167,11 +167,26 @@ public class Mercenary extends Mob implements Enemies {
         return true;
     }
 
-    public void bribe() {
-        System.out.println("BRIBED");
-        setAlly(true);
+    public boolean checkPlayer(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
+
+            Position entPos = entity.getPosition();
+
+            if (entity.getType().equals("player")) {
+            
+                if (position.equals(entPos)) {
+                    return false;
+                }
+
+            }
+        }
+        return true;
     }
 
+    public void bribe() {
+        //System.out.println("BRIBED");
+        setAlly(true);
+    }
 
     // @Override
     // public void update(Character character) {
