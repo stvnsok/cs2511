@@ -209,6 +209,7 @@ public class Character extends Mob {
     public boolean checkBomb(List<Entity> entities, Position position) {
         for (Entity entity : entities) {
             Position entPos = entity.getPosition();
+<<<<<<< HEAD
 
             if (entity.getType().equals("bomb") && !this.isObserver(entity) && position.equals(entPos)) {
                 return false;
@@ -278,6 +279,13 @@ public class Character extends Mob {
     //         }
     //     }
     // }
+=======
+            if (entity.isCollectable() && position.equals(entPos)) {
+                entities.remove(entity);
+            }
+        }
+    }
+>>>>>>> e031aec (Sunstone door done, Can't do stone bribe till merc is done, got rid of big if in character, sun_stone won't render)
 
     /**
      * Checks if a position contains a boulder and moves the boulder
