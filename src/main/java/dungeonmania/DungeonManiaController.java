@@ -25,6 +25,7 @@ import dungeonmania.util.Position;
 public class DungeonManiaController {
     private Game currentGame;
     private List<String> savedGames = new ArrayList<>();
+    
 
     public DungeonManiaController() {
     }
@@ -273,7 +274,9 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        
+        if (!currentGame.getEntities().stream().anyMatch(e -> e.getId().equals(entityId))) {
+            throw new IllegalArgumentException("Entity does not exist");
+        }
         currentGame.interact(entityId);
         currentGame.interactSpawner(entityId);
         
@@ -282,8 +285,8 @@ public class DungeonManiaController {
     }
 
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        
-        if (!currentGame.getBuildables().contains(buildable)) {
+        List<String> validBuilds = new ArrayList<>(Arrays.asList("bow", "shield", "sceptre", "midnight_armour"));
+        if (!validBuilds.stream().anyMatch(e -> e.equals(buildable))) {
             throw new IllegalArgumentException("Not a valid build item");
         }
         currentGame.build(buildable);
