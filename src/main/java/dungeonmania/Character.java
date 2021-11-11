@@ -230,39 +230,7 @@ public class Character extends Mob {
     //     for (Entity entity : new ArrayList<>(entities)) {
 
     //         Position entPos = entity.getPosition();
-
-    //         if (entity.getType().equals("treasure")
-    //         || entity.getType().equals("arrow")
-    //         || entity.getType().equals("wood")
-    //         || entity.getType().equals("armour")
-    //         ) {
-                
-    //             if (position.equals(entPos)) {
-    //                 entities.remove(entity);
-    //             }
-    //         }
-
-    //         if (entity.getType().equals("bomb") && position.equals(entPos)) {
-    //             entities.remove(entity);
-    //         }
-
-    //         if (entity.getType().equals("sword") && position.equals(entPos)) {
-    //             entities.remove(entity);
-    //         }
-
-    //         if (entity.getType().equals("key") && position.equals(entPos)) {
-    //             entities.remove(entity);
-    //         }
-
-    //         if (entity.getType().equals("health_potion") && position.equals(entPos)) {
-    //             entities.remove(entity);
-    //         }
-
-    //         if (entity.getType().equals("invisibility_potion") && position.equals(entPos)) {
-    //             entities.remove(entity);
-    //         }
-
-    //         if (entity.getType().equals("invincibility_potion") && position.equals(entPos)) {
+    //         if (entity.isCollectable() && position.equals(entPos)) {
     //             entities.remove(entity);
     //         }
     //     }
@@ -311,6 +279,12 @@ public class Character extends Mob {
             if (entity.getType().equals("door") && position.equals(entPos)) {
                 Door door = (Door) entity;
                 if (door.isOpen() == false) {
+                    // First check for sunstone. If sunstone exists, unlock door, and don't use.
+                    if (inventory.stream().anyMatch(e -> e.getItemType().equals("sun_stone"))) {
+                        door.setOpen(true);
+                        door.setType("door_unlocked");
+                        return true;
+                    }
                     //check if character have the right key
                     for(Items items : inventory) {
                         if (items.getItemType().equals("key")) {

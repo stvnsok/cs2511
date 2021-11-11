@@ -37,9 +37,10 @@ public class theOneRingTest {
         TheOneRing testRing1 = new TheOneRing("testRing1", "the_one_ring", 1);
         player.addInventory(testRing1);
         player.setHealth(1);
+        player.setAttack(20);
         assertEquals(player.getHealth(), 1);
         Position dummyPosition = new Position(1, 1);
-        Mob enemy = new Mob("test1", "spider", dummyPosition, false, 20, 10);
+        Mob enemy = new Mob("test1", "spider", dummyPosition, false, 1, 20);
         assertTrue(player.getInventory().contains(testRing1));
         assertDoesNotThrow(() -> player.battle(enemy));
         assertTrue(!player.getInventory().contains(testRing1));

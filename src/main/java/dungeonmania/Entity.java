@@ -77,7 +77,7 @@ public class Entity implements CharacterObserver {
     // Checks if current entity is a collectable entity
     private boolean isCollectable() {
         List<String> collectables = Arrays.asList("treasure", "key", "health_potion", "invincibility_potion", 
-        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour");
+        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour", "sun_stone");
 
         return collectables.contains(type);
     }
