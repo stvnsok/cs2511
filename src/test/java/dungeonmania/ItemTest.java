@@ -1,12 +1,13 @@
 package dungeonmania;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.util.Position;
@@ -104,6 +105,26 @@ public class ItemTest {
         assertEquals(10, bPosition.getX());
         assertEquals(11, bPosition.getY());
         assertEquals(0, bPosition.getLayer());
+    }
+
+    @Test
+    public void sunStoneTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+        
+        Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
+        Items k = new Items("s1", "sun_stone", 1);
+        
+        entities.add(d);
+        inventory.add(k);
+        //character.useItem("key");
+        character.checkDoor(entities, new Position(0,1));
+        assertTrue(d.isOpen());
+        assertEquals("door_unlocked", d.getType());
     }
 
 
