@@ -1,7 +1,10 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 //import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,6 +108,27 @@ public class ItemTest {
         assertEquals(11, bPosition.getY());
         assertEquals(0, bPosition.getLayer());
     }
+    @Test
+    public void generateArmourTest() {
+        DungeonManiaController dc = new DungeonManiaController();
+        dc.newGame("advanced", "Standard");
+        Game game = dc.getCurrentGame();
+        Character player = game.getCharacter();
+        Position dummyPosition = new Position(1, 1);
+        Armour.seed = 11;
+        Zombie zombie1 = (Zombie) EntityFactory.createEntity("zombie1", dummyPosition, "zombie");
+        assertTrue(zombie1.getArmour() == null);
+        assertTrue(player.getInventory().isEmpty());
+        assertDoesNotThrow(() -> player.battle(zombie1));
+        assertEquals(player.getArmour(), null);
 
-
+        Armour.seed = 10;
+        Zombie zombie2 = (Zombie) EntityFactory.createEntity("zombie2", dummyPosition, "zombie");
+        assertTrue(zombie2.getArmour() != null);
+        assertTrue(player.getInventory().isEmpty());
+        zombie2.setHealth(1);
+        assertDoesNotThrow(() -> player.battle(zombie2));
+        assertTrue(!player.getInventory().isEmpty());
+        assertNotEquals(player.getArmour(), null);
+    }
 }

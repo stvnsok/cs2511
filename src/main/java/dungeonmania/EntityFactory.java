@@ -65,15 +65,27 @@ public class EntityFactory {
         if (matcher.find()) {
             switch (type) {
                 case "zombie":
-                    return new Zombie(id, type, position, false, 15, 4);
-                    // random chance of armour for zombie?
+                    Zombie z = new Zombie(id, type, position, false, 15, 4);
+                    // random chance of armour for zombie
+                    if (Armour.doesDropArmour()) {
+                        String armourId = "armour" + id;
+                        Armour a = (Armour) ItemFactory.createItem(armourId, "armour");
+                        z.setArmour(a);
+                    }
+                    return z;
                 
                 case "spider":
                     return new Spider(id, type, position, false, 10, 3);
                 
                 case "mercenary":
-                    return new Mercenary(id, type, position, true, 18, 5, 1, false);
-                    // random chance of armour for mercenary?
+                Mercenary m = new Mercenary(id, type, position, true, 18, 5, 1, false);
+                    // random chance of armour for mercenary
+                    if (Armour.doesDropArmour()) {
+                        String armourId = "armour" + id;
+                        Armour a = (Armour) ItemFactory.createItem(armourId, "armour");
+                        m.setArmour(a);
+                    }
+                    return m;
     
                 case "boulder":
                     return new Boulder(id, type, position, false);

@@ -6,6 +6,10 @@ Item Assumptions:
    durability of one sword.
 5. Using an item decreases its durability by 1.
 6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
+7. There is a 10% chance to drop the one ring after a battle.
+8. If the player who has an armour get another armour, the durability of his armour should increase to the initial durability.
+9. There is a 30% chance to drop an armour after a fight with zombies or mercenaries.
+10. Initial durability of an armour and a sword are 7.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
