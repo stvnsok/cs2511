@@ -213,20 +213,20 @@ public class Game {
     }
 
 
-    public void interactSpawner(String entityId) throws InvalidActionException {
-        List<Entity> toRemove = new ArrayList<>();
-        for (Entity entity : entities) {
+    public void interactSpawner(String entityId){
+        
+        for (Entity entity : new ArrayList<>(entities)) {
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
                 
                 Position spawnerPos = entity.getPosition();
-                boolean destroyed = false;
-                List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
+                List<Position> adjacentPos = spawnerPos.getCardinallyAdjacentPosition();
 
                 for (Position p : adjacentPos) {
-                    if (p.equals(character.getPosition())){
-                        /*for (Items i: inventory) {
+                    if (character.getPosition().equals(p)){
+                        for (Items i: inventory) {
                             if (i.getItemType().equals("sword")){
-                                toRemove.add(entity);
+                                //toRemove.add(entity);
+                                entities.remove(entity);
                             }
                         }*/
                         if (!inventory.stream().anyMatch(e -> e.getItemType().equals("sword") 
@@ -245,7 +245,6 @@ public class Game {
                 
             }
         }
-        // small brain method to deal with concurrentmodifcationexception but at least it works
-        entities.removeAll(toRemove); 
+
     }
 }

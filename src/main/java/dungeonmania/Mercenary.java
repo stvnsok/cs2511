@@ -1,9 +1,18 @@
 package dungeonmania;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Map.Entry;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import dungeonmania.util.Direction;
 import dungeonmania.util.Node;
@@ -14,6 +23,9 @@ public class Mercenary extends Mob implements Enemies {
     private int bribeAmount;
     private boolean isAlly;
     private Armour armour;
+    //private Map<Position, Double> Grid = new HashMap<Position, Double>();
+
+    private Double infinity = 100000.00;
     
     public Mercenary(String id, String type, Position position, boolean isInteractable, int health, int attack,
             int bribeAmount, boolean isAlly) {
@@ -67,87 +79,116 @@ public class Mercenary extends Mob implements Enemies {
             character.battle(this);
         }
     }
-        /*Position charPosition = character.getPosition();
-        Position curPos = this.getPosition();
-        List<Node> paths = createMap(entities);
-        Node start = null;
-        Node end = null;
+    /*
+    public Map<Position,Double> allPositions(List<Entity> entities) {
+        Map <Position, Double> Grid = new HashMap<>();
+        double d = 0.00;
+        // assume a fixed size for the grid
+        // furthest x and y wall 
 
-        for (Node node : paths) {
-            if(node.getPosition().equals(curPos)) {
-                start = node;
-            }
-
-            if (node.getPosition().equals(charPosition)) {
-                end = node;
+        List<Integer> xList = new ArrayList<Integer>();
+        List<Integer> yList = new ArrayList<Integer>();
+        for (Entity e: entities) {
+            if (e instanceof Wall) {
+                xList.add(e.getPosition().getX());
+                yList.add(e.getPosition().getY());
             }
         }
+        
+        for (int x=0; x < Collections.max(xList); x++) {
+            for (int y=0; y < Collections.max(yList); y++) {
+                Position curPos = new Position(x, y); 
 
-        bfs(start, end);
-
-        Position nextPosition = getNextPosition(start, end);
-
-        this.setPosition(nextPosition);
-
+                Grid.put(curPos, d);
+                d++;
+                
+            }
+        }
+        return Grid;
     }
 
-    public void bfs(Node start, Node end) {
-        Queue<Node> queue = new LinkedList<>();
 
-        start.setVisited(true);
-        queue.add(start);
+
+
+    public void pathFinding(List<Entity> entities, Character character) {
+
+        Map<Position, Double> Grid = allPositions(entities);
+        Position source = this.getPosition();
+
+        Map<Position, Double> dist = new HashMap<Position, Double>();
+
+        //put all the positions of the dungeon size
+        for (Map.Entry<Position, Double> set : Grid.entrySet()) {
+            dist.put(set.getKey(), set.getValue());
+        }
+        Map<Position, Position> prev = new HashMap<Position, Position>();
+
+        for (Position p : Grid.keySet()) {
+            prev.put(p, p);
+        }
+
+        for (Position p: Grid.keySet()) {
+            dist.replace(p, infinity);
+            prev.replace(p, null);
+        }
+
+        dist.replace(source, 0.00);
+
+        Queue<Position> queue = new PriorityQueue<>(Grid.keySet());
+        //add source node to queue
+        queue.add(source);
 
         while(!queue.isEmpty()) {
-            Node curNode = queue.poll();
+            
+            List<Position> adjacentPositions = source.getAdjacentPositions();
+            
+            for (Position v: adjacentPositions) {
+                for (Double u: dist.values()) {
 
-            for(Node node: curNode.getAdjacentPath()) {
-                if(!node.getVisited()) {
-                    node.setVisited(true);
-                    queue.add(node);
-                    node.setPrevNode(curNode);
-
-                    if(node.getPosition().equals(end.getPosition())) {
-                        queue.clear();
-                        break;
+                    double d = (double)dist.get(v);
+                    if (u + cost(entities, v) < d) {
+                        
+                        dist.replace(v,(u + cost(entities, v)));
+                        
+                        prev.replace(v, dist.get(u));
                     }
                 }
+                
+                
             }
+             
         }
+
+
+
     }
 
-    public Position getNextPosition(Node start, Node end) {
-        Node curNode = end;
-        Node prevNode = curNode.getPrevNode();
-        while(!prevNode.getPosition().equals(start.getPosition())) {
-            curNode = prevNode;
-            prevNode = curNode.getPrevNode();
+    public Double cost(List<Entity> entities, Position tile){
+
+        for (Entity e: entities) {
+            if (e instanceof Wall) {
+                return 1000.00;
+
+            }
+
+            if (e instanceof SwampTile ) {
+                // need to get ticks some how
+                return 2.00;
+            }
+
+            else {
+                return 1.00;
+            }
+            
         }
-        return curNode.getPosition();
+        return 1.00;
+
     }
 
-    public List<Node> createMap(List<Entity> entities) {
-        List<Node> paths = new ArrayList<>();
-        for (int x=0; x < 21; x++) {
-            for (int y=0; y < 21; y++) {
-                Position curPos = new Position(x, y);
-                System.out.println(curPos.toString());
-                if (checkObstacles(entities,curPos)) {
-                    //check adjacent obstacles
-                    List<Position> adjacentPositions = curPos.getAdjacentPositions();
-                    List<Node> adjacentPath = new ArrayList<>();
-                    for (Position adjacentPosition : adjacentPositions) {
-                        if (checkObstacles(entities, adjacentPosition) == true) {
-                            adjacentPath.add(new Node(adjacentPosition, new ArrayList<>()));
-                        }
-                    }
+    */
+    
 
-                    Node node = new Node(curPos, adjacentPath);
-                    paths.add(node);
-                }
-            }
-        }
-        return paths;
-    }*/
+
     
     public boolean checkObstacles(List<Entity> entities, Position position) {
         for (Entity entity : entities) {

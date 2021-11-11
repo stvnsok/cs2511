@@ -226,6 +226,53 @@ public class Character extends Mob {
     //     for (Entity entity : new ArrayList<>(entities)) {
 
     //         Position entPos = entity.getPosition();
+
+    //         if (entity.getType().equals("treasure")
+    //         || entity.getType().equals("arrow")
+    //         || entity.getType().equals("wood")
+    //         || entity.getType().equals("armour")
+    //         ) {
+                
+    //             if (position.equals(entPos)) {
+    //                 entities.remove(entity);
+    //             }
+    //         }
+
+    //         if (entity.getType().equals("bomb") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("sword") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("key") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("health_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("invisibility_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("invincibility_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Checks if a position contains an item removes the item when picked up
+    //  * @param entities
+    //  * @param position
+    //  */
+    // public void checkItem(List<Entity> entities, Position position) {
+    //     for (Entity entity : new ArrayList<>(entities)) {
+
+    //         Position entPos = entity.getPosition();
     //         if (entity.isCollectable() && position.equals(entPos)) {
     //             entities.remove(entity);
     //         }
