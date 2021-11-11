@@ -213,27 +213,23 @@ public class Game {
     }
 
 
-    public void interactSpawner(String entityId){
-        
+
+    public void interactSpawner(String entityId) throws InvalidActionException {
+       
         for (Entity entity : new ArrayList<>(entities)) {
+
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
-                
+                boolean destroyed = false;
                 Position spawnerPos = entity.getPosition();
                 List<Position> adjacentPos = spawnerPos.getCardinallyAdjacentPosition();
 
                 for (Position p : adjacentPos) {
                     if (character.getPosition().equals(p)){
-                        for (Items i: inventory) {
-                            if (i.getItemType().equals("sword")){
-                                //toRemove.add(entity);
-                                entities.remove(entity);
-                            }
-                        }*/
                         if (!inventory.stream().anyMatch(e -> e.getItemType().equals("sword") 
                                                         || e.getItemType().equals("anduril"))) {
                             throw new InvalidActionException("You need a weapon to destroy this");
                         }
-                        toRemove.add(entity);
+                        entities.remove(entity);
                         destroyed = true;
                         break;                   
                     }
