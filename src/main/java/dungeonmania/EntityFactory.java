@@ -95,7 +95,7 @@ public class EntityFactory {
      */
     public Character createPlayer(String id, Position position, String type, String gameMode, List<Entity> entities) {
         int health = (gameMode.equals("Hard")) ? (10):(20);
-        int attack = 4;
+        int attack = 5;
         List<Items> inventory = new ArrayList<>();
         character = new Character(id, type, position, false, health, attack, inventory, entities);
         return character;

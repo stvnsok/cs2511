@@ -19,9 +19,9 @@ public class Bomb extends Items {
         Position charPos = character.getPosition();
         // Get all entities on same position as character.
         Position bombPos = new Position(charPos.getX(), charPos.getY(), charPos.getLayer());
-        entities.add(new Entity(String.valueOf(entities.size()) + "bomb", "bomb", bombPos, false));
+        entities.add(new Entity("bomb" + String.valueOf(entities.size()), "bomb", bombPos, false));
         
-        character.update(character);
+        // character.update(character);
 
         super.use(character);
     }

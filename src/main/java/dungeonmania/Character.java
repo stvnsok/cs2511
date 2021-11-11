@@ -141,7 +141,8 @@ public class Character extends Mob {
         
         if (checkWall(mapEntities, newPos) 
         && checkMoveBoulder(mapEntities, newPos, direction)
-        && checkDoor(mapEntities, newPos))
+        && checkDoor(mapEntities, newPos)
+        && checkBomb(mapEntities, newPos))
         {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
@@ -149,12 +150,16 @@ public class Character extends Mob {
             moveBoulder(mapEntities, newPos, direction);
         }
 
-        checkItem(mapEntities, newPos);
+        // checkItem(mapEntities, newPos);
 
         goThroughPortal(mapEntities, newPos);
     }
 
     public void battle(Mob enemy) {
+        // if (!gameMode.equals("Peaceful")) {
+        //     state.battle(enemy);
+        // }
+
         state.battle(enemy);
     }
 
@@ -167,7 +172,7 @@ public class Character extends Mob {
     public void detach(CharacterObserver observer) {
         observers.remove(observer);
 
-        // detach observers when they are destroyed/die/become allied?
+        // detach observers when they are destroyed?
     }
 
     public void notifyObservers() {
@@ -175,9 +180,12 @@ public class Character extends Mob {
         for (CharacterObserver observer : new ArrayList<>(observers)) {
             observer.update(this);
         }
-
-        // observers.forEach(o -> o.update(this));
     }
+
+    public boolean isObserver(CharacterObserver observer) {
+        return observers.contains(observer);
+    }
+
 
     /**
      * Checks if a position contains a wall
@@ -198,19 +206,35 @@ public class Character extends Mob {
     }
 
     /**
-     * Checks if a position contains an item removes the item when picked up
-     * @param entities
-     * @param position
+     * Check if a position contains a bomb
+     * @param character
+     * @return
      */
-    public void checkItem(List<Entity> entities, Position position) {
-        for (Entity entity : new ArrayList<>(entities)) {
-
+    public boolean checkBomb(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
             Position entPos = entity.getPosition();
-            if (entity.isCollectable() && position.equals(entPos)) {
-                entities.remove(entity);
+
+            if (entity.getType().equals("bomb") && !this.isObserver(entity) && position.equals(entPos)) {
+                return false;
             }
         }
+        return true;
     }
+
+    // /**
+    //  * Checks if a position contains an item removes the item when picked up
+    //  * @param entities
+    //  * @param position
+    //  */
+    // public void checkItem(List<Entity> entities, Position position) {
+    //     for (Entity entity : new ArrayList<>(entities)) {
+
+    //         Position entPos = entity.getPosition();
+    //         if (entity.isCollectable() && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+    //     }
+    // }
 
     /**
      * Checks if a position contains a boulder and moves the boulder
@@ -282,13 +306,13 @@ public class Character extends Mob {
 
     public void checkBattle() {
         for (Entity entity : new ArrayList<>(mapEntities)) {
-            if (!entity.getId().equals(this.getId()) && this.isOn(entity) && entity instanceof Mob) {
+            if (!entity.getId().equals(this.getId()) && 
+                this.isOn(entity) && entity instanceof Mob && 
+                (!(entity instanceof Mercenary) || !((Mercenary) entity).isAlly())) {
+                
                 Mob enemy = (Mob) entity;
                 this.battle(enemy);
-                System.out.println(this.getId() + " battle with " + entity.getId());
             }
-
-            System.out.println();
         }
     }
 
@@ -384,6 +408,19 @@ public class Character extends Mob {
             TheOneRing ring = (TheOneRing) ItemFactory.createItem(id, "one_ring");
             addInventory(ring);
         }
+    }
+
+
+    public List<Mercenary> getAllies() {
+        List<Mercenary> allies = new ArrayList<>();
+
+        for (Entity e : mapEntities) {
+            if (e instanceof Mercenary && ((Mercenary) e).isAlly()) {
+                allies.add((Mercenary) e);
+            }
+        }
+
+        return allies;
     }
 }
 
