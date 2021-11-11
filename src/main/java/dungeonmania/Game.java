@@ -215,8 +215,8 @@ public class Game {
 
 
     public void interactSpawner(String entityId) throws InvalidActionException {
-        List<Entity> toRemove = new ArrayList<>();
-        for (Entity entity : entities) {
+       
+        for (Entity entity : new ArrayList<>(entities)) {
 
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
                 boolean destroyed = false;
@@ -229,7 +229,7 @@ public class Game {
                                                         || e.getItemType().equals("anduril"))) {
                             throw new InvalidActionException("You need a weapon to destroy this");
                         }
-                        toRemove.add(entity);
+                        entities.remove(entity);
                         destroyed = true;
                         break;                   
                     }
