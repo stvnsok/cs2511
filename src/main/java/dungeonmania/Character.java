@@ -59,19 +59,14 @@ public class Character extends Mob {
         return this.maxHealth;
     }
 
-    public void buildItem(String item) throws InvalidActionException, IllegalArgumentException  {
+    public void buildItem(String item) throws InvalidActionException {
         Build buildable = null;
-        switch (item) {
-            case "bow":
-                buildable = new Bow(String.valueOf(inventory.size()), item, 3);
-                break;
-        
-            case "shield":
-                buildable = new Shield(String.valueOf(inventory.size()), item, 3);
-                break;
-            default:
-                throw new IllegalArgumentException("Not a valid build item");
+        if (item.equals("bow")) {
+            buildable = new Bow("bow" + String.valueOf(inventory.size()), item, 3);
+        } else if (item.equals("shield")) {
+            buildable = new Shield("shield" + String.valueOf(inventory.size()), item, 5);
         }
+
         List<Map<String,Integer>> recipes = buildable.getRecipe();
         List<String> recipeItems = new ArrayList<>();
         boolean recipeFulfilled = false;
@@ -81,7 +76,7 @@ public class Character extends Mob {
             for (String component : recipe.keySet()) {
                 List<String> query = new ArrayList<>();
                 query.addAll(inventory.stream()
-                     .filter(i -> i.getItemType() == component)
+                     .filter(i -> i.getItemType().equals(component))
                      .limit(recipe.get(component))
                      .map(Items::getItemId)
                      .collect(Collectors.toList()));
@@ -96,11 +91,12 @@ public class Character extends Mob {
             }
             if (recipeFulfilled) {
                 recipeItems.stream().forEach(i -> useItem(i));
-                //recipeItems.stream().forEach(i -> System.out.println(i.getDurability()));
-                // Casting bad, will fix later.
                 inventory.add((Items) buildable);
+                return;
             }
         }
+        throw new InvalidActionException("Insufficient items to build");
+        
 
     }
 

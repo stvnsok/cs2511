@@ -1,6 +1,7 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.json.JSONObject;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -79,7 +81,9 @@ public class Game {
 
         
         if (buildables.contains(buildable)) {
-            if(buildable.equals("bow")) {
+            character.buildItem(buildable);
+            buildables.remove(buildable);
+            /*if(buildable.equals("bow")) {
                 Bow bow = new Bow("bow"+entities.size(), "bow", 5);
                 inventory.add(bow);
                 buildables.remove("bow");
@@ -117,7 +121,7 @@ public class Game {
                     }
 
                 }
-            }
+            }*/
         }
         
     }
@@ -134,15 +138,23 @@ public class Game {
         return entities.contains(entity);
     }
 
-    public void tick(String itemUsed, Direction movementDirection) {
+    public void tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         character.move(movementDirection);
 
         int numWood = 0;
         int numArrows = 0;
         int numTreasure = 0;
+        // Won't bother checking if item is not uses(null)
+        int itemExists = itemUsed == null ? -1 : 0;
         int numKey = 0;
+        List<String> validUse = new ArrayList<>(Arrays.asList("health_potion","invisibility_potion",
+                                                              "invincibility_potion","bomb"));
         for (Items items : new ArrayList<>(inventory)) {
             if (items.getItemId().equals(itemUsed)) {
+                if (!validUse.stream().anyMatch(e -> e.equals(items.getItemType()))) {
+                    throw new IllegalArgumentException("Not a valid use item");
+                }
+                itemExists = 1;
                 items.use(character);
             }
 
@@ -156,6 +168,10 @@ public class Game {
                 numKey++;
             }
 
+        }
+        // Item id is not null, but does not exist in inventory
+        if (itemExists == 0) {
+            throw new InvalidActionException("Item does not exist");
         }
 
         for (Entity entity : new ArrayList<>(entities)) {
@@ -197,24 +213,34 @@ public class Game {
     }
 
 
-    public void interactSpawner(String entityId){
+    public void interactSpawner(String entityId) throws InvalidActionException {
         List<Entity> toRemove = new ArrayList<>();
         for (Entity entity : entities) {
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
                 
                 Position spawnerPos = entity.getPosition();
+                boolean destroyed = false;
                 List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
 
                 for (Position p : adjacentPos) {
                     if (p.equals(character.getPosition())){
-                        for (Items i: inventory) {
+                        /*for (Items i: inventory) {
                             if (i.getItemType().equals("sword")){
                                 toRemove.add(entity);
                             }
+                        }*/
+                        if (!inventory.stream().anyMatch(e -> e.getItemType().equals("sword") 
+                                                        || e.getItemType().equals("anduril"))) {
+                            throw new InvalidActionException("You need a weapon to destroy this");
                         }
-                    
+                        toRemove.add(entity);
+                        destroyed = true;
+                        break;                   
                     }
 
+                }
+                if (!destroyed) {
+                    throw new InvalidActionException("You need to be adjacent to the spawner to destroy it");
                 }
                 
             }
