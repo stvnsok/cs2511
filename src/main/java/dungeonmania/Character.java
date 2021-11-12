@@ -60,12 +60,7 @@ public class Character extends Mob {
     }
 
     public void buildItem(String item) throws InvalidActionException {
-        Build buildable = null;
-        if (item.equals("bow")) {
-            buildable = new Bow("bow" + String.valueOf(inventory.size()), item, 3);
-        } else if (item.equals("shield")) {
-            buildable = new Shield("shield" + String.valueOf(inventory.size()), item, 5);
-        }
+        Build buildable = ItemFactory.createBuildable(item + inventory.size(), item);
 
         List<Map<String,Integer>> recipes = buildable.getRecipe();
         List<String> recipeItems = new ArrayList<>();
