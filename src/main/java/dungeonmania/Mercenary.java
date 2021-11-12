@@ -1,6 +1,6 @@
 package dungeonmania;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Map.Entry;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
+
 
 import dungeonmania.util.Direction;
 import dungeonmania.util.Node;
@@ -21,6 +21,7 @@ import dungeonmania.util.Position;
 public class Mercenary extends Mob implements Enemies {
     
     private int bribeAmount;
+    private int controlDuration = -1;
     private boolean isAlly;
     private Armour armour;
     //private Map<Position, Double> Grid = new HashMap<Position, Double>();
@@ -79,7 +80,7 @@ public class Mercenary extends Mob implements Enemies {
             character.battle(this);
         }
     }
-    /*
+    
     public Map<Position,Double> allPositions(List<Entity> entities) {
         Map <Position, Double> Grid = new HashMap<>();
         double d = 0.00;
@@ -110,10 +111,10 @@ public class Mercenary extends Mob implements Enemies {
 
 
 
-    public void pathFinding(List<Entity> entities, Character character) {
+    public Map<Position, Position> pathFinding(List<Entity> entities, Character character) {
 
         Map<Position, Double> Grid = allPositions(entities);
-        Position source = this.getPosition();
+        Position source = character.getPosition();
 
         Map<Position, Double> dist = new HashMap<Position, Double>();
 
@@ -140,38 +141,35 @@ public class Mercenary extends Mob implements Enemies {
 
         while(!queue.isEmpty()) {
             
-            List<Position> adjacentPositions = source.getAdjacentPositions();
+            List<Position> adjacentPositions = source.getCardinallyAdjacentPosition();
             
             for (Position v: adjacentPositions) {
-                for (Double u: dist.values()) {
 
+                for (Map.Entry<Position, Double> set : dist.entrySet()) {
                     double d = (double)dist.get(v);
-                    if (u + cost(entities, v) < d) {
-                        
-                        dist.replace(v,(u + cost(entities, v)));
-                        
-                        prev.replace(v, dist.get(u));
+                    
+                    if ((set.getValue() + cost(entities, v)) < d) {
+                        dist.replace(v, (set.getValue() + cost(entities, v)));
+                        prev.replace(v, set.getKey());
                     }
                 }
                 
-                
             }
-             
+
         }
-
-
+        return prev;
 
     }
 
     public Double cost(List<Entity> entities, Position tile){
 
         for (Entity e: entities) {
-            if (e instanceof Wall) {
+            if (e instanceof Wall || e instanceof Boulder) {
                 return 1000.00;
 
             }
 
-            if (e instanceof SwampTile ) {
+            else if (e instanceof SwampTile ) {
                 // need to get ticks some how
                 return 2.00;
             }
@@ -185,7 +183,7 @@ public class Mercenary extends Mob implements Enemies {
 
     }
 
-    */
+    
     
 
 
@@ -206,6 +204,26 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return true;
+    }
+    public int getControlDuration() {
+        return controlDuration;
+    }
+
+    public void setControlDuration(int controlDuration) {
+        this.controlDuration = controlDuration;
+    }
+
+    public void controlTick() {
+        this.controlDuration -= 1;
+        if (controlDuration == 0) {
+            setAlly(false);
+        }
+    }
+
+    public void control(Character character, Items sceptre) {
+        setAlly(true);
+        setControlDuration(10);
+        sceptre.use(character);
     }
 
     public void bribe() {
