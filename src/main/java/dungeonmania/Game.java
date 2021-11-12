@@ -2,10 +2,9 @@ package dungeonmania;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.json.JSONObject;
 
@@ -203,7 +202,14 @@ public class Game {
         }
 
         //zombieToastSpawner
-        if(gameTick%20 == 0) {
+        int spawnTick;
+        if (gameMode.equals("Hard")) {
+            spawnTick = 15;    
+        } else {
+            spawnTick = 20;
+        }
+
+        if(gameTick%spawnTick == 0) {
             for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
                     Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
@@ -212,19 +218,79 @@ public class Game {
             }
         }    
 
+        //spider spawning
+        int maxX = 0;
+        int maxY = 0;
+        int minX = 0;
+        int minY = 0;
+        int spiderNum = 0;
+        
+        for (Entity entity : entities) {
+            if (entity.getPosition().getX() > maxX) {
+                maxX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() > maxY) {
+                maxY = entity.getPosition().getY();
+            }
+            if (entity.getPosition().getX() < minX) {
+                minX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() < minY) {
+                minY = entity.getPosition().getY();
+            }
+            if (entity instanceof Spider) {
+                spiderNum++;
+            }
+
+        }
+
+        //System.out.println(maxX +"|"+ maxY +"|"+ minX +"|"+ minY);
+
+        Random random = new Random();
+        //generate random percentage
+        if (random.nextInt(5) == 0 && spiderNum < 4) {
+            //generate random position
+            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 3);
+            entities.add(spider);
+        }
+
         gameTick++;
     }
 
     public void interact(String entityId) {
-        for(Entity entity : entities) {
-            if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
+        int treasureNum = 0;
+        for(Entity entity : new ArrayList<>(entities)) {
+            if(entity.getId().equals(entityId) && entity instanceof Mercenary && entity.getPosition().getAdjacentPositions2().contains(character.getPosition())) {
                 Mercenary mercenary = (Mercenary) entity;
                 if (inventory.stream().anyMatch(e -> e.getItemType().equals("sceptre"))) {
                     mercenary.control(character, inventory.stream().filter(e -> e.getItemType().equals("sceptre")).findFirst().get());
                 } else {
-                    mercenary.bribe();
+                    for(Items item : inventory) {
+                        if (item.getItemType().equals("treasure")) {
+                            treasureNum++;
+                            
+                        } 
+                    }
+                    
+                    if (treasureNum >= mercenary.getBribeAmount()) {
+                        
+                        mercenary.bribe();
+                        mercenary.setInteractable(false);
+                        
+                        int i = mercenary.getBribeAmount();
+                        for(Items item : new ArrayList<>(inventory)) {
+                            if (i  == 0) {
+                                break;
+                            }
+                            if (item.getItemType().equals("treasure")) {
+                                inventory.remove(item);
+                                i--;
+                            }
+        
+                        }
+                    }
                 }
-                
             }
         }
     }
