@@ -10,6 +10,8 @@ Item Assumptions:
 8. If the player who has an armour get another armour, the durability of his armour should increase to the initial durability.
 9. There is a 30% chance to drop an armour after a fight with zombies or mercenaries.
 10. Initial durability of an armour and a sword are 7.
+11. Upon interacting with a mercenary/assassin, with both sceptre and bribe amount, prioritise using the sceptre.
+12. Midnight armour has a durability of 12, and adds 12 attack damage. Its damage decrease is same as regular armour.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.

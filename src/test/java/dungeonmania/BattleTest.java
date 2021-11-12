@@ -536,4 +536,28 @@ public class BattleTest {
         assertNotNull(character.getArmour());
         assertTrue(character.getInventory().contains(armour)); // player gets ally's armour
     }
+
+    @Test
+    public void midnightArmourTest() {
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        MidnightArmour armour = new MidnightArmour("armour", "midnight_armour", 2);
+        character2.addInventory(armour);
+
+        Zombie zombie1 = new Zombie("zombie1", "zombie_toast", new Position(7,6), false, 60, 10);
+        Zombie zombie2 = new Zombie("zombie2", "zombie_toast", new Position(7,8), false, 60, 10);
+
+        List<Entity> entities1 = new ArrayList<>(Arrays.asList(zombie1, character1));
+        List<Entity> entities2 = new ArrayList<>(Arrays.asList(zombie2, character2));
+        character1.setEntities(entities1);
+        character2.setEntities(entities2);
+
+        character1.move(Direction.UP); // player1 battles zombie1
+        character2.move(Direction.DOWN); // player2 battles zombie2
+
+        assertTrue(character1.getHealth() < character2.getHealth()); // player without armour has less health
+        // Midnight armour gives more attack damage, so zombie who battled with player without armour should have less health
+        assertTrue(zombie1.getHealth() > zombie2.getHealth());
+        assertEquals(0, armour.getDurability());
+    }
 }

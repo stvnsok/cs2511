@@ -399,12 +399,16 @@ public class Character extends Mob {
     }
 
     public Armour getArmour() {
+        Armour armour = null;
         for (Items item : inventory) {
-            if (item instanceof Armour) {
+            if (item instanceof MidnightArmour) {
                 return (Armour) item;
             }
+            if (item instanceof Armour && armour == null) {
+                armour = (Armour) item;
+            }
         }
-        return null;
+        return armour;
     }
 
     public Shield getShield() {
