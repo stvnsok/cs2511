@@ -381,12 +381,16 @@ public class Character extends Mob {
     }
 
     public Sword getSword() {
+        Sword sword = null;
         for (Items item : inventory) {
             if (item instanceof Sword) {
-                return (Sword) item;
+                if (item.getItemType().equals("anduril")) {
+                    return (Sword) item;
+                }
+                sword = (Sword) item;
             }
         }
-        return null;
+        return sword;
     }
 
     public Bow getBow() {

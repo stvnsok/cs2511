@@ -560,4 +560,31 @@ public class BattleTest {
         assertTrue(zombie1.getHealth() > zombie2.getHealth());
         assertEquals(0, armour.getDurability());
     }
+
+    @Test
+    public void andurilTest() {
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+
+        Sword sword = new Sword("sword", "anduril", 2);
+        Sword sword2 = new Sword("sword2", "sword", 2);
+        character2.addInventory(sword); // player2 has anduril
+        character1.addInventory(sword2); // player1 has regular sword
+
+        Mercenary mercenary1 = new Mercenary("mercenary1", "mercenary", new Position(6,7), true, 200, 1, 3, false);
+        Mercenary mercenary2 = new Mercenary("mercenary2", "mercenary", new Position(8,7), true, 200, 1, 3, false);
+
+        List<Entity> entities1 = new ArrayList<>(Arrays.asList(mercenary1, character1));
+        List<Entity> entities2 = new ArrayList<>(Arrays.asList(mercenary2, character2));
+        character1.setEntities(entities1);
+        character2.setEntities(entities2);
+
+        character1.move(Direction.LEFT); // player1 battles mercenary1
+        character2.move(Direction.RIGHT); // player2 battles mercenary2
+        assertTrue(character1.getHealth() < character2.getHealth()); // player with anduril has more health as enemy dies faster
+
+        assertEquals(0, sword.getDurability()); // sword was used twice in battle, should be out of durability
+        assertTrue(sword2.getDurability() <= 0); // same goes for other sword.
+    
+    }
 }

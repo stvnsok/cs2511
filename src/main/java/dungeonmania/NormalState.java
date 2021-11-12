@@ -43,7 +43,13 @@ public class NormalState implements CharacterState{
         }
 
         if (sword != null) { // if player has sword
-            characterDamage = characterDamage * 2; // double damage
+            // Triple damage if anduril
+            if (sword.getItemType().equals("anduril")) {
+                characterDamage = characterDamage * 3;
+            } else {
+                characterDamage = characterDamage * 2; // double damage
+            }
+            
             sword.use(character);
         }
 
