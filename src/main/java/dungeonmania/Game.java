@@ -255,6 +255,12 @@ public class Game {
             entities.add(spider);
         }
 
+        if (gameMode.equals("Hard") && gameTick%50 == 0 && gameTick != 0) {
+            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Zombie hydra = new Zombie(System.currentTimeMillis()+"hydra", "hydra", randPos, false, 50, 8);
+            entities.add(hydra);
+        }   
+
         gameTick++;
     }
 
@@ -269,8 +275,13 @@ public class Game {
                     for(Items item : inventory) {
                         if (item.getItemType().equals("treasure")) {
                             treasureNum++;
-                            
-                        } 
+                        } else if (mercenary.getType().equals("assassin") && item.getItemType().equals("one_ring")) {
+                            mercenary.bribe();
+                            mercenary.setInteractable(false);
+
+                            inventory.remove(item);
+                            return;
+                        }
                     }
                     
                     if (treasureNum >= mercenary.getBribeAmount()) {
@@ -290,6 +301,7 @@ public class Game {
         
                         }
                     }
+
                 }
             }
         }

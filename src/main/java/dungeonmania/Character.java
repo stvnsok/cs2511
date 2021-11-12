@@ -37,6 +37,7 @@ public class Character extends Mob {
 
     public void setInventory(List<Items> inventory) {
         this.inventory = inventory;
+        inventory.add(new Items(System.currentTimeMillis()+"oneRing", "one_ring", 1));
     }
 
     public void addInventory(Items inventoryItem) {
