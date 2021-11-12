@@ -109,7 +109,7 @@ public class ItemTest {
         assertEquals(0, bPosition.getLayer());
     }
     @Test
-    public void generateArmourTest() {
+    public void zombieDropArmourTest() {
         DungeonManiaController dc = new DungeonManiaController();
         dc.newGame("advanced", "Standard");
         Game game = dc.getCurrentGame();
@@ -128,6 +128,29 @@ public class ItemTest {
         assertTrue(player.getInventory().isEmpty());
         zombie2.setHealth(1);
         assertDoesNotThrow(() -> player.battle(zombie2));
+        assertTrue(!player.getInventory().isEmpty());
+        assertNotEquals(player.getArmour(), null);
+    }
+    @Test
+    public void mercenaryDropArmourTest() {
+        DungeonManiaController dc = new DungeonManiaController();
+        dc.newGame("advanced", "Standard");
+        Game game = dc.getCurrentGame();
+        Character player = game.getCharacter();
+        Position dummyPosition = new Position(1, 1);
+        Armour.seed = 11;
+        Mercenary mercenary1 = (Mercenary) EntityFactory.createEntity("mercenary1", dummyPosition, "mercenary");
+        assertTrue(mercenary1.getArmour() == null);
+        assertTrue(player.getInventory().isEmpty());
+        assertDoesNotThrow(() -> player.battle(mercenary1));
+        assertEquals(player.getArmour(), null);
+
+        Armour.seed = 10;
+        Mercenary mercenary2 = (Mercenary) EntityFactory.createEntity("mercenary2", dummyPosition, "mercenary");
+        assertTrue(mercenary2.getArmour() != null);
+        assertTrue(player.getInventory().isEmpty());
+        mercenary2.setHealth(1);
+        assertDoesNotThrow(() -> player.battle(mercenary2));
         assertTrue(!player.getInventory().isEmpty());
         assertNotEquals(player.getArmour(), null);
     }
