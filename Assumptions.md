@@ -6,6 +6,7 @@ Item Assumptions:
    durability of one sword.
 5. Using an item decreases its durability by 1.
 6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
+7. Bribery prioritises sceptre over treasure/sunstone/ring.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
