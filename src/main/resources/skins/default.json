@@ -37,7 +37,7 @@
         "door": "images/tileset/walls/wooden/door_locked_silver.png",
         "door_unlocked": "images/tileset/walls/wooden/door_unlocked.png",
         "shield": "images/tileset/items/shield.png",
-        "zombie": "images/tileset/entities/zombie_00.png",
+        "zombie_toast": "images/tileset/entities/zombie_00.png",
         "blue_portal": "images/tileset/entities/portal_00.png",
         "red_portal": "images/tileset/entities/portal_04.png",
         "yellow_portal": "images/tileset/entities/portal_08.png",
@@ -48,6 +48,7 @@
         "sun_stone": "images/tileset/entities/sun_stone.png",
         "sceptre": "images/tileset/entities/sceptre.png",
         "anduril": "images/tileset/entities/anduril.png",
-        "midnight_armour": "images/tileset/entities/midnight_armour.png"
+        "midnight_armour": "images/tileset/entities/midnight_armour.png",
+        "assassin": "images/tileset/entities/assassin.png"    
     }
 }

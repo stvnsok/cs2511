@@ -87,7 +87,7 @@ public class EnemyMovementTest {
 
     @Test
     public void ZombieMovement() {
-        Zombie zombie = new Zombie("1", "Zombie", new Position(5, 5), true, 10, 10);
+        Zombie zombie = new Zombie("1", "zombie_toast", new Position(5, 5), true, 10, 10);
         List<Entity> entities = new ArrayList<>();
         Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>());
         entities.add(character);
@@ -98,7 +98,7 @@ public class EnemyMovementTest {
         assertFalse(zombie.getPosition().equals(new Position(5, 5)));
         
         //checks where zombie goes if only 1 option
-        Zombie zombie2 = new Zombie("1", "Zombie", new Position(1, 1), true, 10, 10);
+        Zombie zombie2 = new Zombie("1", "zombie_toast", new Position(1, 1), true, 10, 10);
         Wall wall = new Wall("2", "wall", new Position(1, 0), true);
         entities.add(wall);
         Wall wall1 = new Wall("2", "wall", new Position(0, 1), true);
