@@ -6,6 +6,7 @@ Item Assumptions:
    durability of one sword.
 5. Using an item decreases its durability by 1.
 6. Potions have a 'duration' of multiple ticks, and invincibility does not end after one battle.
+7. Bribery prioritises sceptre over treasure/sunstone/ring.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
@@ -13,8 +14,8 @@ Dungeon Mania Controller Assumptions:
 3. Function saveGame would throw IllegalArgumentException if name already exist.
 4. saveGame will save the game in JSON format under directory "src/main/java/dungeonmania/save".
 
-Observer Assumptions:
-1. The player moves before enemies at each tick.
-2. The player and enemy takes damage at the same time in battles.
-3. The player takes no damage from battles when in the invincible state.
-
+Battle Assumptions:
+1. The character and enemy takes damage at the same time in battles.
+2. Allies attack enemies after the character attacks during a battle.
+3. If an ally kills an enemy with armour, the character receives the enemy's armour.
+4. If an ally with armour is killed by an enemy, the character receives the ally's armour.

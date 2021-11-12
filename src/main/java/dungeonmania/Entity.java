@@ -52,24 +52,18 @@ public class Entity implements CharacterObserver {
     }
 
     public boolean isOn(Entity entity) {
+        // return this != entity && position.equals(entity.getPosition()); ??
         return position.equals(entity.getPosition());
     }
 
     @Override
     public void update(Character character) {
+        // if (character.isOn(this) && isCollectable() && character.isObserver(this)) {
         if (character.isOn(this) && isCollectable()) {
-            // add collectable to inventory, remove from observers/game map (entities list)?
-
-            // System.out.println("character on and collectable");
+            // add collectable to inventory and remove from map
             collectItem(character);
-
-            // remove from observers
-            character.detach(this);
-
-            // remove from game entities
         }
 
-        // System.out.println("character not on/ not collectable");
         List<Entity> entities = character.getEntities();
 
         for(Entity entity : new ArrayList<>(entities)) {
@@ -81,9 +75,9 @@ public class Entity implements CharacterObserver {
     }
 
     // Checks if current entity is a collectable entity
-    private boolean isCollectable() {
+    public boolean isCollectable() {
         List<String> collectables = Arrays.asList("treasure", "key", "health_potion", "invincibility_potion", 
-        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour");
+        "invisibility_potion", "wood", "arrow", "bomb", "sword", "armour", "sun_stone");
 
         return collectables.contains(type);
     }
@@ -92,6 +86,8 @@ public class Entity implements CharacterObserver {
     // Adds collectable item to character's inventory
     private void collectItem(Character character) {
         character.addInventory(ItemFactory.createItem(id, type));
+        character.mapRemove(this);
+        character.detach(this);
     }
 
     public void explode(List<Entity> entities, Position position) {

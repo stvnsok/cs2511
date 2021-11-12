@@ -14,6 +14,7 @@ public class KeyEntity extends Entity {
     public void update(Character character) {
         if (character.isOn(this)) {
             character.addInventory(new Key(getId(), getType(), 1, keyId));
+            character.mapRemove(this);
             character.detach(this);
         }        
     }

@@ -59,19 +59,9 @@ public class Character extends Mob {
         return this.maxHealth;
     }
 
-    public void buildItem(String item) throws InvalidActionException, IllegalArgumentException  {
-        Build buildable = null;
-        switch (item) {
-            case "bow":
-                buildable = new Bow(String.valueOf(inventory.size()), item, 3);
-                break;
-        
-            case "shield":
-                buildable = new Shield(String.valueOf(inventory.size()), item, 3);
-                break;
-            default:
-                throw new IllegalArgumentException("Not a valid build item");
-        }
+    public void buildItem(String item) throws InvalidActionException {
+        Build buildable = ItemFactory.createBuildable(item + inventory.size(), item);
+
         List<Map<String,Integer>> recipes = buildable.getRecipe();
         List<String> recipeItems = new ArrayList<>();
         boolean recipeFulfilled = false;
@@ -81,7 +71,7 @@ public class Character extends Mob {
             for (String component : recipe.keySet()) {
                 List<String> query = new ArrayList<>();
                 query.addAll(inventory.stream()
-                     .filter(i -> i.getItemType() == component)
+                     .filter(i -> i.getItemType().equals(component))
                      .limit(recipe.get(component))
                      .map(Items::getItemId)
                      .collect(Collectors.toList()));
@@ -96,11 +86,12 @@ public class Character extends Mob {
             }
             if (recipeFulfilled) {
                 recipeItems.stream().forEach(i -> useItem(i));
-                //recipeItems.stream().forEach(i -> System.out.println(i.getDurability()));
-                // Casting bad, will fix later.
                 inventory.add((Items) buildable);
+                return;
             }
         }
+        throw new InvalidActionException("Insufficient items to build");
+        
 
     }
 
@@ -141,7 +132,8 @@ public class Character extends Mob {
         
         if (checkWall(mapEntities, newPos) 
         && checkMoveBoulder(mapEntities, newPos, direction)
-        && checkDoor(mapEntities, newPos))
+        && checkDoor(mapEntities, newPos)
+        && checkBomb(mapEntities, newPos))
         {
             setPosition(getPosition().translateBy(direction));
             notifyObservers();
@@ -149,12 +141,16 @@ public class Character extends Mob {
             moveBoulder(mapEntities, newPos, direction);
         }
 
-        checkItem(mapEntities, newPos);
+        // checkItem(mapEntities, newPos);
 
         goThroughPortal(mapEntities, newPos);
     }
 
     public void battle(Mob enemy) {
+        // if (!gameMode.equals("Peaceful")) {
+        //     state.battle(enemy);
+        // }
+
         state.battle(enemy);
     }
 
@@ -167,7 +163,7 @@ public class Character extends Mob {
     public void detach(CharacterObserver observer) {
         observers.remove(observer);
 
-        // detach observers when they are destroyed/die/become allied?
+        // detach observers when they are destroyed?
     }
 
     public void notifyObservers() {
@@ -175,9 +171,12 @@ public class Character extends Mob {
         for (CharacterObserver observer : new ArrayList<>(observers)) {
             observer.update(this);
         }
-
-        // observers.forEach(o -> o.update(this));
     }
+
+    public boolean isObserver(CharacterObserver observer) {
+        return observers.contains(observer);
+    }
+
 
     /**
      * Checks if a position contains a wall
@@ -198,51 +197,82 @@ public class Character extends Mob {
     }
 
     /**
-     * Checks if a position contains an item removes the item when picked up
-     * @param entities
-     * @param position
+     * Check if a position contains a bomb
+     * @param character
+     * @return
      */
-    public void checkItem(List<Entity> entities, Position position) {
-        for (Entity entity : new ArrayList<>(entities)) {
-
+    public boolean checkBomb(List<Entity> entities, Position position) {
+        for (Entity entity : entities) {
             Position entPos = entity.getPosition();
 
-            if (entity.getType().equals("treasure")
-            || entity.getType().equals("arrow")
-            || entity.getType().equals("wood")
-            || entity.getType().equals("armour")
-            ) {
-                
-                if (position.equals(entPos)) {
-                    entities.remove(entity);
-                }
-            }
-
-            if (entity.getType().equals("bomb") && position.equals(entPos)) {
-                entities.remove(entity);
-            }
-
-            if (entity.getType().equals("sword") && position.equals(entPos)) {
-                entities.remove(entity);
-            }
-
-            if (entity.getType().equals("key") && position.equals(entPos)) {
-                entities.remove(entity);
-            }
-
-            if (entity.getType().equals("health_potion") && position.equals(entPos)) {
-                entities.remove(entity);
-            }
-
-            if (entity.getType().equals("invisibility_potion") && position.equals(entPos)) {
-                entities.remove(entity);
-            }
-
-            if (entity.getType().equals("invincibility_potion") && position.equals(entPos)) {
-                entities.remove(entity);
+            if (entity.getType().equals("bomb") && !this.isObserver(entity) && position.equals(entPos)) {
+                return false;
             }
         }
+        return true;
     }
+
+    // /**
+    //  * Checks if a position contains an item removes the item when picked up
+    //  * @param entities
+    //  * @param position
+    //  */
+    // public void checkItem(List<Entity> entities, Position position) {
+    //     for (Entity entity : new ArrayList<>(entities)) {
+
+    //         Position entPos = entity.getPosition();
+
+    //         if (entity.getType().equals("treasure")
+    //         || entity.getType().equals("arrow")
+    //         || entity.getType().equals("wood")
+    //         || entity.getType().equals("armour")
+    //         ) {
+                
+    //             if (position.equals(entPos)) {
+    //                 entities.remove(entity);
+    //             }
+    //         }
+
+    //         if (entity.getType().equals("bomb") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("sword") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("key") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("health_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("invisibility_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+
+    //         if (entity.getType().equals("invincibility_potion") && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Checks if a position contains an item removes the item when picked up
+    //  * @param entities
+    //  * @param position
+    //  */
+    // public void checkItem(List<Entity> entities, Position position) {
+    //     for (Entity entity : new ArrayList<>(entities)) {
+
+    //         Position entPos = entity.getPosition();
+    //         if (entity.isCollectable() && position.equals(entPos)) {
+    //             entities.remove(entity);
+    //         }
+    //     }
+    // }
 
     /**
      * Checks if a position contains a boulder and moves the boulder
@@ -287,6 +317,12 @@ public class Character extends Mob {
             if (entity.getType().equals("door") && position.equals(entPos)) {
                 Door door = (Door) entity;
                 if (door.isOpen() == false) {
+                    // First check for sunstone. If sunstone exists, unlock door, and don't use.
+                    if (inventory.stream().anyMatch(e -> e.getItemType().equals("sun_stone"))) {
+                        door.setOpen(true);
+                        door.setType("door_unlocked");
+                        return true;
+                    }
                     //check if character have the right key
                     for(Items items : inventory) {
                         if (items.getItemType().equals("key")) {
@@ -308,13 +344,13 @@ public class Character extends Mob {
 
     public void checkBattle() {
         for (Entity entity : new ArrayList<>(mapEntities)) {
-            if (!entity.getId().equals(this.getId()) && this.isOn(entity) && entity instanceof Mob) {
+            if (!entity.getId().equals(this.getId()) && 
+                this.isOn(entity) && entity instanceof Mob && 
+                (!(entity instanceof Mercenary) || !((Mercenary) entity).isAlly())) {
+                
                 Mob enemy = (Mob) entity;
                 this.battle(enemy);
-                System.out.println(this.getId() + " battle with " + entity.getId());
             }
-
-            System.out.println();
         }
     }
 
@@ -410,6 +446,19 @@ public class Character extends Mob {
             TheOneRing ring = (TheOneRing) ItemFactory.createItem(id, "one_ring");
             addInventory(ring);
         }
+    }
+
+
+    public List<Mercenary> getAllies() {
+        List<Mercenary> allies = new ArrayList<>();
+
+        for (Entity e : mapEntities) {
+            if (e instanceof Mercenary && ((Mercenary) e).isAlly()) {
+                allies.add((Mercenary) e);
+            }
+        }
+
+        return allies;
     }
 }
 
