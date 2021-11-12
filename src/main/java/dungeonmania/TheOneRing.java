@@ -10,7 +10,7 @@ public class TheOneRing extends Items {
     }
 
     /**
-     * Determine whether the enemy drop the one ring or not without seed.
+     * Determine whether the enemy drop the one ring.
      * @return true if it drops
      */
     public static Boolean doesDropRing() {
@@ -19,18 +19,6 @@ public class TheOneRing extends Items {
             r.setSeed(seed);
             seed = 0;
         }
-        if (r.nextInt(100) < 10) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Determine whether the enemy drop the one ring or not with seed (for test purpose).
-     * @return true if it drops
-     */
-    public static boolean doesDropRing(int seed) {
-        Random r = new Random(seed);
         if (r.nextInt(100) < 10) {
             return true;
         }
