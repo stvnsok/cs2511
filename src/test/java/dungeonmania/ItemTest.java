@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -118,6 +119,53 @@ public class ItemTest {
         assertEquals(0, c1.getInventory().size()); // character has not picked up the bomb
         assertEquals(2, entities.size());
         assertNotEquals(cPosition, c1.getPosition()); // character is not back to original position
+
+    }
+    @Test
+    public void zombieDropArmourTest() {
+        DungeonManiaController dc = new DungeonManiaController();
+        dc.newGame("advanced", "Standard");
+        Game game = dc.getCurrentGame();
+        Character player = game.getCharacter();
+        Position dummyPosition = new Position(1, 1);
+        Armour.seed = 11;
+        Zombie zombie1 = (Zombie) EntityFactory.createEntity("zombie1", dummyPosition, "zombie");
+        assertTrue(zombie1.getArmour() == null);
+        assertTrue(player.getInventory().isEmpty());
+        assertDoesNotThrow(() -> player.battle(zombie1));
+        assertEquals(player.getArmour(), null);
+
+        Armour.seed = 10;
+        Zombie zombie2 = (Zombie) EntityFactory.createEntity("zombie2", dummyPosition, "zombie");
+        assertTrue(zombie2.getArmour() != null);
+        assertTrue(player.getInventory().isEmpty());
+        zombie2.setHealth(1);
+        assertDoesNotThrow(() -> player.battle(zombie2));
+        assertTrue(!player.getInventory().isEmpty());
+        assertNotEquals(player.getArmour(), null);
+    }
+    @Test
+    public void mercenaryDropArmourTest() {
+        DungeonManiaController dc = new DungeonManiaController();
+        dc.newGame("advanced", "Standard");
+        Game game = dc.getCurrentGame();
+        Character player = game.getCharacter();
+        Position dummyPosition = new Position(1, 1);
+        Armour.seed = 11;
+        Mercenary mercenary1 = (Mercenary) EntityFactory.createEntity("mercenary1", dummyPosition, "mercenary");
+        assertTrue(mercenary1.getArmour() == null);
+        assertTrue(player.getInventory().isEmpty());
+        assertDoesNotThrow(() -> player.battle(mercenary1));
+        assertEquals(player.getArmour(), null);
+
+        Armour.seed = 10;
+        Mercenary mercenary2 = (Mercenary) EntityFactory.createEntity("mercenary2", dummyPosition, "mercenary");
+        assertTrue(mercenary2.getArmour() != null);
+        assertTrue(player.getInventory().isEmpty());
+        mercenary2.setHealth(1);
+        assertDoesNotThrow(() -> player.battle(mercenary2));
+        assertTrue(!player.getInventory().isEmpty());
+        assertNotEquals(player.getArmour(), null);
     }
 
     @Test
@@ -139,4 +187,5 @@ public class ItemTest {
         assertTrue(d.isOpen());
         assertEquals("door_unlocked", d.getType());
     }
+
 }
