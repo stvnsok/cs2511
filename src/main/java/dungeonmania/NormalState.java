@@ -35,6 +35,10 @@ public class NormalState implements CharacterState{
 
         if (cArmour != null) { // if player has armour
             enemyDamage = enemyDamage / 2; // halve damage
+            // If armour is midnight armour, add damage.
+            if (cArmour instanceof MidnightArmour) {
+                characterDamage += 12;
+            }
             cArmour.use(character);
         }
 

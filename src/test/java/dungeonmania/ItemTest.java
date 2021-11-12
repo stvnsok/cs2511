@@ -81,6 +81,7 @@ public class ItemTest {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
         Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        // build a bow
         Items a = new Items("a", "wood", 1);
         Items b = new Items("b", "arrow", 1);
         Items c = new Items("c", "arrow", 1);
@@ -95,6 +96,54 @@ public class ItemTest {
         assertEquals(1, c1.getInventory().size());
         Items e = c1.getInventory().get(0);
         assertEquals("bow", e.getItemType());
+
+        // build a shield with a key
+        Items f = new Items("f", "wood", 1);
+        Items g = new Items("g", "wood", 1);
+        // not really a key, just testing with the type
+        Items h = new Items("h", "key", 1);
+        c1.addInventory(f);
+        c1.addInventory(g);
+        c1.addInventory(h);
+        c1.buildItem("shield");
+        assertEquals(2, c1.getInventory().size());
+        Items i = c1.getInventory().get(1);
+        assertEquals("shield",i.getItemType());
+
+        // build a shield with a treasure 
+        Items j = new Items("f", "wood", 1);
+        Items k = new Items("g", "wood", 1);
+        Items l = new Items("h", "treasure", 1);
+        c1.addInventory(j);
+        c1.addInventory(k);
+        c1.addInventory(l);
+        c1.buildItem("shield");
+        assertEquals(3, c1.getInventory().size());
+        Items m = c1.getInventory().get(2);
+        assertEquals("shield",m.getItemType());
+
+        c1.getInventory().clear();
+        Items wood = new Items ("wood", "wood", 1);
+        Items arrow1 = new Items("arrow1", "arrow", 1);
+        Items arrow2 = new Items("arrow2", "arrow", 1);
+        Items key = new Items("key", "key", 1);
+        Items treasure = new Items("treasure", "treasure", 1);
+        Items sun1 = new Items("sun1", "sun_stone", 1);
+        Items sun2 = new Items("sun2", "sun_stone", 1);
+        c1.addInventory(wood);
+        c1.addInventory(arrow1);
+        c1.addInventory(arrow2);
+        c1.addInventory(key);
+        c1.addInventory(treasure);
+        c1.addInventory(sun1);
+        c1.addInventory(sun2);
+        assertEquals(7, c1.getInventory().size());
+        c1.buildItem("sceptre");
+        assertEquals(5, c1.getInventory().size());
+        assertTrue(c1.getInventory().stream().anyMatch(t -> t.getItemType().equals("sceptre")));
+        c1.buildItem("sceptre");
+        assertEquals(2, c1.getInventory().size());
+        assertEquals(2, c1.getInventory().stream().filter(y -> y.getItemType().equals("sceptre")).count());
     }
     
     @Test
@@ -172,11 +221,7 @@ public class ItemTest {
     public void sunStoneTest() {
         List<Entity> entities = new ArrayList<>();
         List<Items> inventory = new ArrayList<>();
-        JSONObject object = new JSONObject();
-        object.put("goal", "enemies");
         Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
-        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
-        
         Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
         Items k = new Items("s1", "sun_stone", 1);
         
@@ -186,6 +231,35 @@ public class ItemTest {
         character.checkDoor(entities, new Position(0,1));
         assertTrue(d.isOpen());
         assertEquals("door_unlocked", d.getType());
+    }
+
+    @Test
+    public void buildMidnightTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, entities);
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+        entities.add(new Zombie("3", "zombie_toast", new Position(10,10), false, 3, 4));
+        entities.add(character);
+        inventory.add(new Armour("1", "armour", 1));
+        inventory.add(new Items("sun_stone", "sun_stone", 1));
+        g.tick(null, Direction.DOWN);
+        // Can't build midnight with zombie.
+        assertEquals(0, g.getBuildables().size());
+        entities.remove(0);
+        // Now that the zombie is gone, we should be able to build the armour.
+        g.tick(null, Direction.DOWN);
+        assertEquals(1, g.getBuildables().size());
+        assertTrue(g.getBuildables().stream().anyMatch(e -> e.equals("midnight_armour")));
+        g.build("midnight_armour");
+        assertEquals(0, g.getBuildables().size());
+        assertEquals(1, g.getInventory().size());
+        assertTrue(g.getInventory().stream().anyMatch(e -> e.getItemType().equals("midnight_armour")));
+
+
+        
     }
 
 }

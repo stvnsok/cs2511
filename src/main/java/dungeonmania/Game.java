@@ -133,6 +133,7 @@ public class Game {
         int numTreasure = 0;
         int numStone = 0;
         int numKey = 0;
+        int numArmour = 0;
         List<String> canBuild = new ArrayList<>();
         for (Items items : new ArrayList<>(inventory)) {
 
@@ -146,6 +147,8 @@ public class Game {
                 numKey++;
             } else if (items.getItemType().equals("sun_stone")) {
                 numStone++;
+            } else if (items.getItemType().equals("armour")) {
+                numArmour++;
             }
 
         }
@@ -162,6 +165,9 @@ public class Game {
             if (numKey + numTreasure > 0 && numStone > 0) {
                 canBuild.add("sceptre");
             }
+        }
+        if (numArmour > 0 && numStone > 0 && entities.stream().noneMatch(e -> e.getType().equals("zombie_toast"))) {
+            canBuild.add("midnight_armour");
         }
         buildables = canBuild;
     }

@@ -11,6 +11,10 @@ import org.json.JSONObject;
 public class ItemFactory {
     private static final int sword_durability = 7;
     private static final int armour_durability = 7;
+    private static final int shield_durability = 5;
+    private static final int sceptre_durability = 3;
+    private static final int bow_durability = 3;
+    private static final int midnight_durability = 12;
 
     public static List<Items> createInventory (JSONArray jItems) throws IllegalArgumentException {
         List<Items> inventory = new ArrayList<>();
@@ -48,6 +52,7 @@ public class ItemFactory {
     }
 
     public static Items createItem(String id, String type, int durability) {
+        // Regex to account for different complete types like sword_1 etc.
         Pattern itemPattern = Pattern.compile("invisibility_potion|invincibility_potion|health_potion|bomb|sword|armour|one_ring");
         Matcher matcher = itemPattern.matcher(type);
         if (matcher.find()) {
@@ -88,13 +93,16 @@ public class ItemFactory {
         if (matcher.find()) {
             switch (matcher.group()) {
                 case "sceptre":
-                    return new Sceptre(id, type, 3);
+                    return new Sceptre(id, type, sceptre_durability);
                 
                 case "bow":
-                    return new Bow(id, type, 3);
+                    return new Bow(id, type, bow_durability);
                 
                 case "shield":
-                    return new Shield(id, type, 5);
+                    return new Shield(id, type, shield_durability);
+                
+                case "midnight_armour":
+                    return new MidnightArmour(id, type, midnight_durability);
             
             }
         }
