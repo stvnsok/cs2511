@@ -219,12 +219,14 @@ public class Mercenary extends Mob implements Enemies {
     public void controlTick() {
         this.controlDuration -= 1;
         if (controlDuration == 0) {
+            setInteractable(true);
             setAlly(false);
         }
     }
 
     public void control(Character character, Items sceptre) {
         setAlly(true);
+        setInteractable(false);
         setControlDuration(10);
         sceptre.use(character);
     }
