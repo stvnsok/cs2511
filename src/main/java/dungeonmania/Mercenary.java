@@ -53,6 +53,7 @@ public class Mercenary extends Mob implements Enemies {
 
     @Override
     public void move(List<Entity> entities, Character character) {
+        /*
         Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
         Position diff = Position.calculatePositionBetween(charPosition, curPos);
@@ -79,6 +80,18 @@ public class Mercenary extends Mob implements Enemies {
         if (this.isOn(character) && !isAlly) {
             character.battle(this);
         }
+        */
+
+        Map<Position, Position> prev = pathFinding(entities, character);
+
+        
+        Position newPos = prev.get(character.getPosition());
+        while (newPos != this.getPosition()) {
+             newPos = prev.get(newPos);
+        }
+        this.setPosition(newPos);
+
+
     }
     
     public Map<Position,Double> allPositions(List<Entity> entities) {
@@ -90,12 +103,13 @@ public class Mercenary extends Mob implements Enemies {
         List<Integer> xList = new ArrayList<Integer>();
         List<Integer> yList = new ArrayList<Integer>();
         for (Entity e: entities) {
-            if (e instanceof Wall) {
+            if (e.getType().equals("wall")){
                 xList.add(e.getPosition().getX());
                 yList.add(e.getPosition().getY());
             }
         }
         
+
         for (int x=0; x < Collections.max(xList); x++) {
             for (int y=0; y < Collections.max(yList); y++) {
                 Position curPos = new Position(x, y); 
@@ -114,7 +128,7 @@ public class Mercenary extends Mob implements Enemies {
     public Map<Position, Position> pathFinding(List<Entity> entities, Character character) {
 
         Map<Position, Double> Grid = allPositions(entities);
-        Position source = character.getPosition();
+        Position source = this.getPosition();
 
         Map<Position, Double> dist = new HashMap<Position, Double>();
 
@@ -135,7 +149,7 @@ public class Mercenary extends Mob implements Enemies {
 
         dist.replace(source, 0.00);
 
-        Queue<Position> queue = new PriorityQueue<>(Grid.keySet());
+        LinkedList<Position> queue = new LinkedList<>(Grid.keySet());
         //add source node to queue
         queue.add(source);
 
@@ -144,19 +158,22 @@ public class Mercenary extends Mob implements Enemies {
             List<Position> adjacentPositions = source.getCardinallyAdjacentPosition();
             
             for (Position v: adjacentPositions) {
-
+                
                 for (Map.Entry<Position, Double> set : dist.entrySet()) {
                     double d = (double)dist.get(v);
                     
                     if ((set.getValue() + cost(entities, v)) < d) {
+                        System.out.println(queue.toString());
                         dist.replace(v, (set.getValue() + cost(entities, v)));
                         prev.replace(v, set.getKey());
+                        queue.remove(source);
                     }
                 }
                 
             }
 
         }
+        //queue.remove(source);
         return prev;
 
     }
@@ -164,7 +181,7 @@ public class Mercenary extends Mob implements Enemies {
     public Double cost(List<Entity> entities, Position tile){
 
         for (Entity e: entities) {
-            if (e instanceof Wall || e instanceof Boulder) {
+            if (e.getType().equals("wall") || e.getType().equals("boulder")) {
                 return 1000.00;
 
             }
