@@ -81,7 +81,8 @@ public class Game {
         
         if (buildables.contains(buildable)) {
             character.buildItem(buildable);
-            buildables.remove(buildable);
+            buildCheck();
+            
             /*if(buildable.equals("bow")) {
                 Bow bow = new Bow("bow"+entities.size(), "bow", 5);
                 inventory.add(bow);
@@ -122,7 +123,47 @@ public class Game {
                 }
             }*/
         }
+        //buildCheck();
         
+    }
+
+    private void buildCheck() {
+        int numWood = 0;
+        int numArrows = 0;
+        int numTreasure = 0;
+        int numStone = 0;
+        int numKey = 0;
+        List<String> canBuild = new ArrayList<>();
+        for (Items items : new ArrayList<>(inventory)) {
+
+            if (items.getItemType().equals("wood")) {
+                numWood++;
+            } else if (items.getItemType().equals("arrow")) {
+                numArrows++;
+            } else if (items.getItemType().equals("treasure")) {
+                numTreasure++;
+            } else if (items.getItemType().equals("key")) {
+                numKey++;
+            } else if (items.getItemType().equals("sun_stone")) {
+                numStone++;
+            }
+
+        }
+
+        if (numWood > 0 && numArrows > 2) {
+            canBuild.add("bow");
+        } 
+        if (numWood > 1 && numTreasure > 0) {
+            canBuild.add("shield");
+        } else if (numWood > 1 && numKey > 0) {
+            canBuild.add("shield");
+        }
+        if (numWood > 0 || numArrows > 1) {
+            if (numKey + numTreasure > 0 && numStone > 0) {
+                canBuild.add("sceptre");
+            }
+        }
+        buildables = canBuild;
     }
 
     public void addEntity(Entity entity) {
@@ -139,14 +180,9 @@ public class Game {
 
     public void tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         character.move(movementDirection);
-
-        int numWood = 0;
-        int numArrows = 0;
-        int numTreasure = 0;
-        int numStone = 0;
         // Won't bother checking if item is not uses(null)
         int itemExists = itemUsed == null ? -1 : 0;
-        int numKey = 0;
+        
         List<String> validUse = new ArrayList<>(Arrays.asList("health_potion","invisibility_potion",
                                                               "invincibility_potion","bomb"));
         for (Items items : new ArrayList<>(inventory)) {
@@ -158,23 +194,13 @@ public class Game {
                 items.use(character);
             }
 
-            if (items.getItemType().equals("wood")) {
-                numWood++;
-            } else if (items.getItemType().equals("arrow")) {
-                numArrows++;
-            } else if (items.getItemType().equals("treasure")) {
-                numTreasure++;
-            } else if (items.getItemType().equals("key")) {
-                numKey++;
-            } else if (items.getItemType().equals("sun_stone")) {
-                numStone++;
-            }
-
         }
         // Item id is not null, but does not exist in inventory
         if (itemExists == 0) {
             throw new InvalidActionException("Item does not exist");
         }
+
+        buildCheck();
 
         for (Entity entity : new ArrayList<>(entities)) {
             if (entity instanceof Enemies) {
@@ -187,19 +213,6 @@ public class Game {
             }
         }
 
-        if (numWood > 0 && numArrows > 2 && !buildables.contains("bow")) {
-            buildables.add("bow");
-        }
-        if (numWood > 1 && numTreasure > 0 && !buildables.contains("shield")) {
-            buildables.add("shield");
-        } else if (numWood > 1 && numKey > 0 && !buildables.contains("shield")) {
-            buildables.add("shield");
-        }
-        if (numWood > 0 || numArrows > 1) {
-            if (numKey + numTreasure > 0 && numStone > 0 && buildables.stream().noneMatch(e -> e.equals("sceptre"))) {
-                buildables.add("sceptre");
-            }
-        }
 
         //zombieToastSpawner
         int spawnTick;
