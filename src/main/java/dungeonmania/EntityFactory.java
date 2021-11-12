@@ -65,7 +65,7 @@ public class EntityFactory {
         Matcher matcher = entPattern.matcher(type);
         if (matcher.find()) {
             switch (type) {
-                case "zombie":
+                case "zombie_toast":
                     Zombie z = new Zombie(id, type, position, false, 15, 4);
                     // random chance of armour for zombie
                     if (Armour.doesDropArmour()) {
@@ -79,7 +79,15 @@ public class EntityFactory {
                     return new Spider(id, type, position, false, 10, 3);
                 
                 case "mercenary":
-                Mercenary m = new Mercenary(id, type, position, true, 18, 5, 1, false);
+                    int damage = 5;
+
+                    Random random = new Random();
+                    if (random.nextInt(10) < 3) {
+                        type = "assassin";
+                        damage = 10;
+                    }
+
+                    Mercenary m = new Mercenary(id, type, position, true, 18, damage, 1, false);
                     // random chance of armour for mercenary
                     if (Armour.doesDropArmour()) {
                         String armourId = "armour" + id;
@@ -93,6 +101,9 @@ public class EntityFactory {
                 
                 case "zombie_toast_spawner":
                     return new ZombieToastSpawner(id, type, position, true);
+                
+                case "hydra":
+                    return new Zombie(id, "hydra", position, false, 50, 8);
             }
         } 
         return new Entity(id, type, position, false);

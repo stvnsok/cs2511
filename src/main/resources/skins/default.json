@@ -49,6 +49,7 @@
         "sceptre": "images/tileset/entities/sceptre.png",
         "anduril": "images/tileset/entities/anduril.png",
         "midnight_armour": "images/tileset/entities/midnight_armour.png",
-        "assassin": "images/tileset/entities/assassin.png"    
+        "assassin": "images/tileset/entities/assassin.png",
+        "hydra": "images/tileset/entities/hydra.png"    
     }
 }

@@ -51,6 +51,7 @@ public class NormalState implements CharacterState{
         Armour eArmour = null;
 
         if (enemy instanceof Zombie) {
+            //put hydra battle here
             Zombie zombie = (Zombie) enemy;
             eArmour = zombie.getArmour();
 
