@@ -21,6 +21,7 @@ import dungeonmania.util.Position;
 public class Mercenary extends Mob implements Enemies {
     
     private int bribeAmount;
+    private int controlDuration = -1;
     private boolean isAlly;
     private Armour armour;
     //private Map<Position, Double> Grid = new HashMap<Position, Double>();
@@ -206,6 +207,26 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         return true;
+    }
+    public int getControlDuration() {
+        return controlDuration;
+    }
+
+    public void setControlDuration(int controlDuration) {
+        this.controlDuration = controlDuration;
+    }
+
+    public void controlTick() {
+        this.controlDuration -= 1;
+        if (controlDuration == 0) {
+            setAlly(false);
+        }
+    }
+
+    public void control(Character character, Items sceptre) {
+        setAlly(true);
+        setControlDuration(10);
+        sceptre.use(character);
     }
 
     public void bribe() {

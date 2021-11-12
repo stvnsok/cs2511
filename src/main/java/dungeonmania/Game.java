@@ -144,6 +144,7 @@ public class Game {
         int numWood = 0;
         int numArrows = 0;
         int numTreasure = 0;
+        int numStone = 0;
         // Won't bother checking if item is not uses(null)
         int itemExists = itemUsed == null ? -1 : 0;
         int numKey = 0;
@@ -166,6 +167,8 @@ public class Game {
                 numTreasure++;
             } else if (items.getItemType().equals("key")) {
                 numKey++;
+            } else if (items.getItemType().equals("sun_stone")) {
+                numStone++;
             }
 
         }
@@ -179,6 +182,10 @@ public class Game {
                 Enemies enemy = (Enemies) entity;
                 enemy.move(entities, character);
             }
+            if (entity instanceof Mercenary) {
+                Mercenary merc = (Mercenary) entity;
+                merc.controlTick();
+            }
         }
 
         if (numWood > 0 && numArrows > 2 && !buildables.contains("bow")) {
@@ -188,6 +195,11 @@ public class Game {
             buildables.add("shield");
         } else if (numWood > 1 && numKey > 0 && !buildables.contains("shield")) {
             buildables.add("shield");
+        }
+        if (numWood > 0 || numArrows > 1) {
+            if (numKey + numTreasure > 0 && numStone > 0 && buildables.stream().noneMatch(e -> e.equals("sceptre"))) {
+                buildables.add("sceptre");
+            }
         }
 
         //zombieToastSpawner
@@ -207,7 +219,12 @@ public class Game {
         for(Entity entity : entities) {
             if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
                 Mercenary mercenary = (Mercenary) entity;
-                mercenary.bribe();
+                if (inventory.stream().anyMatch(e -> e.getItemType().equals("sceptre"))) {
+                    mercenary.control(character, inventory.stream().filter(e -> e.getItemType().equals("sceptre")).findFirst().get());
+                } else {
+                    mercenary.bribe();
+                }
+                
             }
         }
     }

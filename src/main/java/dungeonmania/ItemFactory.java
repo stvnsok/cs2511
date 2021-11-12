@@ -81,4 +81,24 @@ public class ItemFactory {
     public static Items createItem(String id, String type, int durability, int kID) {
         return new Key(id, type, durability, kID);
     }
+
+    public static Build createBuildable(String id, String type) {
+        Pattern itemPattern = Pattern.compile("sceptre|midnight_armour|bow|shield");
+        Matcher matcher = itemPattern.matcher(type);
+        if (matcher.find()) {
+            switch (matcher.group()) {
+                case "sceptre":
+                    return new Sceptre(id, type, 3);
+                
+                case "bow":
+                    return new Bow(id, type, 3);
+                
+                case "shield":
+                    return new Shield(id, type, 5);
+            
+            }
+        }
+        // Exception should already be thrown at DungeonManiaController
+        return null;
+    }
 }
