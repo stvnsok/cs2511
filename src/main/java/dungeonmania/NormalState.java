@@ -15,8 +15,8 @@ public class NormalState implements CharacterState{
         // get enemy initial health so enemy and player can take damage at "same time"
         int enemyHealth = enemy.getHealth();
 
-        // for testing!!!
-        // System.out.println("Battle against " + enemy.getId() + "!");
+        // // for testing!!!
+        // System.out.println("\n---Battle against " + enemy.getId() + "---");
         // System.out.println("Player Health before: " + character.getHealth());
         // System.out.println("Enemy Health before: " + enemy.getHealth());
 
@@ -72,6 +72,10 @@ public class NormalState implements CharacterState{
         enemy.takeDamage(characterDamage);
         character.takeDamage(enemyDamage);
 
+        // // for testing!!!
+        // System.out.println("Player Health after: " + character.getHealth());
+        // System.out.println("Enemy Health after: " + enemy.getHealth());
+
         // if enemy health <= 0, remove from game
         if (enemy.getHealth() <= 0) {
             character.removeEnemy(enemy, eArmour);
@@ -86,12 +90,78 @@ public class NormalState implements CharacterState{
             } else {
                 // remove from game
                 character.mapRemove(character);
+                return;
             }
         }
 
-        // for testing!!!
-        // System.out.println("Player Health after: " + character.getHealth());
-        // System.out.println("Enemy Health after: " + enemy.getHealth());
+        if (enemy.getHealth() > 0) {
+            // ally battles
+            for (Mercenary ally : character.getAllies()) {
+                allyBattle(ally, enemy);
+            }
+        }
+
+        if ((enemy.getHealth() > 0)) {
+            // battle again
+            battle(enemy);
+        }
     }
     
+    public void allyBattle(Mercenary ally, Mob enemy) {
+        // get enemy initial health so enemy and mercenary can take damage at "same time"
+        int enemyHealth = enemy.getHealth();
+
+        // // for testing!!!
+        // System.out.println("Ally Health before: " + ally.getHealth());
+        // System.out.println("Enemy Health before: " + enemy.getHealth());
+
+        int allyDamage = ally.getHealth() * ally.getAttack() / 5;
+        int enemyDamage = enemyHealth * enemy.getAttack() / 10;
+
+        Armour aArmour = ally.getArmour();
+
+        if (aArmour != null) { // if ally has armour
+            enemyDamage = enemyDamage / 2; // halve damage
+            aArmour.use(ally);
+        }
+
+        Armour eArmour = null;
+
+        if (enemy instanceof Zombie) {
+            Zombie zombie = (Zombie) enemy;
+            eArmour = zombie.getArmour();
+
+            if (eArmour != null) { // if zombie has armour
+                allyDamage = allyDamage / 2; // halve damage
+                eArmour.use(zombie);
+            }
+        
+        } else if (enemy instanceof Mercenary) {
+            Mercenary mercenary = (Mercenary) enemy;
+            eArmour = mercenary.getArmour();
+
+            if (eArmour != null) { // if mercenary has armour
+                allyDamage = allyDamage / 2; // halve damage
+                eArmour.use(mercenary);
+            }
+        }
+
+        enemy.takeDamage(allyDamage);
+        ally.takeDamage(enemyDamage);
+
+        // // for testing!!!
+        // System.out.println("Ally Health after: " + ally.getHealth());
+        // System.out.println("Enemy Health after: " + enemy.getHealth());
+
+        // if enemy health <= 0, remove from game
+        if (enemy.getHealth() <= 0) {
+            character.removeEnemy(enemy, eArmour);
+        }
+
+        // if ally health <= 0
+        if (ally.getHealth() <= 0) {
+            // remove from game
+            character.removeEnemy(ally, aArmour);
+        }
+    }
 }

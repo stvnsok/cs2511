@@ -1,13 +1,14 @@
 package dungeonmania;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.json.JSONObject;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -79,7 +80,9 @@ public class Game {
 
         
         if (buildables.contains(buildable)) {
-            if(buildable.equals("bow")) {
+            character.buildItem(buildable);
+            buildables.remove(buildable);
+            /*if(buildable.equals("bow")) {
                 Bow bow = new Bow("bow"+entities.size(), "bow", 5);
                 inventory.add(bow);
                 buildables.remove("bow");
@@ -117,7 +120,7 @@ public class Game {
                     }
 
                 }
-            }
+            }*/
         }
         
     }
@@ -134,15 +137,24 @@ public class Game {
         return entities.contains(entity);
     }
 
-    public void tick(String itemUsed, Direction movementDirection) {
+    public void tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         character.move(movementDirection);
 
         int numWood = 0;
         int numArrows = 0;
         int numTreasure = 0;
+        int numStone = 0;
+        // Won't bother checking if item is not uses(null)
+        int itemExists = itemUsed == null ? -1 : 0;
         int numKey = 0;
+        List<String> validUse = new ArrayList<>(Arrays.asList("health_potion","invisibility_potion",
+                                                              "invincibility_potion","bomb"));
         for (Items items : new ArrayList<>(inventory)) {
             if (items.getItemId().equals(itemUsed)) {
+                if (!validUse.stream().anyMatch(e -> e.equals(items.getItemType()))) {
+                    throw new IllegalArgumentException("Not a valid use item");
+                }
+                itemExists = 1;
                 items.use(character);
             }
 
@@ -154,14 +166,24 @@ public class Game {
                 numTreasure++;
             } else if (items.getItemType().equals("key")) {
                 numKey++;
+            } else if (items.getItemType().equals("sun_stone")) {
+                numStone++;
             }
 
+        }
+        // Item id is not null, but does not exist in inventory
+        if (itemExists == 0) {
+            throw new InvalidActionException("Item does not exist");
         }
 
         for (Entity entity : new ArrayList<>(entities)) {
             if (entity instanceof Enemies) {
                 Enemies enemy = (Enemies) entity;
                 enemy.move(entities, character);
+            }
+            if (entity instanceof Mercenary) {
+                Mercenary merc = (Mercenary) entity;
+                merc.controlTick();
             }
         }
 
@@ -173,9 +195,21 @@ public class Game {
         } else if (numWood > 1 && numKey > 0 && !buildables.contains("shield")) {
             buildables.add("shield");
         }
+        if (numWood > 0 || numArrows > 1) {
+            if (numKey + numTreasure > 0 && numStone > 0 && buildables.stream().noneMatch(e -> e.equals("sceptre"))) {
+                buildables.add("sceptre");
+            }
+        }
 
         //zombieToastSpawner
-        if(gameTick%20 == 0) {
+        int spawnTick;
+        if (gameMode.equals("Hard")) {
+            spawnTick = 15;    
+        } else {
+            spawnTick = 20;
+        }
+
+        if(gameTick%spawnTick == 0) {
             for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
                     Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
@@ -184,42 +218,112 @@ public class Game {
             }
         }    
 
+        //spider spawning
+        int maxX = 0;
+        int maxY = 0;
+        int minX = 0;
+        int minY = 0;
+        int spiderNum = 0;
+        
+        for (Entity entity : entities) {
+            if (entity.getPosition().getX() > maxX) {
+                maxX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() > maxY) {
+                maxY = entity.getPosition().getY();
+            }
+            if (entity.getPosition().getX() < minX) {
+                minX = entity.getPosition().getX();
+            }
+            if (entity.getPosition().getY() < minY) {
+                minY = entity.getPosition().getY();
+            }
+            if (entity instanceof Spider) {
+                spiderNum++;
+            }
+
+        }
+
+        //System.out.println(maxX +"|"+ maxY +"|"+ minX +"|"+ minY);
+
+        Random random = new Random();
+        //generate random percentage
+        if (random.nextInt(5) == 0 && spiderNum < 4) {
+            //generate random position
+            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 3);
+            entities.add(spider);
+        }
+
         gameTick++;
     }
 
     public void interact(String entityId) {
-        for(Entity entity : entities) {
-            if(entity.getId().equals(entityId) && entity instanceof Mercenary) {
+        int treasureNum = 0;
+        for(Entity entity : new ArrayList<>(entities)) {
+            if(entity.getId().equals(entityId) && entity instanceof Mercenary && entity.getPosition().getAdjacentPositions2().contains(character.getPosition())) {
                 Mercenary mercenary = (Mercenary) entity;
-                mercenary.bribe();
+                if (inventory.stream().anyMatch(e -> e.getItemType().equals("sceptre"))) {
+                    mercenary.control(character, inventory.stream().filter(e -> e.getItemType().equals("sceptre")).findFirst().get());
+                } else {
+                    for(Items item : inventory) {
+                        if (item.getItemType().equals("treasure")) {
+                            treasureNum++;
+                            
+                        } 
+                    }
+                    
+                    if (treasureNum >= mercenary.getBribeAmount()) {
+                        
+                        mercenary.bribe();
+                        mercenary.setInteractable(false);
+                        
+                        int i = mercenary.getBribeAmount();
+                        for(Items item : new ArrayList<>(inventory)) {
+                            if (i  == 0) {
+                                break;
+                            }
+                            if (item.getItemType().equals("treasure")) {
+                                inventory.remove(item);
+                                i--;
+                            }
+        
+                        }
+                    }
+                }
             }
         }
     }
 
 
-    public void interactSpawner(String entityId){
-        List<Entity> toRemove = new ArrayList<>();
-        for (Entity entity : entities) {
+
+    public void interactSpawner(String entityId) throws InvalidActionException {
+       
+        for (Entity entity : new ArrayList<>(entities)) {
+
             if (entity.getId().equals(entityId) && entity instanceof ZombieToastSpawner) {
-                
+                boolean destroyed = false;
                 Position spawnerPos = entity.getPosition();
-                List<Position> adjacentPos = spawnerPos.getAdjacentPositions();
+                List<Position> adjacentPos = spawnerPos.getCardinallyAdjacentPosition();
 
                 for (Position p : adjacentPos) {
-                    if (p.equals(character.getPosition())){
-                        for (Items i: inventory) {
-                            if (i.getItemType().equals("sword")){
-                                toRemove.add(entity);
-                            }
+                    if (character.getPosition().equals(p)){
+                        if (!inventory.stream().anyMatch(e -> e.getItemType().equals("sword") 
+                                                        || e.getItemType().equals("anduril"))) {
+                            throw new InvalidActionException("You need a weapon to destroy this");
                         }
-                    
+                        entities.remove(entity);
+                        destroyed = true;
+                        break;                   
                     }
 
+                }
+                if (!destroyed) {
+                    throw new InvalidActionException("You need to be adjacent to the spawner to destroy it");
                 }
                 
             }
         }
-        // small brain method to deal with concurrentmodifcationexception but at least it works
-        entities.removeAll(toRemove); 
+
     }
 }

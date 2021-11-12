@@ -109,4 +109,49 @@ public final class Position {
         adjacentPositions.add(new Position(x-1, y));
         return adjacentPositions;
     }
+
+    public List<Position> getAdjacentPositions2() {
+        List<Position> adjacentPositions = new ArrayList<>();
+
+        adjacentPositions.add(new Position(x-2, y-2));
+        adjacentPositions.add(new Position(x-1, y-2));
+        adjacentPositions.add(new Position(x, y-2));
+        adjacentPositions.add(new Position(x+1, y-2));
+        adjacentPositions.add(new Position(x+2, y-2));
+
+        adjacentPositions.add(new Position(x-2, y+2));
+        adjacentPositions.add(new Position(x-1, y+2));
+        adjacentPositions.add(new Position(x, y+2));
+        adjacentPositions.add(new Position(x+1, y+2));
+        adjacentPositions.add(new Position(x+2, y+2));
+
+        adjacentPositions.add(new Position(x+2, y-1));
+        adjacentPositions.add(new Position(x+2, y));
+        adjacentPositions.add(new Position(x+2, y+1));
+
+        adjacentPositions.add(new Position(x-2, y-1));
+        adjacentPositions.add(new Position(x-2, y));
+        adjacentPositions.add(new Position(x-2, y+1));
+
+        adjacentPositions.add(new Position(x-1, y-1));
+        adjacentPositions.add(new Position(x  , y-1));
+        adjacentPositions.add(new Position(x+1, y-1));
+        adjacentPositions.add(new Position(x+1, y));
+        adjacentPositions.add(new Position(x+1, y+1));
+        adjacentPositions.add(new Position(x  , y+1));
+        adjacentPositions.add(new Position(x-1, y+1));
+        adjacentPositions.add(new Position(x-1, y));
+        return adjacentPositions;
+    }
+
+    public List<Position> getCardinallyAdjacentPosition() {
+        List<Position> cardinallyAdjacentPositions = new ArrayList<>();
+        cardinallyAdjacentPositions.add(new Position(x  , y-1));
+        cardinallyAdjacentPositions.add(new Position(x  , y+1));
+        cardinallyAdjacentPositions.add(new Position(x+1, y));
+        cardinallyAdjacentPositions.add(new Position(x-1, y));
+        
+
+        return cardinallyAdjacentPositions;
+    }
 }

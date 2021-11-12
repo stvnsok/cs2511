@@ -23,8 +23,9 @@ public class GoalTests {
         List<Entity> entities = new ArrayList<>();
         entities.add(new Entity("2", "exit", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "exit");
         Game game = new Game("stuff", "Peaceful", entities, inventory, new ArrayList<>(), jGoal, character);
@@ -57,8 +58,9 @@ public class GoalTests {
         List<Entity> entities = new ArrayList<>();
         entities.add(new Entity("2", "treasure", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "treasure");
         Game game = new Game("stuff", "Peaceful", entities, inventory, new ArrayList<>(), jGoal, character);
@@ -77,8 +79,9 @@ public class GoalTests {
         entities.add(new Entity("3", "switch", new Position(1, 3), false));
         entities.add(new Boulder("2", "boulder", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "boulders");
         Game game = new Game("stuff", "Peaceful", entities, inventory, new ArrayList<>(), jGoal, character);
@@ -97,8 +100,9 @@ public class GoalTests {
         Spider spider = new Spider("3", "spider", new Position(1, 2), false, 2, 1);
         entities.add(spider);
         Character character = new Character("1", "character", new Position(1, 1), false,
-             6, 4, inventory, entities);
+             6, 4, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "enemies");
         Game game = new Game("stuff", "Peaceful", entities, inventory, new ArrayList<>(), jGoal, character);
@@ -117,8 +121,9 @@ public class GoalTests {
         entities.add(new Entity("2", "exit", new Position(1, 3), false));
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "AND");
         JSONArray subgoals = new JSONArray();
@@ -145,8 +150,9 @@ public class GoalTests {
         entities.add(new Entity("2", "exit", new Position(1, 3), false));
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "OR");
         JSONArray subgoals = new JSONArray();
@@ -172,8 +178,9 @@ public class GoalTests {
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         entities.add(new Spider("4", "spider", new Position (2,4), false, 1, 1));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, entities);
+             2, 1, inventory, null);
         entities.add(character);
+        character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
         jGoal.put("goal", "AND");
         JSONArray subgoals = new JSONArray();
