@@ -225,7 +225,7 @@ public class Game {
         if (random.nextInt(5) == 0 && spiderNum < 4) {
             //generate random position
             Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
-            Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 10);
+            Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 3);
             entities.add(spider);
         }
 
