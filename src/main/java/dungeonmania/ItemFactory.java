@@ -36,7 +36,7 @@ public class ItemFactory {
     }
 
     public static Items createItem(String id, String type) {
-        Pattern itemPattern = Pattern.compile("sword|armour");
+        Pattern itemPattern = Pattern.compile("sword|armour|anduril");
         Matcher match = itemPattern.matcher(type);
         if (match.find()) {
             switch (match.group()) {
@@ -44,7 +44,10 @@ public class ItemFactory {
                     return createItem(id, type, sword_durability);
                 
                 case "armour":
-                    return createItem(id, type, armour_durability);        
+                    return createItem(id, type, armour_durability);
+                
+                case "anduril":
+                    return createItem(id, type, sword_durability*2);
             }
         }
         
@@ -53,7 +56,7 @@ public class ItemFactory {
 
     public static Items createItem(String id, String type, int durability) {
         // Regex to account for different complete types like sword_1 etc.
-        Pattern itemPattern = Pattern.compile("invisibility_potion|invincibility_potion|health_potion|bomb|sword|armour|one_ring");
+        Pattern itemPattern = Pattern.compile("invisibility_potion|invincibility_potion|health_potion|bomb|sword|armour|one_ring|anduril");
         Matcher matcher = itemPattern.matcher(type);
         if (matcher.find()) {
             switch (matcher.group()) {
@@ -70,6 +73,7 @@ public class ItemFactory {
                     return new Bomb(id, type, durability);
                 
                 case "sword":
+                case "anduril":
                     return new Sword(id, type, durability);
     
                 case "armour":

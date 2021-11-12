@@ -12,6 +12,7 @@ Item Assumptions:
 10. Initial durability of an armour and a sword are 7.
 11. Upon interacting with a mercenary/assassin, with both sceptre and bribe amount, prioritise using the sceptre.
 12. Midnight armour has a durability of 12, and adds 12 attack damage. Its damage decrease is same as regular armour.
+13. Anduril has twice the durability of a normal sword, and triple the character's damage instead of doubling it.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
