@@ -1,6 +1,7 @@
 package dungeonmania;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +61,7 @@ public class EntityFactory {
      * @return an Entity object of requested position and type.
      */
     public static Entity createEntity(String id, Position position, String type) {
-        Pattern entPattern = Pattern.compile("zombie|spider|mercenary|boulder|zombie_toast_spawner");
+        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner");
         Matcher matcher = entPattern.matcher(type);
         if (matcher.find()) {
             switch (type) {

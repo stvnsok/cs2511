@@ -212,7 +212,7 @@ public class Game {
         if(gameTick%spawnTick == 0) {
             for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
-                    Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie", "zombie", entity.getPosition(), false, 10, 10);
+                    Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie_toast", "zombie_toast", entity.getPosition(), false, 15, 4);
                     entities.add(zombie);
                 }
             }

@@ -105,7 +105,7 @@ public class StaticEntityTest {
 
         long count = entities
             .stream()
-            .filter(e -> e.getType().equals("zombie"))
+            .filter(e -> e.getType().equals("zombie_toast"))
             .count();
        
         assertEquals(2, count);
