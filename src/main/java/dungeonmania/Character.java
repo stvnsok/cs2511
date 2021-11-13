@@ -63,17 +63,16 @@ public class Character extends Mob {
         Build buildable = ItemFactory.createBuildable(item + inventory.size(), item);
 
         List<Map<String,Integer>> recipes = buildable.getRecipe();
-        List<String> recipeItems = new ArrayList<>();
+        List<Items> recipeItems = new ArrayList<>();
         boolean recipeFulfilled = false;
         for (Map<String,Integer> recipe : recipes) {
             // Retrieves as many items from inventory as needed to fulfill recipe. If one of components isn't fulfilled
             // move on to next recipe.
             for (String component : recipe.keySet()) {
-                List<String> query = new ArrayList<>();
+                List<Items> query = new ArrayList<>();
                 query.addAll(inventory.stream()
                      .filter(i -> i.getItemType().equals(component))
                      .limit(recipe.get(component))
-                     .map(Items::getItemId)
                      .collect(Collectors.toList()));
 
                 if (query.size() != recipe.get(component)) {
@@ -85,7 +84,7 @@ public class Character extends Mob {
                 recipeFulfilled = true;
             }
             if (recipeFulfilled) {
-                recipeItems.stream().forEach(i -> useItem(i));
+                recipeItems.stream().forEach(i -> inventory.remove(i));
                 inventory.add((Items) buildable);
                 return;
             }
