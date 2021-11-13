@@ -25,7 +25,7 @@ public class EntityFactory {
      */
     public List<Entity> createEntity(JSONArray entities, String gameMode) {
         List<Entity> entityList = new ArrayList<>();
-        Pattern specialPattern = Pattern.compile("key|door|portal|player");
+        Pattern specialPattern = Pattern.compile("key|door|portal|player|swamp_tile");
         for (int i = 0; i < entities.length(); i++) {
             JSONObject entity = entities.getJSONObject(i);
             Position position = new Position(entity.getInt("x"), entity.getInt("y"));
@@ -36,8 +36,10 @@ public class EntityFactory {
                 switch (matcher.group()) {
                     case "door":
                     case "key":
-                        entityList.add(createKeyObject(id, position, type, matcher.group(), entity.getInt("key")));
+                        entityList.add(createEntityInt(id, position, type, matcher.group(), entity.getInt("key")));
                         break;
+                    case "swamp_tile":
+                        entityList.add(createEntityInt(id, position, type, matcher.group(), entity.getInt("movement_factor")));
     
                     case "portal":
                         entityList.add(createPortal(id, position, type, entity.getString("colour")));
@@ -138,13 +140,15 @@ public class EntityFactory {
     }
 
 
-    public static Entity createKeyObject(String id, Position position, String fullType, String type, int keyId) {
+    public static Entity createEntityInt(String id, Position position, String fullType, String type, int special) {
         switch (type) {
             case "door":
-                return new Door(id, fullType, position, false, false, keyId);
+                return new Door(id, fullType, position, false, false, special);
             
             case "key":
-                return new KeyEntity(id, fullType, position, false, keyId);
+                return new KeyEntity(id, fullType, position, false, special);
+            
+            // Put swamp case here.
             
             default:
                 return null;
