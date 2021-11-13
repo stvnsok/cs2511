@@ -50,6 +50,7 @@
         "anduril": "images/tileset/entities/anduril.png",
         "midnight_armour": "images/tileset/entities/midnight_armour.png",
         "assassin": "images/tileset/entities/assassin.png",
-        "hydra": "images/tileset/entities/hydra.png"    
+        "hydra": "images/tileset/entities/hydra.png",
+        "swamp_tile": "images/tileset/entities/swamp_tile.png"    
     }
 }
