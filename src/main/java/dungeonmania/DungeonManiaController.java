@@ -145,6 +145,10 @@ public class DungeonManiaController {
                     Door door = (Door) e;
                     entity.put("key", door.getKeyId());
                 }
+                if (e instanceof SwampTile) {
+                    SwampTile swamp = (SwampTile) e;
+                    entity.put("movement_factor", swamp.getMovementFactor());
+                }
                 JSONEntities.put(entity);
             }
             JSONDungeon.put("entities", JSONEntities);
