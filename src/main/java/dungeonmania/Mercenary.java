@@ -1,21 +1,15 @@
 package dungeonmania;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Map.Entry;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
-
-import dungeonmania.util.Direction;
-import dungeonmania.util.Node;
+import java.util.stream.Collectors;
 import dungeonmania.util.Position;
 
 public class Mercenary extends Mob implements Enemies {
@@ -26,7 +20,7 @@ public class Mercenary extends Mob implements Enemies {
     private Armour armour;
     //private Map<Position, Double> Grid = new HashMap<Position, Double>();
 
-    private Double infinity = 100000.00;
+    private int infinity = 100000;
     
     public Mercenary(String id, String type, Position position, boolean isInteractable, int health, int attack,
             int bribeAmount, boolean isAlly) {
@@ -51,7 +45,7 @@ public class Mercenary extends Mob implements Enemies {
         this.isAlly = isAlly;
     }
 
-    @Override
+    /*@Override
     public void move(List<Entity> entities, Character character) {
         Position charPosition = character.getPosition();
         Position curPos = this.getPosition();
@@ -79,18 +73,18 @@ public class Mercenary extends Mob implements Enemies {
         if (this.isOn(character) && !isAlly) {
             character.battle(this);
         }
-    }
-    /*
-    public Map<Position,Double> allPositions(List<Entity> entities) {
-        Map <Position, Double> Grid = new HashMap<>();
-        double d = 0.00;
+    }*/
+    
+    public Map<Position,Integer> allPositions(List<Entity> entities) {
+        Map <Position, Integer> Grid = new HashMap<>();
+        Integer d = 0;
         // assume a fixed size for the grid
         // furthest x and y wall 
 
         List<Integer> xList = new ArrayList<Integer>();
         List<Integer> yList = new ArrayList<Integer>();
         for (Entity e: entities) {
-            if (e instanceof Wall) {
+            if (e.getType().equals("wall")) {
                 xList.add(e.getPosition().getX());
                 yList.add(e.getPosition().getY());
             }
@@ -109,17 +103,20 @@ public class Mercenary extends Mob implements Enemies {
     }
 
 
+    /**
+     * Moves the mercenary based on Djikstra's algorithm.
+     */
+    @Override
+    public void move(List<Entity> entities, Character character) {
 
-
-    public void pathFinding(List<Entity> entities, Character character) {
-
-        Map<Position, Double> Grid = allPositions(entities);
+        Map<Position, Integer> Grid = allPositions(entities);
         Position source = this.getPosition();
 
-        Map<Position, Double> dist = new HashMap<Position, Double>();
+        Map<Position, Integer> dist = new HashMap<>();
+        List<Position> settled = new ArrayList<>();
 
         //put all the positions of the dungeon size
-        for (Map.Entry<Position, Double> set : Grid.entrySet()) {
+        for (Map.Entry<Position, Integer> set : Grid.entrySet()) {
             dist.put(set.getKey(), set.getValue());
         }
         Map<Position, Position> prev = new HashMap<Position, Position>();
@@ -133,60 +130,75 @@ public class Mercenary extends Mob implements Enemies {
             prev.replace(p, null);
         }
 
-        dist.replace(source, 0.00);
+        dist.replace(source, 0);
+        // comparator to use for priority queue based on dist.
+        class posDistCompare implements Comparator<Position> {
+            public int compare(Position a, Position b) {
+                return dist.get(a) - dist.get(b);
+            }
+        }
 
-        Queue<Position> queue = new PriorityQueue<>(Grid.keySet());
+        Queue<Position> queue = new PriorityQueue<>(1, new posDistCompare());
         //add source node to queue
         queue.add(source);
 
         while(!queue.isEmpty()) {
             
-            List<Position> adjacentPositions = source.getAdjacentPositions();
-            
+            Position evaluated = queue.peek();
+            List<Position> adjacentPositions = evaluated.getCardinallyAdjacentPosition();
             for (Position v: adjacentPositions) {
-                for (Double u: dist.values()) {
-
-                    double d = (double)dist.get(v);
-                    if (u + cost(entities, v) < d) {
-                        
-                        dist.replace(v,(u + cost(entities, v)));
-                        
-                        prev.replace(v, dist.get(u));
+                // Do not consider positions that are out of the map.
+                if (dist.containsKey(v)) {
+                    if (dist.get(evaluated) + cost(entities, v) < dist.get(v)) {
+                        dist.put(v, dist.get(evaluated) + cost(entities, v));
+                        prev.put(v, evaluated);
                     }
+                    if (!queue.contains(v) && !settled.contains(v)) {
+                        queue.add(v);
+                    }
+                }  
+            }
+            // Do not consider nodes again that have already been evaluated.
+            queue.remove(evaluated);
+            settled.add(evaluated);
+        }
+        Position nextMove = character.getPosition();
+        // route the path all the way back to the mercenary.
+        while (!prev.get(nextMove).equals(this.getPosition())) {
+            nextMove = prev.get(nextMove);
+        }
+        this.setPosition(nextMove);
+        if (this.isOn(character) && !isAlly) {
+            character.battle(this);
+        }
+    }
+    /**
+     * Calculates cost of moving to a particular tile. Returned values correspond to impassable objects and swamp.
+     * @param entities
+     * @param tile
+     * @return
+     */
+    public Integer cost(List<Entity> entities, Position tile){
+        List<Entity> onTile = new ArrayList<>(entities.stream().filter(e -> e.getPosition().equals(tile))
+                                            .collect(Collectors.toList()));
+        List<String> impassable = new ArrayList<>(Arrays.asList("wall", "zombie_toast_spawner", "boulder", "door"));
+        if (onTile.size() > 0) {
+            for (Entity e : onTile) {
+                String eType = e.getType();
+                // Can't pass through these entities in any case.
+                if (impassable.contains(eType)) {
+                    return 1000;
+                } else if (eType.equals("swamp_tile")) {
+                    // Have not implemented swamp tiles yet.
+                    return 2;
                 }
-                
-                
             }
-             
         }
-
-
-
+        // There are no entities on the position: empty space so cost is 1.
+        return 1;
     }
 
-    public Double cost(List<Entity> entities, Position tile){
-
-        for (Entity e: entities) {
-            if (e instanceof Wall) {
-                return 1000.00;
-
-            }
-
-            if (e instanceof SwampTile ) {
-                // need to get ticks some how
-                return 2.00;
-            }
-
-            else {
-                return 1.00;
-            }
-            
-        }
-        return 1.00;
-
-    }
-
-    */
+    
     
 
 
