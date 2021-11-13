@@ -100,7 +100,7 @@ public class Mercenary extends Mob implements Enemies {
         // assume a fixed size for the grid
         // furthest x and y wall 
 
-        /*
+        
         List<Integer> xList = new ArrayList<Integer>();
         List<Integer> yList = new ArrayList<Integer>();
         for (Entity e: entities) {
@@ -110,11 +110,11 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         
-        */
-        // all game maps are 50x50
+        
+        
 
-        for (int x=0; x < 50; x++) {
-            for (int y=0; y < 50; y++) {
+        for (int x=0; x < Collections.max(xList); x++) {
+            for (int y=0; y < Collections.max(yList); y++) {
                 Position curPos = new Position(x, y); 
 
                 Grid.put(curPos, d);
