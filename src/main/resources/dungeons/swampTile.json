@@ -222,7 +222,25 @@
         "x": 2,
         "y": 4,
         "type": "swamp_tile",
-        "movement_factor": 2
+        "movement_factor": 4
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "type": "swamp_tile",
+        "movement_factor": 3
+      },
+      {
+        "x": 5,
+        "y": 9,
+        "type": "swamp_tile",
+        "movement_factor": 4
+      },
+      {
+        "x": 6,
+        "y": 13,
+        "type": "swamp_tile",
+        "movement_factor": 4
       },
       {
         "x": 3,

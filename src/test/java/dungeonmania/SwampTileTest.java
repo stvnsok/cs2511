@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class SwampTileTest {
     @Test
@@ -14,6 +15,11 @@ public class SwampTileTest {
         DungeonManiaController dc = new DungeonManiaController();
         dc.newGame("swampTile", "Standard");
         Game game = dc.getCurrentGame();
+
+        // Position p = new Position(1, 2);
+        // Entity entity = EntityFactory.createEntityInt("test", p, "fullType", "swamp_tile", 3);
+        // SwampTile s = new SwampTile("ad", "ad", p, false, 2);
+        // assertEquals(game, 1);
         ArrayList<SwampTile> sw = game.getSwampTilePosition();
         assertEquals(sw.size(), 1);
         assertEquals(sw.get(0).getMovementFactor(), 4);

@@ -12,7 +12,6 @@ import dungeonmania.util.Position;
 
 public class EntityFactory {
     private Character character;
-    private static int movement_factor = 4;
     public EntityFactory() {
 
     }
@@ -40,7 +39,7 @@ public class EntityFactory {
                         break;
                     case "swamp_tile":
                         entityList.add(createEntityInt(id, position, type, matcher.group(), entity.getInt("movement_factor")));
-    
+                        break;
                     case "portal":
                         entityList.add(createPortal(id, position, type, entity.getString("colour")));
                         break;
@@ -107,9 +106,6 @@ public class EntityFactory {
                 
                 case "hydra":
                     return new Zombie(id, "hydra", position, false, 50, 8);
-                    
-                case "swamp_tile":
-                    return new SwampTile(id, type, position, false, movement_factor);
             }
         } 
         return new Entity(id, type, position, false);
@@ -148,8 +144,9 @@ public class EntityFactory {
             case "key":
                 return new KeyEntity(id, fullType, position, false, special);
             
-            // Put swamp case here.
-            
+            case "swamp_tile":
+                return new SwampTile(id, fullType, position, false, special);
+                
             default:
                 return null;
         }
