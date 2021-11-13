@@ -8,9 +8,11 @@ import dungeonmania.util.Position;
 
 public class Zombie extends Mob implements Enemies {
     private Armour armour = null;
+    private int delayMovementCount;
 
     public Zombie(String id, String type, Position position, boolean isInteractable, int health, int attack) {
         super(id, type, position, isInteractable, health, attack);
+        delayMovementCount = 0;
     }
 
     @Override
@@ -115,5 +117,35 @@ public class Zombie extends Mob implements Enemies {
 
     public void setArmour(Armour armour) {
         this.armour = armour;
+    }
+
+    public int getDelayMovementCount() {
+        return delayMovementCount;
+    }
+
+    public void setDelayMovementCount(int delayMovementCount) {
+        this.delayMovementCount = delayMovementCount;
+    }
+
+    @Override
+    public boolean canMove() {
+        setDelayMovementCount(getDelayMovementCount() - 1);
+
+        if (getDelayMovementCount() < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void isOnSwampTile(ArrayList<SwampTile> swampTilePosition) {
+        int currentX = getPosition().getX();
+        int currentY = getPosition().getY();
+        for (SwampTile sw : swampTilePosition) {
+            Position p = sw.getPosition();
+            if (p.getX() == currentX && p.getY() == currentY) {
+                setDelayMovementCount(sw.getMovementFactor());
+            }
+        }
     }
 }

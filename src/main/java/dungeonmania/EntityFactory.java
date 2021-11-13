@@ -24,7 +24,7 @@ public class EntityFactory {
      */
     public List<Entity> createEntity(JSONArray entities, String gameMode) {
         List<Entity> entityList = new ArrayList<>();
-        Pattern specialPattern = Pattern.compile("key|door|portal|player");
+        Pattern specialPattern = Pattern.compile("key|door|portal|player|swamp_tile");
         for (int i = 0; i < entities.length(); i++) {
             JSONObject entity = entities.getJSONObject(i);
             Position position = new Position(entity.getInt("x"), entity.getInt("y"));
@@ -35,9 +35,11 @@ public class EntityFactory {
                 switch (matcher.group()) {
                     case "door":
                     case "key":
-                        entityList.add(createKeyObject(id, position, type, matcher.group(), entity.getInt("key")));
+                        entityList.add(createEntityInt(id, position, type, matcher.group(), entity.getInt("key")));
                         break;
-    
+                    case "swamp_tile":
+                        entityList.add(createEntityInt(id, position, type, matcher.group(), entity.getInt("movement_factor")));
+                        break;
                     case "portal":
                         entityList.add(createPortal(id, position, type, entity.getString("colour")));
                         break;
@@ -61,7 +63,7 @@ public class EntityFactory {
      * @return an Entity object of requested position and type.
      */
     public static Entity createEntity(String id, Position position, String type) {
-        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner");
+        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner|swamp_tile");
         Matcher matcher = entPattern.matcher(type);
         if (matcher.find()) {
             switch (type) {
@@ -134,14 +136,17 @@ public class EntityFactory {
     }
 
 
-    public static Entity createKeyObject(String id, Position position, String fullType, String type, int keyId) {
+    public static Entity createEntityInt(String id, Position position, String fullType, String type, int special) {
         switch (type) {
             case "door":
-                return new Door(id, fullType, position, false, false, keyId);
+                return new Door(id, fullType, position, false, false, special);
             
             case "key":
-                return new KeyEntity(id, fullType, position, false, keyId);
+                return new KeyEntity(id, fullType, position, false, special);
             
+            case "swamp_tile":
+                return new SwampTile(id, fullType, position, false, special);
+                
             default:
                 return null;
         }

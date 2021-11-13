@@ -18,6 +18,7 @@ public class Mercenary extends Mob implements Enemies {
     private int controlDuration = -1;
     private boolean isAlly;
     private Armour armour;
+    private int delayMovementCount;
     //private Map<Position, Double> Grid = new HashMap<Position, Double>();
 
     private int infinity = 100000;
@@ -27,6 +28,7 @@ public class Mercenary extends Mob implements Enemies {
         super(id, type, position, isInteractable, health, attack);
         this.bribeAmount = bribeAmount;
         this.isAlly = isAlly;
+        delayMovementCount = 0;
     }
 
     public int getBribeAmount() {
@@ -278,5 +280,35 @@ public class Mercenary extends Mob implements Enemies {
 
     public void setArmour(Armour armour) {
         this.armour = armour;
+    }
+
+    public int getDelayMovementCount() {
+        return delayMovementCount;
+    }
+
+    public void setDelayMovementCount(int delayMovementCount) {
+        this.delayMovementCount = delayMovementCount;
+    }
+
+    @Override
+    public boolean canMove() {
+        setDelayMovementCount(getDelayMovementCount() - 1);
+
+        if (getDelayMovementCount() < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void isOnSwampTile(ArrayList<SwampTile> swampTilePosition) {
+        int currentX = getPosition().getX();
+        int currentY = getPosition().getY();
+        for (SwampTile sw : swampTilePosition) {
+            Position p = sw.getPosition();
+            if (p.getX() == currentX && p.getY() == currentY) {
+                setDelayMovementCount(sw.getMovementFactor());
+            }
+        }
     }
 }
