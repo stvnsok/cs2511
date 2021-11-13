@@ -26,7 +26,7 @@ public class Mercenary extends Mob implements Enemies {
     private Armour armour;
     //private Map<Position, Double> Grid = new HashMap<Position, Double>();
 
-    private Double infinity = 100000.00;
+    private Double infinity = 1000000.00;
     
     public Mercenary(String id, String type, Position position, boolean isInteractable, int health, int attack,
             int bribeAmount, boolean isAlly) {
@@ -100,6 +100,7 @@ public class Mercenary extends Mob implements Enemies {
         // assume a fixed size for the grid
         // furthest x and y wall 
 
+        /*
         List<Integer> xList = new ArrayList<Integer>();
         List<Integer> yList = new ArrayList<Integer>();
         for (Entity e: entities) {
@@ -109,9 +110,11 @@ public class Mercenary extends Mob implements Enemies {
             }
         }
         
+        */
+        // all game maps are 50x50
 
-        for (int x=0; x < Collections.max(xList); x++) {
-            for (int y=0; y < Collections.max(yList); y++) {
+        for (int x=0; x < 50; x++) {
+            for (int y=0; y < 50; y++) {
                 Position curPos = new Position(x, y); 
 
                 Grid.put(curPos, d);
@@ -166,11 +169,13 @@ public class Mercenary extends Mob implements Enemies {
                         System.out.println(queue.toString());
                         dist.replace(v, (set.getValue() + cost(entities, v)));
                         prev.replace(v, set.getKey());
-                        queue.remove(source);
+                        
                     }
+                    //queue.remove(source);
                 }
                 
             }
+            queue.remove(source);
 
         }
         //queue.remove(source);
@@ -181,20 +186,22 @@ public class Mercenary extends Mob implements Enemies {
     public Double cost(List<Entity> entities, Position tile){
 
         for (Entity e: entities) {
-            if (e.getType().equals("wall") || e.getType().equals("boulder")) {
-                return 1000.00;
-
+            if (e.getPosition().equals(tile)) {
+                if (e.getType().equals("wall")|| e.getType().equals("boulder")) {
+                    return 1000.00;
+    
+                }
+    
+                else if (e instanceof SwampTile ) {
+                    // need to get ticks some how
+                    return 2.00;
+                }
+    
+                else {
+                    return 1.00;
+                }
             }
 
-            else if (e instanceof SwampTile ) {
-                // need to get ticks some how
-                return 2.00;
-            }
-
-            else {
-                return 1.00;
-            }
-            
         }
         return 1.00;
 
