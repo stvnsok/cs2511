@@ -12,6 +12,7 @@ import dungeonmania.util.Position;
 
 public class EntityFactory {
     private Character character;
+    private static int movement_factor = 4;
     public EntityFactory() {
 
     }
@@ -61,7 +62,7 @@ public class EntityFactory {
      * @return an Entity object of requested position and type.
      */
     public static Entity createEntity(String id, Position position, String type) {
-        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner");
+        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner|swamp_tile");
         Matcher matcher = entPattern.matcher(type);
         if (matcher.find()) {
             switch (type) {
@@ -104,6 +105,9 @@ public class EntityFactory {
                 
                 case "hydra":
                     return new Zombie(id, "hydra", position, false, 50, 8);
+                    
+                case "swamp_tile":
+                    return new SwampTile(id, type, position, false, movement_factor);
             }
         } 
         return new Entity(id, type, position, false);

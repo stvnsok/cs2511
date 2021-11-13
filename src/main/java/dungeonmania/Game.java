@@ -1,7 +1,9 @@
 package dungeonmania;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +25,7 @@ public class Game {
     private JSONObject jGoals;
     private Character character;
     private int gameTick;
+    private int delayMovement;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
             List<String> buildables, JSONObject jGoals, Character character) {
@@ -35,6 +38,7 @@ public class Game {
         this.character = character;
         this.goals = GoalFactory.createGoals(jGoals, this);
         this.gameTick = 0;
+        this.delayMovement = 0;
     }
 
     public String getDungeonName() {
@@ -211,11 +215,17 @@ public class Game {
         for (Entity entity : new ArrayList<>(entities)) {
             if (entity instanceof Enemies) {
                 Enemies enemy = (Enemies) entity;
-                enemy.move(entities, character);
+                if (enemy.canMove()) {
+                    enemy.move(entities, character);
+                    enemy.isOnSwampTile(getSwampTilePosition());
+                }
             }
             if (entity instanceof Mercenary) {
                 Mercenary merc = (Mercenary) entity;
-                merc.controlTick();
+                if (merc.canMove()) {
+                    merc.controlTick();
+                    merc.isOnSwampTile(getSwampTilePosition());
+                }
             }
         }
 
@@ -356,5 +366,15 @@ public class Game {
             }
         }
 
+    }
+
+    public ArrayList<SwampTile> getSwampTilePosition() {
+        ArrayList<SwampTile> swampTiles = new ArrayList<SwampTile>();
+        for (Entity e : entities) {
+            if (e.getType().equals("swamp_tile")) {
+                swampTiles.add((SwampTile) e);
+            }
+        }
+        return swampTiles;
     }
 }

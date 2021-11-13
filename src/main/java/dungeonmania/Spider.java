@@ -1,7 +1,9 @@
 package dungeonmania;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import dungeonmania.util.Position;
 
@@ -9,11 +11,13 @@ public class Spider extends Mob implements Enemies {
 
     private int moveCycle;
     private boolean dirClockwise;
+    private int delayMovementCount;
 
     public Spider(String id, String type, Position position, boolean isInteractable, int health, int attack) {
         super(id, type, position, isInteractable, health, attack);
         moveCycle = 0;
         dirClockwise = true;
+        delayMovementCount = 0;
     }
 
     @Override
@@ -125,6 +129,36 @@ public class Spider extends Mob implements Enemies {
             dirClockwise = false;
         } else {
             dirClockwise = true;
+        }
+    }
+
+    public int getDelayMovementCount() {
+        return delayMovementCount;
+    }
+
+    public void setDelayMovementCount(int delayMovementCount) {
+        this.delayMovementCount = delayMovementCount;
+    }
+
+    @Override
+    public boolean canMove() {
+        setDelayMovementCount(getDelayMovementCount() - 1);
+
+        if (getDelayMovementCount() < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void isOnSwampTile(ArrayList<SwampTile> swampTilePosition) {
+        int currentX = getPosition().getX();
+        int currentY = getPosition().getY();
+        for (SwampTile sw : swampTilePosition) {
+            Position p = sw.getPosition();
+            if (p.getX() == currentX && p.getY() == currentY) {
+                setDelayMovementCount(sw.getMovementFactor());
+            }
         }
     }
 
