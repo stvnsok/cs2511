@@ -187,18 +187,14 @@ public class Game {
         }    
 
         //spider spawning
-
-        /*
-        int maxX = 0;
-        int maxY = 0;
-        int minX = 0;
-        int minY = 0;
-        */
+        // int maxX = 0;
+        // int maxY = 0;
+        // int minX = 0;
+        // int minY = 0;
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
-        
         int spiderNum = 0;
         
         for (Entity entity : entities) {
