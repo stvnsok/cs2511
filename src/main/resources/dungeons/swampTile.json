@@ -222,7 +222,13 @@
         "x": 2,
         "y": 4,
         "type": "swamp_tile",
-        "movement_factor": 4
+        "movement_factor": 3
+      },
+      {
+        "x": 2,
+        "y": 5,
+        "type": "swamp_tile",
+        "movement_factor": 3
       },
       {
         "x": 8,
@@ -244,7 +250,7 @@
       },
       {
         "x": 3,
-        "y": 5,
+        "y": 4,
         "type": "mercenary"
       },
       {
