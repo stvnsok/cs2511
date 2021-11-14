@@ -15,35 +15,23 @@ import dungeonmania.util.Position;
 public class EnemyMovementTest {
     @Test
     public void SpiderMovement() {
-        Spider spider = new Spider("1", "Spider", new Position(1, 1), true, 10, 10);
+        Spider spider = new Spider("spider1", "spider", new Position(1, 1), true, 10, 10);
         List<Entity> entities = new ArrayList<>();
-        Wall wall = new Wall("2", "wall", new Position(2, 2), false);
+        Wall wall = new Wall("wall2", "wall", new Position(2, 2), false);
         entities.add(wall);
-        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character = new Character("player3", "player", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
-
-        /*Position spiderPos = spider.getPosition();
-        int x = spiderPos.getX();
-        int y = spiderPos.getY();
-
-        assertEquals(x, 1);
-        assertEquals(y, 0);*/
         
         //Checks if spider makes full rotation with walls in place
         spider.move(entities, character);
-        Position spiderPos = spider.getPosition();
-        int x = spiderPos.getX();
-        int y = spiderPos.getY();
 
-        assertEquals(x, 1);
-        assertEquals(y, 0);
         assertTrue(spider.getPosition().equals(new Position(1, 0)));
 
         spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
         
         spider.move(entities, character);
-        assertTrue(spider.getPosition().equals(new Position(2 ,1)));
+        assertTrue(spider.getPosition().equals(new Position(2, 1)));
 
         spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 2)));
@@ -58,14 +46,14 @@ public class EnemyMovementTest {
         assertTrue(spider.getPosition().equals(new Position(0, 1)));
 
         spider.move(entities, character);
-        assertTrue(spider.getPosition().equals(new Position(0 ,0)));
+        assertTrue(spider.getPosition().equals(new Position(0, 0)));
 
         spider.move(entities, character);
-        assertTrue(spider.getPosition().equals(new Position(1 ,0)));
+        assertTrue(spider.getPosition().equals(new Position(1, 0)));
 
         //checks if spider change direction after seeing boulder
-        Boulder boulder = new Boulder("3", "boulder", new Position(2, 1), true);
-        Boulder boulder2 = new Boulder("4", "boulder", new Position(0, 1), true);
+        Boulder boulder = new Boulder("boulder4", "boulder", new Position(2, 1), true);
+        Boulder boulder2 = new Boulder("boulder5", "boulder", new Position(0, 1), true);
         entities.add(boulder);
         entities.add(boulder2);
 
@@ -73,6 +61,7 @@ public class EnemyMovementTest {
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
 
         spider.move(entities, character);
+        System.out.println(spider.getPosition());
         assertTrue(spider.getPosition().equals(new Position(1, 0)));
         
         spider.move(entities, character);
@@ -84,6 +73,100 @@ public class EnemyMovementTest {
         spider.move(entities, character);
         assertTrue(spider.getPosition().equals(new Position(2, 0)));
 
+    }
+
+    @Test
+    public void spiderBoulderMovement() {
+        Spider spider = new Spider("spider1", "spider", new Position(1, 1), true, 10, 10);
+        List<Entity> entities = new ArrayList<>();
+        Wall wall = new Wall("wall2", "wall", new Position(1, 2), false);
+        entities.add(wall);
+        Character character = new Character("player3", "player", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        entities.add(character);
+
+        Boulder boulder = new Boulder("boulder4", "boulder", new Position(2, 0), true);
+        entities.add(boulder);
+
+        // Check if spider makes full rotation in reverse direction
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(1, 0)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(0, 0)));
+
+        // Remove boulder - boulder destroyed!
+        entities.remove(boulder);
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(0, 1)));
+        
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(0, 2)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(1, 2)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(2, 2)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(2, 1)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(2, 0)));
+
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(1, 0)));
+    }
+
+    @Test
+    public void spiderMovementInvincible() {
+        // test spider running away from invincible state player
+        Spider spider = new Spider("spider1", "spider", new Position(3, 3), true, 10, 10);
+        List<Entity> entities = new ArrayList<>();
+        Wall wall = new Wall("wall2", "wall", new Position(1, 2), false);
+        entities.add(wall);
+
+        Character character = new Character("player3", "player", new Position(3, 4), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        character.addInventory(new InvincibilityPotion("invincibilityPotion", "invincibility_potion", 1));
+        character.useItem("invincibilityPotion");
+        assertEquals("Invincible", character.getStateName());
+
+        entities.add(character);
+
+        // character below spider, spider moves up
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(3, 2)));
+
+        // character above spider, spider moves down
+        character.setPosition(new Position(3, 1));
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(3, 3)));
+
+        // character to the right of spider, spider moves left
+        character.setPosition(new Position(4, 3));
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(2, 3)));
+
+        // character to the left of spider, spider moves right
+        character.setPosition(new Position(1, 3));
+        spider.move(entities, character);
+        assertTrue(spider.getPosition().equals(new Position(3, 3)));
+    }
+
+    @Test
+    public void spiderMovementBattleTest() {
+        Spider spider = new Spider("spider1", "spider", new Position(3, 3), true, 20, 3);
+        List<Entity> entities = new ArrayList<>();
+
+        Character character = new Character("player2", "player", new Position(3, 2), true, 100, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        entities.add(character);
+
+        // spider moves then battles character
+        spider.move(entities, character);
+        assertEquals(spider.getPosition(), character.getPosition());
+        assertTrue(spider.getHealth() <= 0);
     }
 
     @Test
