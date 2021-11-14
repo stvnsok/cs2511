@@ -21,8 +21,8 @@ public class SwampTileTest {
         // SwampTile s = new SwampTile("ad", "ad", p, false, 2);
         // assertEquals(game, 1);
         ArrayList<SwampTile> sw = game.getSwampTilePosition();
-        assertEquals(sw.size(), 1);
-        assertEquals(sw.get(0).getMovementFactor(), 4);
+        assertEquals(sw.size(), 5);
+        assertEquals(sw.get(0).getMovementFactor(), 3);
         int x = sw.get(0).getPosition().getX();
         int y = sw.get(0).getPosition().getY();
         assertEquals(x, 2);
@@ -37,23 +37,19 @@ public class SwampTileTest {
 
         assertEquals(m.getDelayMovementCount(), 0);
         game.tick(null, Direction.RIGHT);
-        game.tick(null, Direction.RIGHT);
-        assertEquals(x, 2);
-        assertEquals(y, 4);
         x = m.getPosition().getX();
         y = m.getPosition().getY();
         assertEquals(x, 2);
         assertEquals(y, 4);
-        assertEquals(sw.get(0).getMovementFactor(), 4);
+        assertEquals(sw.get(0).getMovementFactor(), 3);
         assertEquals(m.getDelayMovementCount(), 3);
         game.tick(null, Direction.RIGHT);
         game.tick(null, Direction.RIGHT);
         game.tick(null, Direction.RIGHT);
         game.tick(null, Direction.RIGHT);
-        game.tick(null, Direction.RIGHT);
         x = m.getPosition().getX();
         y = m.getPosition().getY();
-        assertEquals(x, 2);
-        assertEquals(y, 3);
+        assertEquals(x, 3);
+        assertEquals(y, 4);
     }
 }
