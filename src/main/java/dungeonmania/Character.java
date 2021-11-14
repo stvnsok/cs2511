@@ -14,7 +14,7 @@ public class Character extends Mob {
     
     private List<Items> inventory;
     private List<Entity> mapEntities;
-    private int maxHealth;
+    // private int maxHealth;
     private CharacterState state;
     private String gameMode;
 
@@ -26,7 +26,7 @@ public class Character extends Mob {
             List<Items> inventory, List<Entity> mapEntities, String gameMode) {
         super(id, type, position, isInteractable, health, attack);
         this.inventory = inventory;
-        this.maxHealth = health;
+        // this.maxHealth = health;
         this.mapEntities = mapEntities;
         this.gameMode = gameMode;
 
@@ -57,9 +57,9 @@ public class Character extends Mob {
         return state.getStateName();
     }
 
-    public int getMaxHealth() {
-        return this.maxHealth;
-    }
+    // public int getMaxHealth() {
+    //     return this.maxHealth;
+    // }
 
     public String getGameMode() {
         return this.gameMode;
