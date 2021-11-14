@@ -159,10 +159,7 @@ public class Game {
             }
             if (entity instanceof Mercenary) {
                 Mercenary merc = (Mercenary) entity;
-                if (merc.canMove()) {
-                    merc.controlTick();
-                    merc.isOnSwampTile(getSwampTilePosition());
-                }
+                merc.controlTick();
             }
         }
 
