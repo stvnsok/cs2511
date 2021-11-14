@@ -1,7 +1,6 @@
 package dungeonmania;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,11 +13,8 @@ public class Character extends Mob {
     
     private List<Items> inventory;
     private List<Entity> mapEntities;
-    // private int maxHealth;
     private CharacterState state;
     private String gameMode;
-
-    private Key currentKey; // as character can only hold one key at a time??
 
     private List<CharacterObserver> observers = new ArrayList<>();
 
@@ -26,7 +22,6 @@ public class Character extends Mob {
             List<Items> inventory, List<Entity> mapEntities, String gameMode) {
         super(id, type, position, isInteractable, health, attack);
         this.inventory = inventory;
-        // this.maxHealth = health;
         this.mapEntities = mapEntities;
         this.gameMode = gameMode;
 
@@ -56,10 +51,6 @@ public class Character extends Mob {
     public String getStateName() {
         return state.getStateName();
     }
-
-    // public int getMaxHealth() {
-    //     return this.maxHealth;
-    // }
 
     public String getGameMode() {
         return this.gameMode;

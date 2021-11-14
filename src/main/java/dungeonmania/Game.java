@@ -125,18 +125,6 @@ public class Game {
         buildables = canBuild;
     }
 
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
-
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
-    }
-
-    public boolean hasEntity(Entity entity) {
-        return entities.contains(entity);
-    }
-
     public void tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         character.move(movementDirection);
         // Won't bother checking if item is not uses(null)
@@ -184,7 +172,7 @@ public class Game {
             spawnTick = 20;
         }
 
-        if(gameTick%spawnTick == 0) {
+        if (gameTick % spawnTick == 0) {
             for (Entity entity : new ArrayList<>(entities)) {
                 if (entity instanceof ZombieToastSpawner) {
                     Zombie zombie = new Zombie(System.currentTimeMillis()+"zombie_toast", "zombie_toast", entity.getPosition(), false, 15, 4);
@@ -199,10 +187,14 @@ public class Game {
         }    
 
         //spider spawning
-        int maxX = 0;
-        int maxY = 0;
-        int minX = 0;
-        int minY = 0;
+        // int maxX = 0;
+        // int maxY = 0;
+        // int minX = 0;
+        // int minY = 0;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
         int spiderNum = 0;
         
         for (Entity entity : entities) {

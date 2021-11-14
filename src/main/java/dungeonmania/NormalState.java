@@ -81,12 +81,15 @@ public class NormalState implements CharacterState{
         } else if (enemy.getType().equals("hydra")) {
             if (sword.getItemType().equals("anduril")) {
                 enemy.takeDamage(characterDamage);
+                return;
             }
             else if (Math.random() < 0.5) {
                 enemy.takeDamage(characterDamage);
+                return;
             }
             else {
                 enemy.increaseHealth(characterDamage);
+                return;
             }
         }
 
@@ -169,9 +172,12 @@ public class NormalState implements CharacterState{
 
             if (Math.random() < 0.5) {
                 enemy.takeDamage(allyDamage);
+                return;
+                
             }
             else {
                 enemy.increaseHealth(allyDamage);
+                return;
             }
         }
 

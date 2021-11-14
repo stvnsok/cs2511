@@ -4,8 +4,6 @@ import java.util.List;
 
 public class Items {
     
-    //variable names changed to be clearer
-
     private String itemId;
     private String itemType; 
     private int durability;
@@ -64,7 +62,7 @@ public class Items {
 
     /**
      * Uses armour and if durability reaches 0, set mercenary's armour to null.
-     * @param zombie
+     * @param mercenary
      */
     public void use(Mercenary mercenary) {
         this.durability = this.durability - 1;
