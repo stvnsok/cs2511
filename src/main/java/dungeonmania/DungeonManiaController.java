@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
-// import org.json.JSONException;
 import org.json.JSONObject;
 
 import dungeonmania.exceptions.InvalidActionException;
@@ -68,10 +67,8 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         }
 
-        //int entitiesCount = 0;
-
         // Read the json file
-        char charBuf[] = new char[100000];
+        char charBuf[] = new char[1000000];
         File f = new File("src/main/resources/dungeons/" + dungeonName + ".json");
         try {
             InputStreamReader input = new InputStreamReader(new FileInputStream(f),"UTF-8");
@@ -191,7 +188,7 @@ public class DungeonManiaController {
 
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
         // Read a JSON file
-        char charBuf[] = new char[100000];
+        char charBuf[] = new char[1000000];
         File f = new File("src/main/java/dungeonmania/save/" + name + ".json");
 
         if (!f.exists()) {
@@ -199,9 +196,9 @@ public class DungeonManiaController {
         }
 
         try {
-            InputStreamReader input =new InputStreamReader(new FileInputStream(f),"UTF-8");
+            InputStreamReader input = new InputStreamReader(new FileInputStream(f),"UTF-8");
             int len = input.read(charBuf);
-            String text =new String(charBuf,0,len);
+            String text = new String(charBuf,0,len);
             JSONObject game = new JSONObject(text);
             input.close();
             

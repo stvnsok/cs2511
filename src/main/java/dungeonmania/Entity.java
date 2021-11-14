@@ -52,8 +52,8 @@ public class Entity implements CharacterObserver {
     }
 
     public boolean isOn(Entity entity) {
-        // return this != entity && position.equals(entity.getPosition()); ??
-        return position.equals(entity.getPosition());
+        return this != entity && position.equals(entity.getPosition());
+        // return position.equals(entity.getPosition());
     }
 
     @Override

@@ -201,11 +201,7 @@ public class Mercenary extends Mob implements Enemies {
         return 1;
     }
 
-    
-    
-
-
-    
+        
     public boolean checkObstacles(List<Entity> entities, Position position) {
         for (Entity entity : entities) {
 
@@ -264,17 +260,8 @@ public class Mercenary extends Mob implements Enemies {
     }
 
     public void bribe() {
-        //System.out.println("BRIBED");
         setAlly(true);
     }
-
-    // @Override
-    // public void update(Character character) {
-    //     if (character.isOn(this)) {
-    //         // battle!
-    //         character.battle(this);
-    //     }
-    // }
 
     public Armour getArmour() {
         return armour;

@@ -32,3 +32,4 @@ Battle Assumptions:
 6. Mercenaries spawn at the same time as zombie_toasts from spawners(this includes tick decrease in hard mode).
 7. Entry location is interpreted as player's spawn location.
 8. Mercenaries will only stay 1 tile away from player, if they are an ally.
+9. A hydra's health cannot exceed its initial health.

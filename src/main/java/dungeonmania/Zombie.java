@@ -103,14 +103,6 @@ public class Zombie extends Mob implements Enemies {
         return true;
     }
 
-    // @Override
-    // public void update(Character character) {
-    //     if (character.isOn(this)) {
-    //         // battle!
-    //         character.battle(this);
-    //     }
-    // }
-
     public Armour getArmour() {
         return armour;
     }
