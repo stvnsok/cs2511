@@ -13,6 +13,9 @@ Item Assumptions:
 11. Upon interacting with a mercenary/assassin, with both sceptre and bribe amount, prioritise using the sceptre.
 12. Midnight armour has a durability of 12, and adds 12 attack damage. Its damage decrease is same as regular armour.
 13. Anduril has twice the durability of a normal sword, and triple the character's damage instead of doubling it.
+14. When bribing a mercenary, usage priority will be given to whatever item appears first in the inventory.
+15. Bribing an assassin will take all the One Rings in the player's inventory + standard gold.
+16. The zombie toast spawner can only be destroyed with a sword.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.

@@ -1,12 +1,11 @@
 package dungeonmania;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
-
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
@@ -25,7 +24,6 @@ public class Game {
     private JSONObject jGoals;
     private Character character;
     private int gameTick;
-    private int delayMovement;
     
     public Game(String dungeonName, String gameMode, List<Entity> entities, List<Items> inventory,
             List<String> buildables, JSONObject jGoals, Character character) {
@@ -38,7 +36,6 @@ public class Game {
         this.character = character;
         this.goals = GoalFactory.createGoals(jGoals, this);
         this.gameTick = 0;
-        this.delayMovement = 0;
     }
 
     public String getDungeonName() {
@@ -74,61 +71,10 @@ public class Game {
     }
 
     public void build(String buildable) {
-        /*for (Entity e : entities) {
-            if (e.getType().equals("player")) {
-                Character character = (Character) e;
-                character.buildItem(buildable);
-                break;
-            }
-        }*/
-
-        
         if (buildables.contains(buildable)) {
             character.buildItem(buildable);
             buildCheck();
-            
-            /*if(buildable.equals("bow")) {
-                Bow bow = new Bow("bow"+entities.size(), "bow", 5);
-                inventory.add(bow);
-                buildables.remove("bow");
-
-                int woodRemoved = 0;
-                int arrowRemoved = 0;
-                for(Items items : new ArrayList<>(inventory)) {
-                    if(items.getItemType().equals("wood") && woodRemoved < 1) {
-                        inventory.remove(items);
-                        woodRemoved++;
-                    } else if (items.getItemType().equals("arrow") && arrowRemoved < 3) {
-                        inventory.remove(items);
-                        arrowRemoved++;
-                    }
-
-                }
-            } else if(buildable.equals("shield")) {
-                Shield shield = new Shield("shield"+entities.size(), "shield", 5);
-                inventory.add(shield);
-                buildables.remove("shield");
-
-                int woodRemoved = 0;
-                int keyRemoved = 0;
-                int treasureRemoved = 0;
-                for(Items items : new ArrayList<>(inventory)) {
-                    if(items.getItemType().equals("wood") && woodRemoved < 2) {
-                        inventory.remove(items);
-                        woodRemoved++;
-                    } else if (items.getItemType().equals("treasure") && treasureRemoved < 1 && keyRemoved < 1) {
-                        inventory.remove(items);
-                        treasureRemoved++;
-                    } else if (items.getItemType().equals("key") && keyRemoved < 1 && treasureRemoved < 1) {
-                        inventory.remove(items);
-                        keyRemoved++;
-                    }
-
-                }
-            }*/
         }
-        //buildCheck();
-        
     }
 
     private void buildCheck() {
@@ -293,45 +239,48 @@ public class Game {
         gameTick++;
     }
 
-    public void interact(String entityId) {
-        int treasureNum = 0;
-        for(Entity entity : new ArrayList<>(entities)) {
-            if(entity.getId().equals(entityId) && entity instanceof Mercenary && entity.getPosition().getAdjacentPositions2().contains(character.getPosition())) {
-                Mercenary mercenary = (Mercenary) entity;
-                if (inventory.stream().anyMatch(e -> e.getItemType().equals("sceptre"))) {
-                    mercenary.control(character, inventory.stream().filter(e -> e.getItemType().equals("sceptre")).findFirst().get());
-                } else {
-                    for(Items item : inventory) {
-                        if (item.getItemType().equals("treasure")) {
-                            treasureNum++;
-                        } else if (mercenary.getType().equals("assassin") && item.getItemType().equals("one_ring")) {
-                            mercenary.bribe();
-                            mercenary.setInteractable(false);
+    public void interact(String entityId) throws InvalidActionException {
+        // Entity not existing exception already handled at DunegonManiaController, so this is safe.
+        Entity ent = entities.stream().filter(e -> e.getId().equals(entityId) && e.isInteractable()).findFirst().get();
+        if (!ent.getPosition().getAdjacentPositions2().contains(character.getPosition())) {
+            throw new InvalidActionException("Not in range to do this!");
+        }
+        if (ent instanceof Mercenary) {
+            Mercenary mercenary = (Mercenary) ent;
+            // Prioritise sceptre usage
+            if (inventory.stream().anyMatch(e -> e.getItemType().equals("sceptre"))) {
+                mercenary.control(character, inventory.stream().filter(e -> e.getItemType().equals("sceptre")).findFirst().get());
+            } else {
+                List<Items> bribeItems = inventory.stream().filter(e ->
+                            e.getItemType().equals("treasure") || e.getItemType().equals("sun_stone"))
+                            .limit(mercenary.getBribeAmount())
+                            .collect(Collectors.toList());
+                // Need the ring in order to bribe an assassin
+                if (bribeItems.size() < mercenary.getBribeAmount()) {
+                    throw new InvalidActionException("Come back when you're a little hmmm... richer!");
+                } 
 
-                            inventory.remove(item);
-                            return;
-                        }
+                if (mercenary.getType().equals("assassin")) {
+                    // If ring does not exist in the player's inventory, cannot bribe assassin.
+                    try {
+                        Items ring = inventory.stream().filter(e -> e.getItemType().equals("one_ring")).findFirst().get();
+                        bribeItems.add(ring);
+                    } catch (NoSuchElementException e) {
+                        throw new InvalidActionException("Petty tinkets won't satisfy me you heathen.");
                     }
                     
-                    if (treasureNum >= mercenary.getBribeAmount()) {
-                        
-                        mercenary.bribe();
-                        mercenary.setInteractable(false);
-                        
-                        int i = mercenary.getBribeAmount();
-                        for(Items item : new ArrayList<>(inventory)) {
-                            if (i  == 0) {
-                                break;
-                            }
-                            if (item.getItemType().equals("treasure")) {
-                                inventory.remove(item);
-                                i--;
-                            }
-        
-                        }
-                    }
-
                 }
+
+                bribeItems.stream().forEach((e) -> 
+                {
+                    // Do not use sun stone in bribery, but still counts towards total.
+                    if (!e.getItemType().equals("sun_stone")) {
+                        inventory.remove(e);
+                    } 
+                });
+                // Set the mercenary to be a permanent ally, and turn off their interactability.
+                mercenary.bribe();
+                mercenary.setInteractable(false);
             }
         }
     }
