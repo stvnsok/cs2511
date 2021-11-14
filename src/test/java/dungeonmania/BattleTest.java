@@ -100,7 +100,6 @@ public class BattleTest {
         assertEquals(character.getHealth(), 100); // player takes no damage
         assertEquals(mercenary.getHealth(), 70); // mercenary takes no damage
     }
-
     @Test
     public void peacefulBattleTest() {
         Character character = new Character("player", "character", new Position(7,7), false, 100, 5, new ArrayList<>(), new ArrayList<>(), "Peaceful");
