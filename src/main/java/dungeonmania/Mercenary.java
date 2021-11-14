@@ -160,7 +160,7 @@ public class Mercenary extends Mob implements Enemies {
         }
     }
 
-    private boolean allyMove(Character character, Position nextMove, List<Entity> entities) {
+    public boolean allyMove(Character character, Position nextMove, List<Entity> entities) {
         if (isAlly() && nextMove.equals(character.getPosition())) {
             List<Position> adjacent = character.getPosition().getCardinallyAdjacentPosition();
             // Don't bother moving if you can't reach the character or you aren't or character's running into wall.
