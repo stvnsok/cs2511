@@ -168,4 +168,33 @@ public class StaticEntityTest {
         assertThrows(InvalidActionException.class, () -> g.interactSpawner("spawner"));
     }
 
+    @Test
+    public void keyEntTest() {
+        KeyEntity keyEnt = new KeyEntity("q3r", "key", new Position(1, 2), false, 3);
+        KeyEntity keyEnt2 = new KeyEntity("q32r", "key", new Position(1, 5), false, 3);
+        KeyEntity keyEnt3 = new KeyEntity("q3r2", "key", new Position(1, 2), false, 3);
+        KeyEntity keyEnt4 = new KeyEntity("q2343r2", "key", new Position(1, 3), false, 3);
+        assertEquals(3, keyEnt.getKeyId());
+        EntityFactory fac = new EntityFactory();
+        List<Entity> entities = new ArrayList<>();
+        entities.add(keyEnt);
+        entities.add(keyEnt2);
+        entities.add(keyEnt3);
+        entities.add(keyEnt4);
+        Character character = fac.createPlayer("q324", new Position(1,2), "player", "Hard", entities);
+        assertEquals(4, entities.size());
+        keyEnt.update(character);
+        assertEquals(3, entities.size());
+        keyEnt2.update(character);
+        assertEquals(3, entities.size());
+        keyEnt3.update(character);
+        assertEquals(3, entities.size());
+        keyEnt4.update(character);
+        assertEquals(3, entities.size());
+        
+
+
+
+    }
+
 }
