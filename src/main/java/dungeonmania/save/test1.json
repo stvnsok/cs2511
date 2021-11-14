@@ -46,10 +46,10 @@
             "isinteractable": false
         },
         {
-            "id": "mercenary6",
+            "id": "zombie_toast6",
             "x": 3,
             "y": 5,
-            "type": "mercenary",
+            "type": "zombie_toast",
             "isinteractable": true
         },
         {

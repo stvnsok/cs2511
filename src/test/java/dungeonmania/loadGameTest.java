@@ -38,7 +38,7 @@ public class loadGameTest {
         EntityResponse entity4 = new EntityResponse("wall3", "wall", new Position(0, 3), false);
         EntityResponse entity5 = new EntityResponse("wall4", "wall", new Position(0, 4), false);
         EntityResponse entity6 = new EntityResponse("treasure5", "treasure", new Position(0, 6), false);
-        EntityResponse entity7 = new EntityResponse("mercenary6", "mercenary", new Position(3, 5), false);
+        EntityResponse entity7 = new EntityResponse("zombie_toast6", "zombie_toast", new Position(3, 5), false);
         EntityResponse entity8 = new EntityResponse("player7", "player", new Position(1, 1), false);
 
         entities.add(entity1);
