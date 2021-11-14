@@ -123,7 +123,7 @@ public class EntityFactory {
         int health = (gameMode.equals("Hard")) ? (10):(20);
         int attack = 5;
         List<Items> inventory = new ArrayList<>();
-        character = new Character(id, type, position, false, health, attack, inventory, entities);
+        character = new Character(id, type, position, false, health, attack, inventory, entities, gameMode);
         return character;
     }
 

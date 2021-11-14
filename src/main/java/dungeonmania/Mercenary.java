@@ -86,14 +86,12 @@ public class Mercenary extends Mob implements Enemies {
         List<Integer> xList = new ArrayList<Integer>();
         List<Integer> yList = new ArrayList<Integer>();
         for (Entity e: entities) {
-            if (e.getType().equals("wall")) {
-                xList.add(e.getPosition().getX());
-                yList.add(e.getPosition().getY());
-            }
+            xList.add(e.getPosition().getX());
+            yList.add(e.getPosition().getY());
         }
         
-        for (int x=0; x < Collections.max(xList); x++) {
-            for (int y=0; y < Collections.max(yList); y++) {
+        for (int x = 0; x <= Collections.max(xList); x++) {
+            for (int y = 0; y <= Collections.max(yList); y++) {
                 Position curPos = new Position(x, y); 
 
                 Grid.put(curPos, d);

@@ -78,7 +78,7 @@ public final class Position {
     }
 
     public  static final boolean isAdjacent(Position a, Position b) {
-        int x = a.x - b.x;
+        int x = (a.x - b.x);
         int y = a.y - b.y;
         return x + y == 1;
     }
