@@ -79,84 +79,105 @@ public class Mercenary extends Mob implements Enemies {
     @Override
     public void move(List<Entity> entities, Character character) {
 
-        Map<Position, Integer> Grid = allPositions(entities);
-        Position source = this.getPosition();
+        Position curPos = this.getPosition();
+        Position newPos = null;
 
-        Map<Position, Integer> dist = new HashMap<>();
-        List<Position> settled = new ArrayList<>();
+        if (character.getStateName().equals("Invincible")) {
+            //runs away
+            Position charPos = character.getPosition();
 
-        //put all the positions of the dungeon size
-        for (Map.Entry<Position, Integer> set : Grid.entrySet()) {
-            dist.put(set.getKey(), set.getValue());
-        }
-        Map<Position, Position> prev = new HashMap<Position, Position>();
-
-        for (Position p : Grid.keySet()) {
-            prev.put(p, p);
-        }
-
-        for (Position p: Grid.keySet()) {
-            dist.replace(p, infinity);
-            prev.replace(p, null);
-        }
-
-        dist.replace(source, 0);
-        // comparator to use for priority queue based on dist.
-        class posDistCompare implements Comparator<Position> {
-            public int compare(Position a, Position b) {
-                return dist.get(a) - dist.get(b);
+            if (charPos.getY() > curPos.getY()) { //character is below the spider
+                newPos = new Position(curPos.getX(), curPos.getY()-1);
+            } else if (charPos.getY() < curPos.getY()) { //character is above the spider
+                newPos = new Position(curPos.getX(), curPos.getY()+1);
+            } else if (charPos.getX() > curPos.getX()) { //character is on the right of the spider 
+                newPos = new Position(curPos.getX()-1, curPos.getY());
+            } else if (charPos.getX() <= curPos.getX()) { //character is on the left of the spider
+                newPos = new Position(curPos.getX()+1, curPos.getY());
             }
-        }
-
-        Queue<Position> queue = new PriorityQueue<>(1, new posDistCompare());
-        //add source node to queue
-        queue.add(source);
-
-        while(!queue.isEmpty()) {
-            
-            Position evaluated = queue.peek();
-            List<Position> adjacentPositions = evaluated.getCardinallyAdjacentPosition();
-            for (Position v: adjacentPositions) {
-                // Do not consider positions that are out of the map.
-                if (dist.containsKey(v)) {
-                    if (dist.get(evaluated) + cost(entities, v) < dist.get(v)) {
-                        dist.put(v, dist.get(evaluated) + cost(entities, v));
-                        prev.put(v, evaluated);
-                    }
-                    if (!queue.contains(v) && !settled.contains(v)) {
-                        queue.add(v);
-                    }
-                }  
+            if(checkObstacles(entities, newPos)) {
+                this.setPosition(newPos);
             }
-            // Do not consider nodes again that have already been evaluated.
-            queue.remove(evaluated);
-            settled.add(evaluated);
-        }
-        Position nextMove = character.getPosition();
-        
-
-        // Getting a nullpointer exception inconsistently when adjacent to player, and player moves into merc.
-        // Happens 5% of the time, in different locations. Don't know why.
-        // This is a stop gap solution to prevent exception.
-        if (prev.get(nextMove) == null) {
-            if (!allyMove(character, nextMove, entities)) {
-                this.setPosition(character.getPosition());
-            }
-            
         } else {
-            // route the path all the way back to the mercenary.
-            while (!prev.get(nextMove).equals(this.getPosition())) {
-                nextMove = prev.get(nextMove);
+            Map<Position, Integer> Grid = allPositions(entities);
+            Position source = this.getPosition();
+
+            Map<Position, Integer> dist = new HashMap<>();
+            List<Position> settled = new ArrayList<>();
+
+            //put all the positions of the dungeon size
+            for (Map.Entry<Position, Integer> set : Grid.entrySet()) {
+                dist.put(set.getKey(), set.getValue());
+            }
+            Map<Position, Position> prev = new HashMap<Position, Position>();
+
+            for (Position p : Grid.keySet()) {
+                prev.put(p, p);
             }
 
-            if (!allyMove(character, nextMove, entities)) {
-                this.setPosition(nextMove);
+            for (Position p: Grid.keySet()) {
+                dist.replace(p, infinity);
+                prev.replace(p, null);
+            }
+
+            dist.replace(source, 0);
+            // comparator to use for priority queue based on dist.
+            class posDistCompare implements Comparator<Position> {
+                public int compare(Position a, Position b) {
+                    return dist.get(a) - dist.get(b);
+                }
+            }
+
+            Queue<Position> queue = new PriorityQueue<>(1, new posDistCompare());
+            //add source node to queue
+            queue.add(source);
+
+            while(!queue.isEmpty()) {
+                
+                Position evaluated = queue.peek();
+                List<Position> adjacentPositions = evaluated.getCardinallyAdjacentPosition();
+                for (Position v: adjacentPositions) {
+                    // Do not consider positions that are out of the map.
+                    if (dist.containsKey(v)) {
+                        if (dist.get(evaluated) + cost(entities, v) < dist.get(v)) {
+                            dist.put(v, dist.get(evaluated) + cost(entities, v));
+                            prev.put(v, evaluated);
+                        }
+                        if (!queue.contains(v) && !settled.contains(v)) {
+                            queue.add(v);
+                        }
+                    }  
+                }
+                // Do not consider nodes again that have already been evaluated.
+                queue.remove(evaluated);
+                settled.add(evaluated);
+            }
+            Position nextMove = character.getPosition();
+            
+
+            // Getting a nullpointer exception inconsistently when adjacent to player, and player moves into merc.
+            // Happens 5% of the time, in different locations. Don't know why.
+            // This is a stop gap solution to prevent exception.
+            if (prev.get(nextMove) == null) {
+                if (!allyMove(character, nextMove, entities)) {
+                    this.setPosition(character.getPosition());
+                }
+                
+            } else {
+                // route the path all the way back to the mercenary.
+                while (!prev.get(nextMove).equals(this.getPosition())) {
+                    nextMove = prev.get(nextMove);
+                }
+
+                if (!allyMove(character, nextMove, entities)) {
+                    this.setPosition(nextMove);
+                }
+                
             }
             
-        }
-        
-        if (this.isOn(character) && !isAlly) {
-            character.battle(this);
+            if (this.isOn(character) && !isAlly) {
+                character.battle(this);
+            }
         }
     }
 
