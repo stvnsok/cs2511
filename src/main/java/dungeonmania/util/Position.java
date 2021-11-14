@@ -113,25 +113,25 @@ public final class Position {
     public List<Position> getAdjacentPositions2() {
         List<Position> adjacentPositions = new ArrayList<>();
 
-        adjacentPositions.add(new Position(x-2, y-2));
-        adjacentPositions.add(new Position(x-1, y-2));
+        //adjacentPositions.add(new Position(x-2, y-2));
+        //adjacentPositions.add(new Position(x-1, y-2));
         adjacentPositions.add(new Position(x, y-2));
-        adjacentPositions.add(new Position(x+1, y-2));
-        adjacentPositions.add(new Position(x+2, y-2));
+        //adjacentPositions.add(new Position(x+1, y-2));
+        //adjacentPositions.add(new Position(x+2, y-2));
 
-        adjacentPositions.add(new Position(x-2, y+2));
-        adjacentPositions.add(new Position(x-1, y+2));
+        //adjacentPositions.add(new Position(x-2, y+2));
+        //adjacentPositions.add(new Position(x-1, y+2));
         adjacentPositions.add(new Position(x, y+2));
-        adjacentPositions.add(new Position(x+1, y+2));
-        adjacentPositions.add(new Position(x+2, y+2));
+        //adjacentPositions.add(new Position(x+1, y+2));
+        //adjacentPositions.add(new Position(x+2, y+2));
 
-        adjacentPositions.add(new Position(x+2, y-1));
+        //adjacentPositions.add(new Position(x+2, y-1));
         adjacentPositions.add(new Position(x+2, y));
-        adjacentPositions.add(new Position(x+2, y+1));
+        //adjacentPositions.add(new Position(x+2, y+1));
 
-        adjacentPositions.add(new Position(x-2, y-1));
+        //adjacentPositions.add(new Position(x-2, y-1));
         adjacentPositions.add(new Position(x-2, y));
-        adjacentPositions.add(new Position(x-2, y+1));
+        //adjacentPositions.add(new Position(x-2, y+1));
 
         adjacentPositions.add(new Position(x-1, y-1));
         adjacentPositions.add(new Position(x  , y-1));

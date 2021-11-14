@@ -192,7 +192,8 @@ public class Mercenary extends Mob implements Enemies {
                     return 1000;
                 } else if (eType.equals("swamp_tile")) {
                     // Have not implemented swamp tiles yet.
-                    return 2;
+                   SwampTile swampEnt = (SwampTile) e;
+                   return swampEnt.getMovementFactor();
                 }
             }
         }
