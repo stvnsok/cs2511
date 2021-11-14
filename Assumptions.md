@@ -15,6 +15,7 @@ Item Assumptions:
 13. Anduril has twice the durability of a normal sword, and triple the character's damage instead of doubling it.
 14. When bribing a mercenary, usage priority will be given to whatever item appears first in the inventory.
 15. The zombie toast spawner can only be destroyed with a sword.
+16. Bomb explodes the tick after the switch is activated/placed near active switch.
 
 Dungeon Mania Controller Assumptions:
 1. The id of dungeons is defined "dungeon" concatenated with current dungeon number.
