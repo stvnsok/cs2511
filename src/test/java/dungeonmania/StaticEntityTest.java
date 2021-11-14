@@ -132,4 +132,25 @@ public class StaticEntityTest {
 
     }
 
+    @Test
+    public void keyEntTest() {
+        KeyEntity keyEnt = new KeyEntity("q3r", "key", new Position(1, 2), false, 3);
+        KeyEntity keyEnt2 = new KeyEntity("q3r", "key", new Position(1, 5), false, 3);
+        assertEquals(3, keyEnt.getKeyId());
+        EntityFactory fac = new EntityFactory();
+        List<Entity> entities = new ArrayList<>();
+        entities.add(keyEnt);
+        entities.add(keyEnt2);
+        Character character = fac.createPlayer("q324", new Position(1,2), "player", "Hard", entities);
+        assertEquals(2, entities.size());
+        keyEnt.update(character);
+        assertEquals(1, entities.size());
+        keyEnt2.update(character);
+        assertEquals(1, entities.size());
+        
+
+
+
+    }
+
 }
