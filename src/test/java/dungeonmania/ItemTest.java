@@ -75,6 +75,19 @@ public class ItemTest {
         c1.useItem("i3");
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals(c1.getMaxHealth(), c1.getHealth());
+        for (int i = 0; i < 4; i++) {
+            c1.stateTick();
+        }
+        assertEquals("Invisible", c1.getStateName());
+        assertEquals(11, c1.getState().getStateDuration());
+
+        for (int i = 0; i < 12; i++) {
+            c1.stateTick();
+        }
+        assertEquals("Normal", c1.getStateName());
+
+
+
     }
 
     // Testing Invincibility Potion usage in Hard mode

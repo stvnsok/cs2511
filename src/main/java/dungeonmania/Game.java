@@ -234,6 +234,7 @@ public class Game {
         }   
 
         gameTick++;
+        character.stateTick();
     }
 
     public void interact(String entityId) throws InvalidActionException {
