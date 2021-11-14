@@ -22,20 +22,19 @@ public class GameTest {
 
     @Test
     public void testHydraSpawn() {
-        
-        
+           
         List<Entity> entities = new ArrayList<>();
         List<Items> inventory = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Character character = new Character("c1", "player", new Position(5,5), false, 100, 10, inventory, entities, "Standard");
         Game g = new Game("empty.json", "Hard", entities, inventory, new ArrayList<>(), object, character);
         
-        Wall w1 = new Wall("w1", "wall", new Position (6,6), false);
-        Wall w2 = new Wall("w2", "wall", new Position (10,10), false);
+        Wall w1 = new Wall("w1", "wall", new Position (1,1), false);
+        Wall w2 = new Wall("w2", "wall", new Position (11,11), false);
         entities.add(w1);
         entities.add(w2);
-        entities.add(character);
+        // leave character out of entities for this test
         IntStream.range(0, 51).forEach(i -> {
             g.tick(null, Direction.NONE);
 
@@ -46,9 +45,10 @@ public class GameTest {
             .filter(e -> e.getType().equals("hydra"))
             .count();
 
-        assertEquals(1, count);
-        
+        assertEquals(1, count); 
+
     }
+
     @Test
     public void buildCheckTest() {
         // Initialise Game to look at buildables
