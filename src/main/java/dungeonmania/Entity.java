@@ -90,6 +90,12 @@ public class Entity implements CharacterObserver {
         character.detach(this);
     }
 
+    /**
+     * 
+     * 
+     * @param entities
+     * @param position
+     */
     public void explode(List<Entity> entities, Position position) {
         List<Position> adjacentPositions = position.getAdjacentPositions();
 
@@ -107,6 +113,14 @@ public class Entity implements CharacterObserver {
         }
     }
 
+    /**
+     * returns true if the boulder is on the switch
+     * otherwise returns false
+     * 
+     * @param entities
+     * @param position
+     * @return
+     */
     public boolean checkSwitchOn(List<Entity> entities, Position position) {
         List<Position> adjacentPositions = position.getAdjacentPositions();
 
@@ -121,6 +135,12 @@ public class Entity implements CharacterObserver {
         return false;
     }
 
+    /**
+     * 
+     * returns true if the entity is a boulder
+     * other wise returns false
+     * 
+     */
     public boolean checkBoulder(List<Entity> entities, Position position) {
         for (Entity entity : new ArrayList<>(entities)) {
             Position entPos = entity.getPosition();
