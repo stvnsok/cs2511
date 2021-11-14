@@ -222,13 +222,13 @@ public class Game {
         //generate random percentage
         if (random.nextInt(5) == 0 && spiderNum < 4) {
             //generate random position
-            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Position randPos = new Position(random.nextInt(maxX - minX + 1) + minX, random.nextInt(maxY - minY + 1) + minY);
             Spider spider = new Spider(System.currentTimeMillis()+"spider", "spider", randPos, false, 10, 3);
             entities.add(spider);
         }
 
         if (gameMode.equals("Hard") && gameTick%50 == 0 && gameTick != 0) {
-            Position randPos = new Position(random.nextInt((maxX - minX + 1) + minY), random.nextInt((maxY - minY + 1)) + minY);
+            Position randPos = new Position(random.nextInt(maxX - minX + 1) + minX, random.nextInt(maxY - minY + 1) + minY);
             Zombie hydra = new Zombie(System.currentTimeMillis()+"hydra", "hydra", randPos, false, 50, 8);
             entities.add(hydra);
         }   
