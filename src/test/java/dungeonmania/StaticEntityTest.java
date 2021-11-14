@@ -1,9 +1,11 @@
 package dungeonmania;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -117,8 +119,9 @@ public class StaticEntityTest {
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
         Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
-        Sword s = new Sword("s1", "sword", 5);
-        inventory.add(s);
+        
+        inventory.add(new Sword("s1", "sword", 5));
+        inventory .add (new Sword("s2", "andruil", 5));
         ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), true);
         entities.add(spawner);
         entities.add(character);
@@ -133,31 +136,36 @@ public class StaticEntityTest {
     }
 
     @Test
-    public void keyEntTest() {
-        KeyEntity keyEnt = new KeyEntity("q3r", "key", new Position(1, 2), false, 3);
-        KeyEntity keyEnt2 = new KeyEntity("q32r", "key", new Position(1, 5), false, 3);
-        KeyEntity keyEnt3 = new KeyEntity("q3r2", "key", new Position(1, 2), false, 3);
-        KeyEntity keyEnt4 = new KeyEntity("q2343r2", "key", new Position(1, 3), false, 3);
-        assertEquals(3, keyEnt.getKeyId());
-        EntityFactory fac = new EntityFactory();
+    public void spawnerAdjacentExceptionTest() {
         List<Entity> entities = new ArrayList<>();
-        entities.add(keyEnt);
-        entities.add(keyEnt2);
-        entities.add(keyEnt3);
-        entities.add(keyEnt4);
-        Character character = fac.createPlayer("q324", new Position(1,2), "player", "Hard", entities);
-        assertEquals(4, entities.size());
-        keyEnt.update(character);
-        assertEquals(3, entities.size());
-        keyEnt2.update(character);
-        assertEquals(3, entities.size());
-        keyEnt3.update(character);
-        assertEquals(3, entities.size());
-        keyEnt4.update(character);
-        assertEquals(3, entities.size());
-        
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(1, 1), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Sword s = new Sword("s1", "sword", 5);
+        inventory.add(s);
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(2, 2), true);
+        entities.add(spawner);
+        entities.add(character);
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
 
-
-
+        assertThrows(InvalidActionException.class, () -> g.interactSpawner("spawner"));
     }
+
+    @Test
+    public void spawnerNoWeaponExceptionTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(1, 2), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(2, 2), true);
+        entities.add(spawner);
+        entities.add(character);
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+
+        assertThrows(InvalidActionException.class, () -> g.interactSpawner("spawner"));
+    }
+
 }

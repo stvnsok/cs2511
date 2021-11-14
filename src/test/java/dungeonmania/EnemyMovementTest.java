@@ -113,9 +113,9 @@ public class EnemyMovementTest {
 
     @Test
     public void MercenaryMovement() {
-        Mercenary mercenary = new Mercenary("1", "Mercenary", new Position(1, 1), true, 10, 10, 10, false);
+        Mercenary mercenary = new Mercenary("1", "mercenary", new Position(1, 1), true, 10, 10, 10, false);
         List<Entity> entities = new ArrayList<>();
-        Character character = new Character("2", "Character", new Position(1, 5), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character = new Character("2", "character", new Position(1, 5), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
         entities.add(mercenary);
         character.setEntities(entities);
