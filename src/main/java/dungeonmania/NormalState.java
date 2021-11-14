@@ -78,6 +78,16 @@ public class NormalState implements CharacterState{
                 characterDamage = characterDamage / 2; // halve damage
                 eArmour.use(mercenary);
             }
+        } else if (enemy.getType().equals("hydra")) {
+            if (sword.getItemType().equals("anduril")) {
+                enemy.takeDamage(characterDamage);
+            }
+            else if (Math.random() < 0.5) {
+                enemy.takeDamage(characterDamage);
+            }
+            else {
+                enemy.increaseHealth(characterDamage);
+            }
         }
 
         enemy.takeDamage(characterDamage);
@@ -154,6 +164,14 @@ public class NormalState implements CharacterState{
             if (eArmour != null) { // if mercenary has armour
                 allyDamage = allyDamage / 2; // halve damage
                 eArmour.use(mercenary);
+            }
+        } else if (enemy.getType().equals("hydra")) {
+
+            if (Math.random() < 0.5) {
+                enemy.takeDamage(allyDamage);
+            }
+            else {
+                enemy.increaseHealth(allyDamage);
             }
         }
 
