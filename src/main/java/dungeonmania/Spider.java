@@ -1,9 +1,7 @@
 package dungeonmania;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dungeonmania.util.Position;
 
@@ -161,13 +159,5 @@ public class Spider extends Mob implements Enemies {
             }
         }
     }
-
-    // @Override
-    // public void update(Character character) {
-    //     if (character.isOn(this)) {
-    //         // battle!
-    //         character.battle(this);
-    //     }
-    // }
 }
 
