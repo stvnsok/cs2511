@@ -12,7 +12,7 @@ public class KeyEntity extends Entity {
 
     @Override
     public void update(Character character) {
-        if (character.isOn(this)) {
+        if (character.isOn(this) && character.getKey() == null) {
             character.addInventory(new Key(getId(), getType(), 1, keyId));
             character.mapRemove(this);
             character.detach(this);
