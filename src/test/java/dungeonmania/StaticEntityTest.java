@@ -5,6 +5,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -57,7 +58,49 @@ public class StaticEntityTest {
 
     }
 
+    @Test
+
+    public void moveBoulderintoBoulderTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
     
+        Boulder b1 = new Boulder("b1", "boulder", new Position(0,1), false);
+        Boulder b2 = new Boulder("b2", "boulder", new Position(1,0), false);
+        entities.add(new Boulder("b1", "boulder", new Position(0,2), false));
+
+        
+        entities.add(new Wall("w1", "wall", new Position(2,0), false));
+        
+        character.moveBoulder(entities, new Position(0, 0), Direction.RIGHT);
+        assertEquals(new Position(0,1), b1.getPosition());
+        assertEquals(new Position(1,0), b2.getPosition());
+
+        //assertFalse(character.checkMoveBoulder(entities, character.getPosition(), Direction.RIGHT));
+    }
+
+    
+    @Test
+    public void checkDoorNoKeyTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+        
+        Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
+        
+        entities.add(d);
+
+        //character.useItem("key");
+        character.checkDoor(entities, new Position(0,1));
+        assertFalse(d.isOpen());
+        assertFalse(character.checkDoor(entities, new Position(0,1)));
+    }
     @Test
     public void BombTest() {
         List<Entity> entities = new ArrayList<>();
