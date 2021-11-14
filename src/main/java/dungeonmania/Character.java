@@ -434,6 +434,15 @@ public class Character extends Mob {
         return null;
     }
 
+    public Key getKey() {
+        for (Items item : inventory) {
+            if (item instanceof Key) {
+                return (Key) item;
+            }
+        }
+        return null;
+    }
+
     /**
      * Remove enemy from the game, and check for armour and One Ring.
      * @param enemy
