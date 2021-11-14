@@ -79,7 +79,9 @@ public class Game {
             buildCheck();
         }
     }
-
+    /**
+     * 
+     */
     private void buildCheck() {
         int numWood = 0;
         int numArrows = 0;
@@ -125,6 +127,13 @@ public class Game {
         buildables = canBuild;
     }
 
+    /**
+     * 
+     * @param itemUsed
+     * @param movementDirection
+     * @throws IllegalArgumentException
+     * @throws InvalidActionException
+     */
     public void tick(String itemUsed, Direction movementDirection) throws IllegalArgumentException, InvalidActionException {
         character.move(movementDirection);
         // Won't bother checking if item is not uses(null)
@@ -237,6 +246,12 @@ public class Game {
         character.stateTick();
     }
 
+
+    /**
+     * method to interact with the mercenary
+     * @param entityId
+     * @throws InvalidActionException
+     */
     public void interact(String entityId) throws InvalidActionException {
         // Entity not existing exception already handled at DunegonManiaController, so this is safe.
         Entity ent = entities.stream().filter(e -> e.getId().equals(entityId) && e.isInteractable()).findFirst().get();
@@ -284,6 +299,10 @@ public class Game {
     }
 
 
+    /**
+     *  method to interact with zombie toast spawner
+     * 
+     */
 
     public void interactSpawner(String entityId) throws InvalidActionException {
        
@@ -315,6 +334,10 @@ public class Game {
 
     }
 
+    /**
+     * returns an arrayList of swamptiles
+     * @return
+     */
     public ArrayList<SwampTile> getSwampTilePosition() {
         ArrayList<SwampTile> swampTiles = new ArrayList<SwampTile>();
         for (Entity e : entities) {
