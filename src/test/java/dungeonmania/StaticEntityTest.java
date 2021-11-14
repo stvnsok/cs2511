@@ -119,8 +119,9 @@ public class StaticEntityTest {
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
         Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
-        Sword s = new Sword("s1", "sword", 5);
-        inventory.add(s);
+        
+        inventory.add(new Sword("s1", "sword", 5));
+        inventory .add (new Sword("s2", "andruil", 5));
         ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), true);
         entities.add(spawner);
         entities.add(character);

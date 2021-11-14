@@ -1,6 +1,7 @@
 package dungeonmania;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -109,6 +110,26 @@ public class interactTest {
         assertFalse(m.isInteractable());
         assertTrue(m.isAlly());
 
+    }
+    
+    @Test
+    public void mercenarySceptreControlTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+        
+        Mercenary m = new Mercenary("a1", "assassin", new Position(0, 1), true, 10, 10, 1, false);
+        entities.add(m);
+        entities.add(character);
+        inventory.add(new Items ("s1", "sceptre", 1));
+
+        g.interact("a1");
+        assertFalse(m.isInteractable());
+        assertTrue(m.isAlly());
+        assertEquals(10, m.getControlDuration());
     }
 
 
