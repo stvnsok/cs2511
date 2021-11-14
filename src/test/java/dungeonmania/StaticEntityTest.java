@@ -1,9 +1,11 @@
 package dungeonmania;
 
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -130,6 +132,39 @@ public class StaticEntityTest {
         //checks the list off entities to make sure that spawner has been removed
         assertEquals(entitiesCheck, entities);
 
+    }
+
+    @Test
+    public void spawnerAdjacentExceptionTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(1, 1), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+        Sword s = new Sword("s1", "sword", 5);
+        inventory.add(s);
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(2, 2), true);
+        entities.add(spawner);
+        entities.add(character);
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+
+        assertThrows(InvalidActionException.class, () -> g.interactSpawner("spawner"));
+    }
+
+    @Test
+    public void spawnerNoWeaponExceptionTest() {
+        List<Entity> entities = new ArrayList<>();
+        List<Items> inventory = new ArrayList<>();
+        JSONObject object = new JSONObject();
+        object.put("goal", "enemies");
+        Character character = new Character("c1", "player", new Position(1, 2), false, 100, 10, inventory, new ArrayList<>(), "Standard");
+
+        ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(2, 2), true);
+        entities.add(spawner);
+        entities.add(character);
+        Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
+
+        assertThrows(InvalidActionException.class, () -> g.interactSpawner("spawner"));
     }
 
 }
