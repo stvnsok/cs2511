@@ -237,7 +237,7 @@ public class EnemyMovementTest {
         Character character = new Character("player2", "player", new Position(3, 2), true, 100, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
 
-        // spider moves then battles character
+        // zombie moves then battles character
         Wall wall = new Wall("2", "wall", new Position(3, 4), true);
         entities.add(wall);
         Wall wall1 = new Wall("2", "wall", new Position(2, 3), true);
@@ -281,7 +281,7 @@ public class EnemyMovementTest {
 
     @Test
     public void mercenaryMovementInvincible() {
-        // test zombie running away from invincible state player
+        // test mercenary running away from invincible state player
         Mercenary mercenary = new Mercenary("mercenary1", "mercenary", new Position(3, 3), false, 10, 10, 1, false);
         List<Entity> entities = new ArrayList<>();
         Wall wall = new Wall("wall2", "wall", new Position(1, 2), false);
@@ -322,7 +322,7 @@ public class EnemyMovementTest {
         Character character = new Character("player3", "player", new Position(3, 4), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
 
-        // spider moves then battles character
+        // mercenary moves then battles character
         mercenary.move(entities, character);
         assertEquals(mercenary.getPosition(), character.getPosition());
         assertTrue(mercenary.getHealth() <= 0);
