@@ -8,6 +8,4 @@ public class ZombieToastSpawner extends Entity {
         super(id, type, position, isInteractable);
     }
     
-
-
 }

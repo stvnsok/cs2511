@@ -1,12 +1,8 @@
 package dungeonmania;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import dungeonmania.util.Position;
-
-// public interface Enemies extends CharacterObserver {
 public interface Enemies {
     
     /**
@@ -23,6 +19,4 @@ public interface Enemies {
     public boolean canMove();
 
     public void isOnSwampTile(ArrayList<SwampTile> swampTilePosition);
-
-    //public void dropRing;
 }

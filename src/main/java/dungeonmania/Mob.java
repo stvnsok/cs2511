@@ -38,9 +38,7 @@ public class Mob extends Entity {
         health = health - damage;
     }
 
-    public void increaseHealth(int damage) {
-        health = health + damage;
+    public void increaseHealth(int increaseAmount) {
+        health = Math.min(health + increaseAmount, maxHealth);
     }
-
-    //public void checkArmor() {}
 }
