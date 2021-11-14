@@ -1,10 +1,7 @@
 package dungeonmania;
 
 
-<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertEquals;
-=======
->>>>>>> 45a192d (added tests for interact)
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
