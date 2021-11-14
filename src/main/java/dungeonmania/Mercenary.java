@@ -139,7 +139,6 @@ public class Mercenary extends Mob implements Enemies {
         // Happens 5% of the time, in different locations. Don't know why.
         // This is a stop gap solution to prevent exception.
         if (prev.get(nextMove) == null) {
-            System.out.println("Bad");
             if (!allyMove(character, nextMove, entities)) {
                 this.setPosition(character.getPosition());
             }
@@ -149,7 +148,7 @@ public class Mercenary extends Mob implements Enemies {
             while (!prev.get(nextMove).equals(this.getPosition())) {
                 nextMove = prev.get(nextMove);
             }
-            
+
             if (!allyMove(character, nextMove, entities)) {
                 this.setPosition(nextMove);
             }
