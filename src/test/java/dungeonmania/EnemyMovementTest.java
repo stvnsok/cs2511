@@ -195,6 +195,62 @@ public class EnemyMovementTest {
     }
 
     @Test
+    public void zombieMovementInvincible() {
+        // test zombie running away from invincible state player
+        Zombie zombie = new Zombie("zombie1", "zombie_toast", new Position(3, 3), true, 10, 10);
+        List<Entity> entities = new ArrayList<>();
+        Wall wall = new Wall("wall2", "wall", new Position(1, 2), false);
+        entities.add(wall);
+
+        Character character = new Character("player3", "player", new Position(3, 4), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        character.addInventory(new InvincibilityPotion("invincibilityPotion", "invincibility_potion", 1));
+        character.useItem("invincibilityPotion");
+        assertEquals("Invincible", character.getStateName());
+
+        entities.add(character);
+
+        // character below zombie, zombie moves up
+        zombie.move(entities, character);
+        assertTrue(zombie.getPosition().equals(new Position(3, 2)));
+
+        // character above spider, spider moves down
+        character.setPosition(new Position(3, 1));
+        zombie.move(entities, character);
+        assertTrue(zombie.getPosition().equals(new Position(3, 3)));
+
+        // character to the right of spider, spider moves left
+        character.setPosition(new Position(4, 3));
+        zombie.move(entities, character);
+        assertTrue(zombie.getPosition().equals(new Position(2, 3)));
+
+        // character to the left of spider, spider moves right
+        character.setPosition(new Position(1, 3));
+        zombie.move(entities, character);
+        assertTrue(zombie.getPosition().equals(new Position(3, 3)));
+    }
+
+    @Test
+    public void zombieMovementBattleTest() {
+        Zombie zombie = new Zombie("zombie1", "zombie_toast", new Position(3, 3), true, 20, 3);
+        List<Entity> entities = new ArrayList<>();
+
+        Character character = new Character("player2", "player", new Position(3, 2), true, 100, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
+        entities.add(character);
+
+        // spider moves then battles character
+        Wall wall = new Wall("2", "wall", new Position(3, 4), true);
+        entities.add(wall);
+        Wall wall1 = new Wall("2", "wall", new Position(2, 3), true);
+        entities.add(wall1);
+        Wall wall2 = new Wall("2", "wall", new Position(4, 3), true);
+        entities.add(wall2);
+
+        zombie.move(entities, character);
+        assertEquals(zombie.getPosition(), character.getPosition());
+        assertTrue(zombie.getHealth() <= 0);
+    }
+
+    @Test
     public void MercenaryMovement() {
         Mercenary mercenary = new Mercenary("1", "mercenary", new Position(1, 1), true, 10, 10, 10, false);
         List<Entity> entities = new ArrayList<>();
