@@ -23,7 +23,7 @@ public class GoalTests {
         List<Entity> entities = new ArrayList<>();
         entities.add(new Entity("2", "exit", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -43,11 +43,11 @@ public class GoalTests {
         controller.newGame("exit", "Standard");
 
         // Move character towards exit
-        DungeonResponse dungeonResponse = controller.tick("", Direction.DOWN);
+        DungeonResponse dungeonResponse = controller.tick(null, Direction.DOWN);
         assertEquals(dungeonResponse.getGoals(), ":exit");
 
         // Move character onto exit
-        dungeonResponse = controller.tick("", Direction.RIGHT);
+        dungeonResponse = controller.tick(null, Direction.RIGHT);
         // Game finished - dungeon response's goals should be empty
         assertEquals(dungeonResponse.getGoals(), "");
     }
@@ -58,7 +58,7 @@ public class GoalTests {
         List<Entity> entities = new ArrayList<>();
         entities.add(new Entity("2", "treasure", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -79,7 +79,7 @@ public class GoalTests {
         entities.add(new Entity("3", "switch", new Position(1, 3), false));
         entities.add(new Boulder("2", "boulder", new Position(1, 2), false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -100,7 +100,7 @@ public class GoalTests {
         Spider spider = new Spider("3", "spider", new Position(1, 2), false, 2, 1);
         entities.add(spider);
         Character character = new Character("1", "character", new Position(1, 1), false,
-             6, 4, inventory, null);
+             6, 4, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -121,7 +121,7 @@ public class GoalTests {
         entities.add(new Entity("2", "exit", new Position(1, 3), false));
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -150,7 +150,7 @@ public class GoalTests {
         entities.add(new Entity("2", "exit", new Position(1, 3), false));
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();
@@ -178,7 +178,7 @@ public class GoalTests {
         entities.add(new Entity("3", "treasure", new Position(1,2),false));
         entities.add(new Spider("4", "spider", new Position (2,4), false, 1, 1));
         Character character = new Character("1", "character", new Position(1, 1), false,
-             2, 1, inventory, null);
+             2, 1, inventory, null, "Standard");
         entities.add(character);
         character.setEntities(entities);
         JSONObject jGoal = new JSONObject();

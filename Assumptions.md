@@ -28,3 +28,7 @@ Battle Assumptions:
 2. Allies attack enemies after the character attacks during a battle.
 3. If an ally kills an enemy with armour, the character receives the enemy's armour.
 4. If an ally with armour is killed by an enemy, the character receives the ally's armour.
+5. In peaceful game mode, the player also does not attack enemies so battles do not occur.
+6. Mercenaries spawn at the same time as zombie_toasts from spawners(this includes tick decrease in hard mode).
+7. Entry location is interpreted as player's spawn location.
+8. Mercenaries will only stay 1 tile away from player, if they are an ally.

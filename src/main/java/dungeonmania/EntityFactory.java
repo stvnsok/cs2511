@@ -63,7 +63,7 @@ public class EntityFactory {
      * @return an Entity object of requested position and type.
      */
     public static Entity createEntity(String id, Position position, String type) {
-        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner|swamp_tile");
+        Pattern entPattern = Pattern.compile("zombie_toast|spider|mercenary|boulder|zombie_toast_spawner|swamp_tile|hydra");
         Matcher matcher = entPattern.matcher(type);
         if (matcher.find()) {
             switch (type) {
@@ -123,7 +123,7 @@ public class EntityFactory {
         int health = (gameMode.equals("Hard")) ? (10):(20);
         int attack = 5;
         List<Items> inventory = new ArrayList<>();
-        character = new Character(id, type, position, false, health, attack, inventory, entities);
+        character = new Character(id, type, position, false, health, attack, inventory, entities, gameMode);
         return character;
     }
 

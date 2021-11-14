@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class EnemyMovementTest {
@@ -18,7 +19,7 @@ public class EnemyMovementTest {
         List<Entity> entities = new ArrayList<>();
         Wall wall = new Wall("2", "wall", new Position(2, 2), false);
         entities.add(wall);
-        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
 
         /*Position spiderPos = spider.getPosition();
@@ -89,7 +90,7 @@ public class EnemyMovementTest {
     public void ZombieMovement() {
         Zombie zombie = new Zombie("1", "zombie_toast", new Position(5, 5), true, 10, 10);
         List<Entity> entities = new ArrayList<>();
-        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("2", "Character", new Position(10, 10), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
 
         zombie.move(entities, character);
@@ -114,18 +115,28 @@ public class EnemyMovementTest {
     public void MercenaryMovement() {
         Mercenary mercenary = new Mercenary("1", "Mercenary", new Position(1, 1), true, 10, 10, 10, false);
         List<Entity> entities = new ArrayList<>();
-        Character character = new Character("2", "Character", new Position(1, 6), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("2", "Character", new Position(1, 5), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         entities.add(character);
+        entities.add(mercenary);
+        character.setEntities(entities);
 
         mercenary.move(entities, character);
-        Position spiderPos = mercenary.getPosition();
-        int x = spiderPos.getX();
-        int y = spiderPos.getY();
-
-        assertEquals(x, 1);
-        assertEquals(y, 2);
         assertTrue(mercenary.getPosition().equals(new Position(1, 2)));
 
+        mercenary.move(entities, character);
+        assertTrue(mercenary.getPosition().equals(new Position(1, 3)));
 
+        mercenary.move(entities, character);
+        assertTrue(mercenary.getPosition().equals(new Position(1, 4)));
+
+        character.move(Direction.RIGHT);
+
+        // mercenary moves onto adjacent position of character
+        mercenary.move(entities, character);
+        assertTrue(Position.isAdjacent(character.getPosition(), mercenary.getPosition()));
+
+        // mercenary moves onto same position as character
+        mercenary.move(entities, character);
+        assertEquals(character.getPosition(), mercenary.getPosition());
     }
 }

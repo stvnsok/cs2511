@@ -18,7 +18,7 @@ public class BattleTest {
     @Test
     public void normalCharacterOnEnemy() {
         // normal state character 
-        Character character = new Character("player", "character", new Position(7,7), false, 100, 5, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "character", new Position(7,7), false, 100, 5, new ArrayList<>(), new ArrayList<>(), "Standard");
         
         Zombie zombie = new Zombie("zombie", "zombie_toast", new Position(7,6), false, 50, 5);
         Spider spider = new Spider("spider", "spider", new Position(6,6), false, 40, 3);
@@ -46,7 +46,7 @@ public class BattleTest {
     @Test
     public void invincibleCharacterOnEnemy() {
         // invincible state character
-        Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
         Items invincibilityPotion = new InvincibilityPotion("invincibilityPotion", "invincibility_potion", 1);
         character.addInventory(invincibilityPotion);
         character.useItem("invincibilityPotion");
@@ -75,7 +75,7 @@ public class BattleTest {
     @Test
     public void invisibleCharacterOnEnemy() {
         // invisible state character        
-        Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "character", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
         Items invisibilityPotion = new InvisibilityPotion("invisibilityPotion", "invisibility_potion", 1);
         character.addInventory(invisibilityPotion);
         character.useItem("invisibilityPotion");
@@ -100,11 +100,37 @@ public class BattleTest {
         assertEquals(character.getHealth(), 100); // player takes no damage
         assertEquals(mercenary.getHealth(), 70); // mercenary takes no damage
     }
+    @Test
+    public void peacefulBattleTest() {
+        Character character = new Character("player", "character", new Position(7,7), false, 100, 5, new ArrayList<>(), new ArrayList<>(), "Peaceful");
+        
+        Zombie zombie = new Zombie("zombie", "zombie_toast", new Position(7,6), false, 50, 5);
+        Spider spider = new Spider("spider", "spider", new Position(6,6), false, 40, 3);
+        Mercenary mercenary = new Mercenary("mercenary", "mercenary", new Position(6,7), true, 70, 8, 3, false);
+
+        List<Entity> entities = new ArrayList<>(Arrays.asList(zombie, spider, mercenary, character));
+        character.setEntities(entities);
+
+        // player moves onto zombie's position, battle should not occur
+        character.move(Direction.UP);
+        assertEquals(100, character.getHealth());
+        assertEquals(50, zombie.getHealth());
+
+        // player moves onto spider's position
+        character.move(Direction.LEFT);
+        assertEquals(100, character.getHealth());
+        assertEquals(40, spider.getHealth());
+
+        // player moves onto mercenary's position
+        character.move(Direction.DOWN);
+        assertEquals(100, character.getHealth());
+        assertEquals(70, mercenary.getHealth());
+    }
 
     @Test
     public void characterArmourTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
         Armour armour = new Armour("armour", "armour", 2);
         character2.addInventory(armour);
 
@@ -133,8 +159,8 @@ public class BattleTest {
 
     @Test
     public void characterShieldTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
         Shield shield = new Shield("shield", "shield", 2);
         character2.addInventory(shield);
 
@@ -163,10 +189,10 @@ public class BattleTest {
 
     @Test
     public void characterArmourShieldTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
-        Character character3 = new Character("player3", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
-        Character character4 = new Character("player4", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character3 = new Character("player3", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character4 = new Character("player4", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
         Armour armour1 = new Armour("armour1", "armour", 2);
         Armour armour2 = new Armour("armour2", "armour", 2);
         Shield shield1 = new Shield("shield1", "shield", 2);
@@ -214,8 +240,8 @@ public class BattleTest {
 
     @Test
     public void characterSwordTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Sword sword = new Sword("sword", "sword", 2);
         character2.addInventory(sword); // player2 has sword
@@ -244,8 +270,8 @@ public class BattleTest {
 
     @Test
     public void characterBowTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Bow bow = new Bow("bow", "bow", 2);
         character2.addInventory(bow); // player2 has bow
@@ -274,10 +300,10 @@ public class BattleTest {
 
     @Test
     public void characterSwordBowTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Character character3 = new Character("player3", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Character character4 = new Character("player4", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character3 = new Character("player3", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character4 = new Character("player4", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Sword sword1 = new Sword("sword1", "sword", 2);
         Sword sword2 = new Sword("sword2", "sword", 2);
@@ -330,8 +356,8 @@ public class BattleTest {
 
     @Test
     public void zombieArmourTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 50, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 50, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 50, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 50, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Zombie zombie1 = new Zombie("zombie1", "zombie_toast", new Position(7,6), false, 80, 6);
         Zombie zombie2 = new Zombie("zombie2", "zombie_toast", new Position(7,8), false, 80, 6);
@@ -362,8 +388,8 @@ public class BattleTest {
 
     @Test
     public void mercenaryArmourTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 60, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 60, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 60, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 60, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Mercenary mercenary1 = new Mercenary("mercenary1", "mercenary", new Position(7,6), true, 80, 7, 3, false);
         Mercenary mercenary2 = new Mercenary("mercenary2", "mercenary", new Position(7,8), true, 80, 7, 3, false);
@@ -393,7 +419,7 @@ public class BattleTest {
 
     @Test
     public void enemyDropArmourTest() {
-        Character character = new Character("player", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Zombie zombie = new Zombie("zombie", "zombie_toast", new Position(7,6), false, 10, 1);
         Mercenary mercenary = new Mercenary("mercenary", "mercenary", new Position(6,6), true, 10, 2, 3, false);
@@ -424,7 +450,7 @@ public class BattleTest {
 
     @Test
     public void characterDeathTest() {
-        Character character = new Character("player", "player", new Position(7,7), false, 100, 0, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "player", new Position(7,7), false, 100, 0, new ArrayList<>(), new ArrayList<>(), "Standard");
         Zombie zombie = new Zombie("zombie", "zombie_toast", new Position(7,6), false, 50, 5);
 
         List<Entity> entities = new ArrayList<>(Arrays.asList(zombie, character));
@@ -440,7 +466,7 @@ public class BattleTest {
 
     @Test
     public void allyNoBattleTest() {
-        Character character = new Character("player", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "player", new Position(7,7), false, 100, 3, new ArrayList<>(), new ArrayList<>(), "Standard");
         Mercenary ally = new Mercenary("ally", "mercenary", new Position(7,6), false, 70, 5, 3, true);
 
         List<Entity> entities = new ArrayList<>(Arrays.asList(ally, character));
@@ -453,8 +479,8 @@ public class BattleTest {
 
     @Test
     public void allyBattleEnemyTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
         Mercenary ally = new Mercenary("ally", "mercenary", new Position(7,6), false, 70, 2, 3, true);
 
         Spider spider1 = new Spider("spider1", "spider", new Position(6,7), false, 60, 3);
@@ -471,37 +497,9 @@ public class BattleTest {
         assertTrue(ally.getHealth() < 70); // ally has taken damage from battle
     }
 
-    // @Test
-    // public void allyBattleEnemyTest() {
-    //     Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-    //     Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
-    //     Mercenary ally = new Mercenary("ally", "mercenary", new Position(7,6), false, 70, 2, 3, true);
-    //     Zombie zombie1 = new Zombie("zombie1", "zombie_toast", new Position(6,7), false, 60, 3);
-    //     Zombie zombie2 = new Zombie("zombie2", "zombie_toast", new Position(8,7), false, 60, 3);
-        
-    //     Armour armour1 = new Armour("armour1", "armour", 3);
-    //     Armour armour2 = new Armour("armour2", "armour", 3);
-    //     Armour armour3 = new Armour("armour3", "armour", 3);
-    //     ally.setArmour(armour1); // ally has armour
-    //     zombie1.setArmour(armour2); // zombie1 has armour
-    //     zombie2.setArmour(armour3); // zombie2 has armour
-
-    //     List<Entity> entities1 = new ArrayList<>(Arrays.asList(zombie1, character1));
-    //     List<Entity> entities2 = new ArrayList<>(Arrays.asList(zombie2, character2, ally)); // player2 has ally
-    //     character1.setEntities(entities1);
-    //     character2.setEntities(entities2);
-
-    //     character1.move(Direction.LEFT); // player1 battles zombie1
-    //     character2.move(Direction.RIGHT); // player2 battles zombie2 with ally
-    //     System.out.println(character1.getHealth());
-    //     System.out.println(character2.getHealth());
-    //     assertTrue(character1.getHealth() < character2.getHealth()); // player with ally has more health as enemy dies faster
-    //     assertTrue(ally.getHealth() < 70); // ally has taken damage from battle
-    // }
-
     @Test
     public void allyKillArmouredEnemyTest() {
-        Character character = new Character("player", "player", new Position(7,7), false, 100, 0, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "player", new Position(7,7), false, 100, 0, new ArrayList<>(), new ArrayList<>(), "Standard");
         Mercenary ally = new Mercenary("ally", "mercenary", new Position(7,6), false, 70, 10, 3, true);
         Zombie zombie = new Zombie("zombie", "zombie_toast", new Position(6,7), false, 60, 3);
         
@@ -520,7 +518,7 @@ public class BattleTest {
 
     @Test
     public void enemyKillArmouredAllyTest() {
-        Character character = new Character("player", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("player", "player", new Position(7,7), false, 100, 1, new ArrayList<>(), new ArrayList<>(), "Standard");
         Mercenary ally = new Mercenary("ally", "mercenary", new Position(7,6), false, 5, 10, 3, true);
         Mercenary mercenary = new Mercenary("mercenary", "mercenary", new Position(6,7), true, 40, 10, 3, false);
         
@@ -539,8 +537,8 @@ public class BattleTest {
 
     @Test
     public void midnightArmourTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
         MidnightArmour armour = new MidnightArmour("armour", "midnight_armour", 2);
         character2.addInventory(armour);
 
@@ -563,8 +561,8 @@ public class BattleTest {
 
     @Test
     public void andurilTest() {
-        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
-        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>());
+        Character character1 = new Character("player1", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
+        Character character2 = new Character("player2", "player", new Position(7,7), false, 100, 2, new ArrayList<>(), new ArrayList<>(), "Standard");
 
         Sword sword = new Sword("sword", "anduril", 2);
         Sword sword2 = new Sword("sword2", "sword", 2);

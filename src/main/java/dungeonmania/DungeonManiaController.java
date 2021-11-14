@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.response.models.AnimationQueue;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -248,11 +249,18 @@ public class DungeonManiaController {
     // Get DungeonResponse from currentGame
     public DungeonResponse getDungeonResponse() {
         String dungeonName = currentGame.getDungeonName();
+        List<AnimationQueue> animations = new ArrayList<>();
 
         List<EntityResponse> entitiesR = new ArrayList<>();
         for (Entity e : currentGame.getEntities()) {
             EntityResponse entityR = new EntityResponse(e.getId(), e.getType(), e.getPosition(), e.isInteractable());
             entitiesR.add(entityR);
+
+            if (e instanceof Mob) {
+                Mob m = (Mob) e;
+                String health = String.valueOf(((double) m.getHealth() / m.getMaxHealth()));
+                animations.add(new AnimationQueue("PostTick", m.getId(), Arrays.asList("healthbar set " + health, "healthbar tint 0x00ff00"), false, -1));
+            }
         }
 
         List<ItemResponse> inventoryR = new ArrayList<>();
@@ -260,8 +268,9 @@ public class DungeonManiaController {
             ItemResponse itemR = new ItemResponse(i.getItemId(), i.getItemType());
             inventoryR.add(itemR);
         }
-        currentGame.getGoals();
-        DungeonResponse currentDungeon = new DungeonResponse(dungeonId(), dungeonName, entitiesR, inventoryR, currentGame.getBuildables(), currentGame.getGoals());
+        currentGame.getGoals();        
+        DungeonResponse currentDungeon = new DungeonResponse(dungeonId(), dungeonName, entitiesR, inventoryR, currentGame.getBuildables(), currentGame.getGoals(), animations);
+
         return currentDungeon;
     }
 
