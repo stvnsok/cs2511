@@ -46,36 +46,6 @@ public class Mercenary extends Mob implements Enemies {
     public void setAlly(boolean isAlly) {
         this.isAlly = isAlly;
     }
-
-    /*@Override
-    public void move(List<Entity> entities, Character character) {
-        Position charPosition = character.getPosition();
-        Position curPos = this.getPosition();
-        Position diff = Position.calculatePositionBetween(charPosition, curPos);
-        Position newPos = curPos;
-
-        if (Math.abs(diff.getX()) > Math.abs(diff.getY())) { //move sideways 
-            if (diff.getX() > 0) {
-                newPos = new Position(curPos.getX()-1, curPos.getY());
-            } else if (diff.getX() < 0) {
-                newPos = new Position(curPos.getX()+1, curPos.getY());
-            }
-        } else if (Math.abs(diff.getX()) < Math.abs(diff.getY())) {
-            if (diff.getY() > 0) {
-                newPos = new Position(curPos.getX(), curPos.getY()-1);
-            } else if (diff.getY() < 0) {
-                newPos = new Position(curPos.getX(), curPos.getY()+1);
-            }
-        }
-
-        if (checkObstacles(entities, newPos)) {
-            this.setPosition(newPos);
-        }
-
-        if (this.isOn(character) && !isAlly) {
-            character.battle(this);
-        }
-    }*/
     
     public Map<Position,Integer> allPositions(List<Entity> entities) {
         Map <Position, Integer> Grid = new HashMap<>();
@@ -163,15 +133,48 @@ public class Mercenary extends Mob implements Enemies {
             settled.add(evaluated);
         }
         Position nextMove = character.getPosition();
-        // route the path all the way back to the mercenary.
-        while (!prev.get(nextMove).equals(this.getPosition())) {
-            nextMove = prev.get(nextMove);
+        
+
+        // Getting a nullpointer exception inconsistently when adjacent to player, and player moves into merc.
+        // Happens 5% of the time, in different locations. Don't know why.
+        // This is a stop gap solution to prevent exception.
+        if (prev.get(nextMove) == null) {
+            System.out.println("Bad");
+            if (!allyMove(character, nextMove, entities)) {
+                this.setPosition(character.getPosition());
+            }
+            
+        } else {
+            // route the path all the way back to the mercenary.
+            while (!prev.get(nextMove).equals(this.getPosition())) {
+                nextMove = prev.get(nextMove);
+            }
+            
+            if (!allyMove(character, nextMove, entities)) {
+                this.setPosition(nextMove);
+            }
+            
         }
-        this.setPosition(nextMove);
+        
         if (this.isOn(character) && !isAlly) {
             character.battle(this);
         }
     }
+
+    private boolean allyMove(Character character, Position nextMove, List<Entity> entities) {
+        if (isAlly() && nextMove.equals(character.getPosition())) {
+            List<Position> adjacent = character.getPosition().getCardinallyAdjacentPosition();
+            // Don't bother moving if you can't reach the character or you aren't or character's running into wall.
+            // Find any kind of position such that it's adjacent to player, but not on an obstacle
+            if (this.getPosition().equals(character.getPosition()) && adjacent.stream().anyMatch(e -> checkObstacles(entities, e))) {
+                // This will never throw, because of the above condition.
+                this.setPosition(adjacent.stream().filter(e -> checkObstacles(entities, e)).findFirst().get());
+            }
+            return true;
+        }
+        return false; 
+    }
+
     /**
      * Calculates cost of moving to a particular tile. Returned values correspond to impassable objects and swamp.
      * @param entities
@@ -211,7 +214,8 @@ public class Mercenary extends Mob implements Enemies {
 
             if (entity.getType().equals("boulder")
                 || entity.getType().equals("wall")
-                || entity.getType().equals("door")) {
+                || entity.getType().equals("door")
+                || entity.getType().equals("zombie_toast_spawner")) {
             
                 if (position.equals(entPos)) {
                     return false;

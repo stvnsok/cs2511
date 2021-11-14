@@ -21,6 +21,7 @@ public class Game {
     private List<Items> inventory;
     private List<String> buildables;
     private Goals goals;
+    private Position entryPos;
     private JSONObject jGoals;
     private Character character;
     private int gameTick;
@@ -36,6 +37,8 @@ public class Game {
         this.character = character;
         this.goals = GoalFactory.createGoals(jGoals, this);
         this.gameTick = 0;
+        // So Entry Pos does not change along with character position.
+        this.entryPos = new Position(character.getPosition().getX(), character.getPosition().getY());
     }
 
     public String getDungeonName() {
@@ -191,6 +194,11 @@ public class Game {
                     entities.add(zombie);
                 }
             }
+            // So mercenaries don't spawn immediately. Not even Dark Souls would be that cruel.
+            if (gameTick > 0 && entities.stream().anyMatch(e -> e instanceof Enemies)) {
+                entities.add(EntityFactory.createEntity(System.currentTimeMillis()+"mercenary", entryPos, "mercenary"));
+            }
+            
         }    
 
         //spider spawning
