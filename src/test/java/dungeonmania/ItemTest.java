@@ -21,7 +21,7 @@ public class ItemTest {
     public void itemAdd() {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>(), "Standard");
         Items i1 = new Sword("s1", "sword", 4);
         c1.addInventory(i1);
         assertEquals(new ArrayList<Items>(Arrays.asList(i1)), c1.getInventory());
@@ -32,7 +32,7 @@ public class ItemTest {
     public void useItem() {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>(), "Standard");
         Items i1 = new Sword("s1", "sword", 4);
         c1.addInventory(i1);
         c1.useItem("s1");
@@ -44,7 +44,7 @@ public class ItemTest {
     public void breakItem() {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>(), "Standard");
         Items i1 = new Items("i1", "sword", 1);
         c1.addInventory(i1);
         assertEquals(new ArrayList<Items>(Arrays.asList(i1)), c1.getInventory());
@@ -58,7 +58,7 @@ public class ItemTest {
     public void usePotion() {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>(), "Standard");
         Items i1 = new InvincibilityPotion("i1", "invincibility_potion", 1);
         c1.addInventory(i1);
         c1.useItem("i1");
@@ -74,13 +74,36 @@ public class ItemTest {
         assertEquals(new ArrayList<Items>(), c1.getInventory());
         assertEquals(c1.getMaxHealth(), c1.getHealth());
     }
+
+    // Testing Invincibility Potion usage in Hard mode
+    @Test
+    public void invincibilityHardMode() {
+        Character character = new Character("player", "player", new Position(10, 10), false, 100, 10, new ArrayList<>(), new ArrayList<>(), "Hard");
+
+        assertEquals("Normal", character.getStateName());
+
+        character.addInventory(new InvincibilityPotion("invincibility_potion1", "invincibility_potion", 1));
+        character.useItem("invincibility_potion1");
+        assertEquals(new ArrayList<>(), character.getInventory()); // invincibility potion used
+        assertEquals("Normal", character.getStateName()); // state has not changed
+
+        character.addInventory(new InvisibilityPotion("invisibility_potion1", "invisibility_potion", 1));
+        character.useItem("invisibility_potion1");
+        assertEquals(new ArrayList<>(), character.getInventory()); // invisibility potion used
+        assertEquals("Invisible", character.getStateName()); // character now invisible
+
+        character.addInventory(new InvincibilityPotion("invincibility_potion2", "invincibility_potion", 1));
+        character.useItem("invincibility_potion2");
+        assertEquals(new ArrayList<>(), character.getInventory()); // invincibility potion used
+        assertEquals("Invisible", character.getStateName()); // state has not changed
+    }
     
     // Testing building items with Character
     @Test
     public void buildTest() {
         Position start = new Position(10, 10);
         List<Items> items = new ArrayList<>();
-        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>());
+        Character c1 = new Character("player", "Character", start, false, 100, 10, items, new ArrayList<>(), "Standard");
         // build a bow
         Items a = new Items("a", "wood", 1);
         Items b = new Items("b", "arrow", 1);
@@ -151,7 +174,7 @@ public class ItemTest {
         // Creating a new game just to have access to entity list
         List<Entity> entities = new ArrayList<>();
         Position cPosition = new Position(10,11);
-        Character c1 = new Character("player", "Character", cPosition, false, 100, 10, new ArrayList<>(), entities);
+        Character c1 = new Character("player", "Character", cPosition, false, 100, 10, new ArrayList<>(), entities, "Standard");
         entities.add(c1);
         c1.addInventory(new Bomb("a", "bomb", 1));
         c1.useItem("a");
@@ -178,16 +201,14 @@ public class ItemTest {
         Character player = game.getCharacter();
         Position dummyPosition = new Position(1, 1);
         Armour.seed = 11;
-        Zombie zombie1 = (Zombie) EntityFactory.createEntity("zombie1", dummyPosition, "zombie");
+        Zombie zombie1 = (Zombie) EntityFactory.createEntity("zombie1", dummyPosition, "zombie_toast");
         assertTrue(zombie1.getArmour() == null);
-        assertTrue(player.getInventory().isEmpty());
         assertDoesNotThrow(() -> player.battle(zombie1));
         assertEquals(player.getArmour(), null);
 
         Armour.seed = 10;
-        Zombie zombie2 = (Zombie) EntityFactory.createEntity("zombie2", dummyPosition, "zombie");
+        Zombie zombie2 = (Zombie) EntityFactory.createEntity("zombie2", dummyPosition, "zombie_toast");
         assertTrue(zombie2.getArmour() != null);
-        assertTrue(player.getInventory().isEmpty());
         zombie2.setHealth(1);
         assertDoesNotThrow(() -> player.battle(zombie2));
         assertTrue(!player.getInventory().isEmpty());
@@ -203,14 +224,12 @@ public class ItemTest {
         Armour.seed = 11;
         Mercenary mercenary1 = (Mercenary) EntityFactory.createEntity("mercenary1", dummyPosition, "mercenary");
         assertTrue(mercenary1.getArmour() == null);
-        assertTrue(player.getInventory().isEmpty());
         assertDoesNotThrow(() -> player.battle(mercenary1));
         assertEquals(player.getArmour(), null);
 
         Armour.seed = 10;
         Mercenary mercenary2 = (Mercenary) EntityFactory.createEntity("mercenary2", dummyPosition, "mercenary");
         assertTrue(mercenary2.getArmour() != null);
-        assertTrue(player.getInventory().isEmpty());
         mercenary2.setHealth(1);
         assertDoesNotThrow(() -> player.battle(mercenary2));
         assertTrue(!player.getInventory().isEmpty());
@@ -221,7 +240,7 @@ public class ItemTest {
     public void sunStoneTest() {
         List<Entity> entities = new ArrayList<>();
         List<Items> inventory = new ArrayList<>();
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
         Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
         Items k = new Items("s1", "sun_stone", 1);
         
@@ -237,7 +256,7 @@ public class ItemTest {
     public void buildMidnightTest() {
         List<Entity> entities = new ArrayList<>();
         List<Items> inventory = new ArrayList<>();
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, entities);
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, entities, "Standard");
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);

@@ -13,7 +13,7 @@ public class CharacterMovementTest {
 
     @Test
     public void BasicMovement() {
-        Character character = new Character("1", "player", new Position(5, 5), true, 10, 10, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("1", "player", new Position(5, 5), true, 10, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         
         character.move(Direction.UP);
         assertTrue(character.getPosition().equals(new Position(5, 4)));

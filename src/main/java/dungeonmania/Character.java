@@ -16,17 +16,19 @@ public class Character extends Mob {
     private List<Entity> mapEntities;
     private int maxHealth;
     private CharacterState state;
+    private String gameMode;
 
     private Key currentKey; // as character can only hold one key at a time??
 
     private List<CharacterObserver> observers = new ArrayList<>();
 
     public Character(String id, String type, Position position, boolean isInteractable, int health, int attack,
-            List<Items> inventory, List<Entity> mapEntities) {
+            List<Items> inventory, List<Entity> mapEntities, String gameMode) {
         super(id, type, position, isInteractable, health, attack);
         this.inventory = inventory;
         this.maxHealth = health;
         this.mapEntities = mapEntities;
+        this.gameMode = gameMode;
 
         this.state = new NormalState(this);
     }
@@ -57,6 +59,10 @@ public class Character extends Mob {
 
     public int getMaxHealth() {
         return this.maxHealth;
+    }
+
+    public String getGameMode() {
+        return this.gameMode;
     }
 
     public void buildItem(String item) throws InvalidActionException {
@@ -146,11 +152,10 @@ public class Character extends Mob {
     }
 
     public void battle(Mob enemy) {
-        // if (!gameMode.equals("Peaceful")) {
-        //     state.battle(enemy);
-        // }
-
-        state.battle(enemy);
+        // battles do not occur in peaceful mode
+        if (!gameMode.equals("Peaceful")) {
+            state.battle(enemy);
+        }
     }
 
     public void attach(CharacterObserver observer) {

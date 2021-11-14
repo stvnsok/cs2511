@@ -14,12 +14,10 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 
-
-
 public class StaticEntityTest {
     @Test
     public void teleportCorrectColourTest() {
-        Character character = new Character("c1", "player", new Position(0, 0), true, 100, 10, new ArrayList<>(), new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), true, 100, 10, new ArrayList<>(), new ArrayList<>(), "Standard");
         List<Entity> entities = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
@@ -42,7 +40,7 @@ public class StaticEntityTest {
         List<Items> inventory = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
         
         Door d = new Door("d1", "door", new Position(0,1), false, false, 1);
@@ -64,7 +62,7 @@ public class StaticEntityTest {
         List<Items> inventory = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
         FloorSwitch floorSwitch = new FloorSwitch("s1", "switch", new Position(0,2), false);
         Bomb b = new Bomb("b1", "bomb", 1);
@@ -91,7 +89,7 @@ public class StaticEntityTest {
         List<Items> inventory = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
         Game g = new Game("empty.json", "standard", entities, inventory, new ArrayList<>(), object, character);
         entities.add(character);
         ZombieToastSpawner z1 = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(5,5), false);
@@ -99,7 +97,7 @@ public class StaticEntityTest {
 
         //40 ticks
         IntStream.range(0, 40).forEach(i -> {
-            g.tick("", Direction.NONE);
+            g.tick(null, Direction.NONE);
 
         });
 
@@ -111,7 +109,6 @@ public class StaticEntityTest {
         assertEquals(2, count);
     }
 
-    
 
     @Test
     public void destroySpawnerTest() {
@@ -119,7 +116,7 @@ public class StaticEntityTest {
         List<Items> inventory = new ArrayList<>();
         JSONObject object = new JSONObject();
         object.put("goal", "enemies");
-        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>());
+        Character character = new Character("c1", "player", new Position(0, 0), false, 100, 10, inventory, new ArrayList<>(), "Standard");
         Sword s = new Sword("s1", "sword", 5);
         inventory.add(s);
         ZombieToastSpawner spawner = new ZombieToastSpawner("spawner", "zombie_toast_spawner", new Position(0, 1), true);
